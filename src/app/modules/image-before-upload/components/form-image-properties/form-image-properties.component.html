@@ -1,0 +1,95 @@
+<ng-container *ngIf="form">
+
+    <form novalidate [formGroup]="form" (submit)="create(form.value)">
+
+        <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
+             class="alert alert-danger" role="alert">
+            <div><strong i18n="@@ohSnapFailure">Oops!</strong></div>
+            <div *ngFor="let error of errors">{{ error }}</div>
+        </div>
+        <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
+             class="alert alert-success" role="alert">
+            <div><strong i18n="@@hooraySuccess">Success!</strong></div>
+            <div *ngFor="let message of messages">{{ message }}</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <igx-input-group>
+                    <input igxInput name="filename" formControlName="filename" type="text" />
+                    <label igxLabel for="filename">File name</label>
+                </igx-input-group>
+            </div>
+
+            <div class="col-md-12">
+                <igx-input-group *ngIf="folder_name.enabled">
+
+                    <select igxInput
+                            name="from"
+                            formControlName="folder_name"
+                            id="from">
+                        <option value="" disabled hidden></option>
+                        <ng-container *ngIf="folders$ | async; let options">
+                            <option *ngFor="let option of options"
+                                    [value]="option.value">
+                                {{ option.name }}
+                            </option>
+                        </ng-container>
+                    </select>
+
+                    <label igxLabel for="from">Select folder</label>
+
+                    <igx-suffix>
+                        <button type="button" igxButton="icon" igxRipple
+                                (click)="$event.stopPropagation(); showNewFolderNameInput()">
+                            <igx-icon>add</igx-icon>
+                        </button>
+                    </igx-suffix>
+                </igx-input-group>
+
+                <igx-input-group *ngIf="new_folder_name.enabled">
+
+                    <input igxInput name="new_folder_name" formControlName="new_folder_name" type="text" />
+
+                    <label igxLabel for="new_folder_name">New folder name</label>
+
+                    <igx-suffix>
+                        <button type="button" igxButton="icon" igxRipple
+                                (click)="$event.stopPropagation(); showFolderNameInput()">
+                            <igx-icon>undo</igx-icon>
+                        </button>
+                    </igx-suffix>
+
+                </igx-input-group>
+            </div>
+
+            <div class="col-md-12">
+                <div class="small-space"></div>
+                <igx-checkbox formControlName="share_image">
+                    Share image
+                </igx-checkbox>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <div class="small-space"></div>
+
+                <div class="igx-dialog__window-actions">
+                    <button *ngIf="leftButtonText" type="button"
+                            igxButton igxRipple (click)="leftButtonSelected()">
+                        {{ leftButtonText }}
+                    </button>
+                    <button type="submit"
+                            [disabled]="!form.valid || submitted"
+                            igxButton="raised"
+                            igxRipple="white">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+</ng-container>

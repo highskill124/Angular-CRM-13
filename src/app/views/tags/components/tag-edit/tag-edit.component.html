@@ -1,0 +1,64 @@
+<div class="windowHead"><h3>{{submitText}} Tag</h3></div>
+<div [formGroup]="tagForm">
+
+        <div class="row">
+
+                <mat-form-field class="tag_name col-md-12">
+                        <input
+                            matInput
+                            placeholder="Tag Names"
+                            formControlName ="text"
+                        >
+                </mat-form-field>
+
+               </div>
+               <div class="row">
+
+               <mat-form-field  class="col-md-12">
+                        <textarea
+                            matInput
+                            placeholder="Tag Description"
+                            formControlName ="description"
+                            rows="5"
+                        >
+                        </textarea>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field  class="col-md-12">
+                        <mat-select
+                            placeholder="Tag Group"
+                            formControlName ="doc_group"
+                            multiple>
+
+                        <mat-option *ngFor="let  bucketList of  bucketGroupLists" [value]="bucketList.value">{{ bucketList.name }}</mat-option>
+
+                  </mat-select>
+
+                </mat-form-field>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <mat-form-field>
+                                    <input
+                                    matInput
+                                    placeholder="Sort Order"
+                                    formControlName ="sort_order"
+                                    >
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-3"></div>
+                            <div class="col-md-4">
+
+                            </div>
+                        </div>
+                        <div mat-dialog-actions align="end">
+                                <button  (click)="saveUpdade()"  [disabled]="!tagForm.valid || tagForm.pristine" mat-raised-button color="primary">{{submitText}}</button>
+                                <button  (click)="close()" mat-raised-button color="warn">Exit</button>
+                        </div>
+                    </div>
+                </div>
+                </div>
+

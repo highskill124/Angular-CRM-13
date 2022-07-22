@@ -1,0 +1,17 @@
+igx-avatar.bordered-avatar {
+    border: 2px solid;
+}
+
+::ng-deep .igx-drop-down__list {
+    min-width: 218px;
+}
+
+
+.small-menu-item igx-icon {
+    font-size: 18px;
+    line-height: 18px;
+    position: relative;
+    top: 3px;
+    margin: 0 5px 0 0px;
+    color: rgba(0, 0, 0, 0.74);
+}

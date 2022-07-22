@@ -1,0 +1,216 @@
+<div class="row">
+    <!-- SIDEBAR -->
+    <div   [ngStyle]="{'display': isFiltersEnabled ? 'block' : 'none' }" class="{{filtersSidebarContainer.isSidebarCollapsed ? '' : 'col-md-2 pr-md-0'}}">
+        <app-filters-sidebar-container #filtersSidebarContainer>
+            <igx-list>
+                <igx-list-item isHeader="true">Filters</igx-list-item>
+
+                <!-- <igx-list-item class="list-item__expandable">
+                    <igx-expansion-panel [collapsed]="false">
+                        <igx-expansion-panel-header>
+                            <igx-expansion-panel-title>TYPE</igx-expansion-panel-title>
+                        </igx-expansion-panel-header>
+                        <igx-expansion-panel-body>
+                            <div class="xx-small-space"></div>
+                            <app-filter [filters]="typeOptions"
+                                        [group]="contactFilters.TYPE"
+                                        type="single"
+                                        [resetFiltersFunc]="resetSelectionSingleOptionFilter">
+
+                            </app-filter>
+                        </igx-expansion-panel-body>
+                    </igx-expansion-panel>
+                </igx-list-item> -->
+
+                <igx-list-item class="list-item__expandable">
+                    <igx-expansion-panel [collapsed]="collapsed">
+                        <igx-expansion-panel-header>
+                            <igx-expansion-panel-title>BUCKETS</igx-expansion-panel-title>
+                        </igx-expansion-panel-header>
+                        <igx-expansion-panel-body>
+                            <app-filter [filters]="bucketOptions$ | async"
+                                        [group]="contactFilters.BUCKETS"
+                                        type="multi">
+
+                            </app-filter>
+                        </igx-expansion-panel-body>
+                    </igx-expansion-panel>
+                </igx-list-item>
+
+                <igx-list-item class="list-item__expandable">
+                    <igx-expansion-panel [collapsed]="collapsed">
+                        <igx-expansion-panel-header>
+                            <igx-expansion-panel-title>TAGS</igx-expansion-panel-title>
+                        </igx-expansion-panel-header>
+                        <igx-expansion-panel-body>
+                            <app-filter [filters]="tagOptions$ | async"
+                                        [group]="contactFilters.TAGS"
+                                        type="multi">
+
+                            </app-filter>
+                        </igx-expansion-panel-body>
+                    </igx-expansion-panel>
+                </igx-list-item>
+
+            </igx-list>
+        </app-filters-sidebar-container>
+    </div>
+<!-- -->
+
+
+    <!-- GRID -->
+    <div class="{{filtersSidebarContainer.isSidebarCollapsed ? 'col-md-12' : 'col-md-10 pl-md-0'}}">
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6 m-auto" [class.filter-collapsed]="filtersSidebarContainer?.isSidebarCollapsed">
+                            <h4>Contacts
+                                <!-- Reload grid data -->
+                                <button (click)="reloadData()"
+                                        class="action__grid"
+                                        igxButton="icon" igxRipple>
+                                    <igx-icon [style.color]="'green'">autorenew</igx-icon>
+                                </button>
+                                <!-- New contact -->
+                                <button routerLink="/Contacts/NewContact"
+                                        class="action__grid"
+                                        igxButton="icon"
+                                        igxRipple>
+                                    <igx-icon [style.color]="'green'">person_add</igx-icon>
+                                </button>
+                                <!-- Add actions -->
+                                <ng-container *ngIf="selectedRowIds?.length === 1">
+                                    <button [igxToggleAction]="menu"
+                                            type="button"
+                                            class="action__grid"
+                                            [igxToggleOutlet]="outlet"
+                                            [igxDropDownItemNavigation]="menu"
+                                            igxButton="icon"
+                                            igxRipple>
+                                        <igx-icon>add</igx-icon>
+                                    </button>
+                                    <igx-drop-down #menu>
+                                        <igx-drop-down-item>
+                                            <app-add-interaction-action [parent_id]="selectedRowIds[0]"></app-add-interaction-action>
+                                        </igx-drop-down-item>
+                                        <igx-drop-down-item>
+                                            <app-action-add-connection [contact]="selectedRows[0]"></app-action-add-connection>
+                                        </igx-drop-down-item>
+                                        <igx-drop-down-item>
+                                            <app-action-add-note [parentid]="selectedRowIds[0]"></app-action-add-note>
+                                        </igx-drop-down-item>
+                                        <igx-drop-down-item>
+                                            <app-action-add-followup [parentid]="selectedRowIds[0]"></app-action-add-followup>
+                                        </igx-drop-down-item>
+                                        <igx-drop-down-item>
+                                            <app-action-add-phone-number [parentId]="selectedRowIds[0]"></app-action-add-phone-number>
+                                        </igx-drop-down-item>
+                                        <igx-drop-down-item>
+                                            <app-action-add-email [parentId]="selectedRowIds[0]"></app-action-add-email>
+                                        </igx-drop-down-item>
+                                    </igx-drop-down>
+
+                                    <div class="overlayOutlet" igxOverlayOutlet #outlet="overlay-outlet"></div>
+
+                                </ng-container>
+                                <!-- Add interaction for single contact -->
+                                <ng-container *ngIf="selectedRowIds?.length === 1">
+
+
+
+                                </ng-container>
+                            </h4>
+                        </div>
+
+                        <!-- GRID SELECTION ACTIONS -->
+                        <div class="col-md-2 m-auto">
+                            <button (click)="deleteSelectedRows()"
+                                    [disabled]="!rowsSelected"
+                                    igxButton="icon">
+                                <igx-icon [style.color]="'red'">delete</igx-icon>
+                            </button>
+                        </div>
+                        <div class="col-md-4 m-auto">
+                            <igx-input-group>
+                                <input igxInput id="quickFilterInput"
+                                       appDebounceInput
+                                       (debounceInput)="onSearchFilterChanged($event)"
+                                       name="quickFilterInput" type="text" />
+                                <label igxLabel for="quickFilterInput">Search contacts</label>
+                            </igx-input-group>
+                            <div class="small-space"></div>
+                        </div>
+                    </div>
+
+                    <!-- ACTIVE FILTERS BAR -->
+                    <div class="row filters-bar">
+                        <div class="col-md-12">
+
+                            <igx-chips-area class="mat-filters-chips">
+
+                                <ng-container *ngIf="activeFilters">
+                                    <ng-container *ngFor="let filter of activeFilters">
+
+                                        <ng-container *ngFor="let item of filter.value">
+                                            <igx-chip [id]="filter.group"
+                                                      [removable]="true"
+                                                      (remove)="activeFilterUpdated(filter.group, item, true)">
+                                                <span igxPrefix>{{filter.group | titlecase}}:</span>
+                                                <span>{{item.name}}</span>
+                                            </igx-chip>
+                                        </ng-container>
+
+                                    </ng-container>
+                                </ng-container>
+
+                            </igx-chips-area>
+
+                        </div>
+                    </div>
+
+                    <div class="x-small-space"></div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ag-grid-angular
+                                #agGrid
+                                style="width: 100%; height: 500px;"
+                                id="myGrid"
+                                class="ag-theme-material"
+                                [serverSideStoreType]="serverSideStoreType"
+                                [columnDefs]="columnDefs"
+                                [rowSelection]="rowSelection"
+                                [rowModelType]="rowModelType"
+                                [paginationPageSize]="paginationPageSize"
+                                [cacheOverflowSize]="cacheOverflowSize"
+                                [cacheBlockSize]="cacheBlockSize"
+                                [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
+                                [infiniteInitialRowCount]="infiniteInitialRowCount"
+                                [maxBlocksInCache]="maxBlocksInCache"
+                                [pagination]="true"
+                                [paginationAutoPageSize]="true"
+                                [getRowId]="getRowId"
+                                [rowData]="rowData"
+                                [gridOptions]="gridOptions"
+                                [isExternalFilterPresent]="isExternalFilterPresent"
+                                [doesExternalFilterPass]="doesExternalFilterPass"
+
+                                [suppressRowClickSelection]="true"
+
+                                (modelUpdated)="onModelUpdated()"
+                                (gridReady)="onReady($event)"
+                            ></ag-grid-angular>
+                        </div>
+                    </div>
+
+                    <div class="small-space"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

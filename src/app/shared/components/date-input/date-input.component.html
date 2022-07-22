@@ -1,0 +1,43 @@
+<form novalidate [formGroup]="form" *ngIf="form">
+    <div class="row">
+        <div class="col-9" style="padding-right: 0;">
+            <igx-input-group>
+                <input igxInput
+                       name="date"
+                       formControlName="date"
+                       [disabled]="disabled"
+                       type="text"
+                       placeholder="mm/dd/yyyy" />
+                <label *ngIf="label" igxLabel for="date">{{label}}</label>
+            </igx-input-group>
+        </div>
+        <div class="col-3 date-icon">
+            <igx-date-picker [disabled]="disabled"
+                             [value]="getDate(date.value)"
+                             (valueChange)="setDate($event)">
+                <ng-template igxDatePickerTemplate
+                             let-openDialog="openDialog"
+                             let-value="value"
+                             let-displayData="displayData">
+                    <igx-input-group>
+                        <label *ngIf="label"
+                               igxLabel
+                               [hidden]="true">
+                            {{label}}
+                        </label>
+                        <input igxInput
+                               [value]="displayData"
+                               [hidden]="true"
+                               [disabled]="disabled"
+                               formControlName="date" />
+                        <igx-suffix (click)="openDialog()">
+                            <igx-icon>today</igx-icon>
+                        </igx-suffix>
+                    </igx-input-group>
+                    <!--<igx-hint><small>mm/dd/yyyy</small></igx-hint>-->
+                </ng-template>
+            </igx-date-picker>
+        </div>
+    </div>
+
+</form>

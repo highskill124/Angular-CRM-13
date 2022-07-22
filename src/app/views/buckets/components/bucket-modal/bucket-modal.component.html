@@ -1,0 +1,18 @@
+<app-dismissible-container title="{{formOperation | titlecase}} Bucket" (onDismiss)="dismiss($event)">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="items-wrapper__item items-wrapper__item-small items-wrapper__item--blue">
+          <app-bucket-form #formCreate
+            [formData]="bucket"
+            [formOperation]="formOperation"
+            [leftButtonText]="leftButtonText"
+            (onLeftButtonSelect)="dismiss($event)"
+            (onSubmitSuccess)="dismiss($event)">
+
+          </app-bucket-form>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-dismissible-container>

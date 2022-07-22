@@ -1,0 +1,49 @@
+<button class="action__grid"
+        #target="tooltipTarget" [igxTooltipTarget]="tooltipRef"
+        igxButton="icon" igxRipple (click)="exportDialog.open()">
+    <igx-icon>import_export</igx-icon>
+</button>
+
+<div #tooltipRef="tooltip" igxTooltip> Export </div>
+
+<igx-dialog #exportDialog title="Export"
+            leftButtonLabel="Cancel"
+            (onLeftButtonSelect)="exportDialog.close()"
+            (onRightButtonSelect)="submit($event)"
+            rightButtonLabel="Export"
+            [closeOnOutsideSelect]="true">
+    <form class="export-dialog">
+        <div class="row">
+
+            <div class="col-md-12">
+                <igx-select [(ngModel)]="dialogResult.exportFormat" [required]="true" name="exportFormat">
+                    <label igxLabel>Export type *</label>
+                    <igx-select-item *ngFor="let item of exportFormats" [value]="item.value">
+                        {{ item.name }}
+                    </igx-select-item>
+                </igx-select>
+            </div>
+
+            <div class="col-md-12">
+                <igx-input-group>
+                    <label igxLabel for="fileName">File name</label>
+                    <input igxInput
+                           id="fileName"
+                           type="text"
+                           [(ngModel)]="dialogResult.fileName"
+                           name="fileName"/>
+                </igx-input-group>
+            </div>
+
+            <div class="col-md-12">
+                <div class="small-space"></div>
+                <igx-checkbox [checked]="dialogResult.exportAllColumns"
+                              [(ngModel)]="dialogResult.exportAllColumns"
+                              name="exportAllColumns">
+                    Export all columns
+                </igx-checkbox>
+            </div>
+
+        </div>
+    </form>
+</igx-dialog>

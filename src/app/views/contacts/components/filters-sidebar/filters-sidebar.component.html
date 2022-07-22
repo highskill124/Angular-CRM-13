@@ -1,0 +1,41 @@
+<igx-list>
+    <igx-list-item isHeader="true">Filters</igx-list-item>
+    <!-- <igx-list-item isHeader="true">Type</igx-list-item>
+    <ng-container *ngIf="typeOptions$ | async; let typeOptions">
+        <igx-list-item *ngFor="let type of typeOptions"
+                       [class.type__active]="type.selected"
+                       (click)="updateOptionSelection({filter: contactFilters.TYPE, observableName: contactFilters.TYPE+'Options$', optionsList: typeOptions, changed: type})">
+            {{type.name}}
+        </igx-list-item>
+    </ng-container> -->
+
+    <igx-list-item class="list-item__expandable">
+        <igx-expansion-panel>
+            <igx-expansion-panel-header>
+                <igx-expansion-panel-title>BUCKETS</igx-expansion-panel-title>
+            </igx-expansion-panel-header>
+            <igx-expansion-panel-body *ngIf="bucketsOptions$ | async; let bucketOptions">
+                <app-multi-select-box-card [optionsList]="bucketOptions"
+                                           (optionSelectionChanged)="updateOptionSelection({filter: contactFilters.BUCKETS, observableName: contactFilters.BUCKETS+'Options$', optionsList: bucketOptions, changed: $event})">
+
+                </app-multi-select-box-card>
+            </igx-expansion-panel-body>
+        </igx-expansion-panel>
+    </igx-list-item>
+
+    <igx-list-item class="list-item__expandable">
+        <igx-expansion-panel>
+            <igx-expansion-panel-header>
+                <igx-expansion-panel-title>TAGS</igx-expansion-panel-title>
+            </igx-expansion-panel-header>
+            <igx-expansion-panel-body *ngIf="tagsOptions$ | async; let tagOptions">
+                <app-multi-select-box-card [optionsList]="tagOptions"
+                                           (optionSelectionChanged)="updateOptionSelection({filter: contactFilters.TAGS, observableName: contactFilters.TAGS+'Options$', optionsList: tagOptions, changed: $event})">
+
+                </app-multi-select-box-card>
+            </igx-expansion-panel-body>
+        </igx-expansion-panel>
+    </igx-list-item>
+
+    <!--  <igx-list-item>STATUS</igx-list-item>-->
+</igx-list>

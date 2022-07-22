@@ -1,0 +1,113 @@
+        /* basic style */
+        html, body{
+            font-family: 'Lato', sans-serif;
+            color: #3a3a3a;
+            letter-spacing: 0.5px;
+        }
+        h1, h2, h3, h4, h5, h6{
+            font-weight: bold;
+            color: #3a3a3a;
+        }
+        .btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show>.btn-primary.dropdown-toggle:focus {
+                box-shadow: none !important;
+            }
+            
+        /* basic style */
+        /* Form style starts */
+        #emailForm .modal-body{
+            padding: 0;
+        }
+        .emailForm-wrapper{
+            padding: 20px;
+            /* padding-top: 0; */
+        }
+        .emailForm-input-wrapper{
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        .emailForm-input-wrapper label {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            transform: translate(0px,-50%);
+            left: 0;
+            color: #bdbaba;
+        }
+        .emailForm-input-wrapper .form-control{
+            border-radius: 0;
+            border: 0;
+            border-bottom: 1px solid #d0d0d0;
+            color: #2a2a2a;
+        }
+        .emailForm-input-wrapper:not(.input-group) .form-control:not(textarea){
+            padding-left: 50px;
+        }
+        .emailForm-input-wrapper textarea{
+            padding-left: 0px;
+        }
+        .emailForm-input-wrapper .form-control:focus, .emailForm-input-wrapper .btn.focus,.emailForm-input-wrapper .btn:focus{
+            box-shadow: none !important;
+        }
+        .emailForm-input-wrapper .form-control[readonly] {
+            background: transparent;
+            padding-left: 0;
+        }
+        .emailForm-input-wrapper .input-actions{
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .emailForm-input-wrapper .btn:hover, .emailForm-input-wrapper .btn:focus,.emailForm-input-wrapper .btn:visited{
+            box-shadow: none;
+        }
+        .emailForm-input-wrapper .btn:not(.btn-outline-dark){
+            color: var(--primary);
+        }
+        .emailForm-input-wrapper .input-group-text {
+            background: transparent;
+            padding-left: 0px;
+            padding-right: 15px;
+            border: 0;
+            color: #bdbaba;
+            padding-bottom: 0;
+        }
+        .emailForm-input-wrapper:not(.input-group) .form-control.subject-pd{
+            padding-left: 65px;
+        }
+        .emailForm-input-wrapper .bootstrap-tagsinput {
+            width: 100%;
+            border: 0;
+            box-shadow: none;
+            border-radius: 0;
+            border-bottom: 1px solid #d0d0d0;
+            padding-left: 40px;
+        }
+        .emailForm-input-wrapper .bootstrap-tagsinput .tag {
+            background-color: var(--primary);
+            padding: 1px 6px 2px 10px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        .emailForm-input-wrapper .bootstrap-tagsinput input{
+            color: #2a2a2a;
+        }
+        .currentTime {
+            position: absolute;
+            top: -23px;
+            z-index: 1;
+            right: 15px;
+        }
+        .currentTime .badge {
+            background-color: #4c4c4c;
+            display: inline-block;
+            padding: 5px 7px;
+            border-radius: 0;
+        }
+        /* Form style ends */
+        /* Media starts */
+        @media (min-width: 992px){
+            .modal-lg, .modal-xl {
+                max-width: 600px;
+            }
+        }

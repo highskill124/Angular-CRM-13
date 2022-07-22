@@ -1,0 +1,16 @@
+.select-all{
+    margin-top: 15px;
+    margin-left: 10px;
+
+  }
+  
+  mat-form-field {
+    width:100%;
+  }
+
+  .mat-form-field-underline {
+    display: none;
+}
+.my-custom-form ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+    background-color: rgb(49, 201, 11);
+  }

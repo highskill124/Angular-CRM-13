@@ -1,0 +1,41 @@
+
+.grid__wrapper {
+    margin: 10px 16px;
+}
+
+button {
+    border: 1px solid;
+    margin-bottom: 0;
+}
+
+.drop-down__scroll-container {
+    height: 300px;
+    padding-top: 16px;
+    overflow: scroll;
+}
+
+::ng-deep {
+    .filter-input {
+        .igx-input-group {
+            position: sticky;
+            top: -16px;
+            background-color: white;
+            padding: 11px 22px;
+            -webkit-box-shadow: 0px 7px 20px 0px rgba(0, 0, 0, 0.26);
+            -moz-box-shadow: 0px 7px 20px 0px rgba(0, 0, 0, 0.26);
+            box-shadow: 0px 7px 20px 0px rgba(0, 0, 0, 0.26);
+        }
+
+        .igx-input-group__bundle:hover {
+            box-shadow: none
+        }
+
+        .igx-input-group__bundle {
+            padding-top: 0 !important;
+            box-shadow: none;
+        }
+    }
+
+}
+
+

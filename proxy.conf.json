@@ -1,0 +1,17 @@
+{
+  "/api/*": {
+    "target": "https://nodejs.pub.pgtel.net/api",
+    "secure": false,
+    "pathRewrite": {"^/api" : ""}
+  },
+  "/froala-upload/*": {
+    "target": "http://froala.tustin.pgtel.net",
+    "secure": false,
+    "pathRewrite": {"^/froala-upload" : ""}
+  },
+  "/froala-load-single/*": {
+    "target": "http://images.tustin.pgtel.net",
+    "secure": false,
+    "pathRewrite": {"^/froala-load-single" : ""}
+  }
+}

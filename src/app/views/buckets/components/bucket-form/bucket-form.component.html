@@ -1,0 +1,113 @@
+<form novalidate [formGroup]="form" (submit)="create(form.value)">
+
+    <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
+         class="alert alert-danger" role="alert">
+        <div><strong i18n="@@ohSnapFailure">Oops!</strong></div>
+        <div *ngFor="let error of errors">{{ error }}</div>
+    </div>
+    <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
+         class="alert alert-success" role="alert">
+        <div><strong i18n="@@hooraySuccess">Success!</strong></div>
+        <div *ngFor="let message of messages">{{ message }}</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <igx-input-group>
+                <input igxInput
+                       id="name"
+                       name="name"
+                       formControlName="name"
+                       [readonly]="formIsReadOnly"
+                       type="text" />
+                <label igxLabel
+                       for="name">Name</label>
+            </igx-input-group>
+
+        </div>
+
+        <div class="col-md-12">
+            <igx-input-group>
+                <textarea igxInput
+                          id="goal"
+                          name="goal"
+                          [readonly]="formIsReadOnly"
+                          formControlName="goal">
+
+                </textarea>
+                <label igxLabel
+                       for="goal">Goal</label>
+            </igx-input-group>
+        </div>
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="small-space"></div>
+                    <igx-checkbox [checked]="reminder.value"
+                                  formControlName="reminder"
+                                  [disabled]="formIsReadOnly">
+                        Reminder
+                    </igx-checkbox>
+                </div>
+
+                <div class="col-md-6">
+                    <igx-input-group>
+                        <input igxInput
+                               id="days"
+                               name="days"
+                               formControlName="days"
+                               [readonly]="formIsReadOnly"
+                               type="text" />
+                        <label igxLabel
+                               for="days">Days</label>
+                    </igx-input-group>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="x-small-space"></div>
+                    <igx-combo [data]="categoryOptions$ | async"
+                               formControlName="categories"
+                               valueKey="value" displayKey="name"
+                               [disabled]="formIsReadOnly"
+                               placeholder="Categories">
+
+                    </igx-combo>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 text-left">
+
+        </div>
+
+        <div class="col-md-6 text-right">
+            <div class="small-space"></div>
+
+            <div class="igx-dialog__window-actions">
+
+                <button *ngIf="leftButtonText" type="button"
+                        igxButton igxRipple (click)="leftButtonSelected()">
+                    {{ leftButtonText }}
+                </button>
+
+                <button type="submit"
+                        *ngIf="formOperation !== 'view'"
+                        [disabled]="!form.valid || submitted"
+                        igxButton="raised"
+                        igxRipple="white">
+                    Save
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+</form>

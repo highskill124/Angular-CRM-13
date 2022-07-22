@@ -1,0 +1,21 @@
+<app-filter-grid #filterGrid
+
+    pageTitle="Follow-ups"
+    [gridConfigId]="config.grid"
+    [columnConfigId]="config.column"
+    [filterConfigId]="config.filter"
+    [quickSearchTypeOptionConfigId]="config.quickSearchTypeOption"
+    [exportFormats]="config.exportFormats"
+    [actions]="config.actions"
+    [plusActions]="config.plusActions"
+    [hideSelectOption]="true"
+    [quickSelectShow]="true"
+    [quickSelectData]="quickSelectDataId"
+    [supressChip]="true"
+    [dataFetcherMethod]="dataFetcherMethod"
+    [dropdownPosition]="'left'"
+    [dataExportMethod]="dataExportMethod"
+    gridHeight="400px"
+    gridWidth="100%"
+
+></app-filter-grid>

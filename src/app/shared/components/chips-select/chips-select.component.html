@@ -1,0 +1,38 @@
+<ng-container *ngIf="title">
+    <div class="small-space chips-title__spacer"></div>
+    <h5 class="text-uppercase">
+        <ng-container *ngIf="titleIcon">
+            <igx-icon class="align-middle">{{titleIcon}}</igx-icon>&nbsp;&nbsp;
+        </ng-container>{{title}}
+        <span *ngIf="isRequired" [style.color]="chips.invalid && isRequired ? 'red' : 'inherit'">&nbsp;*</span>
+    </h5>
+    <div class="x-small-space"></div>
+</ng-container>
+
+<form novalidate [formGroup]="form">
+    <div class="chips">
+        <igx-chips-area #chipsArea class="chiparea">
+            <ng-container formArrayName="chips"
+                          *ngFor="let chip of chips.controls; let i = index;">
+
+                <igx-chip [removable]="chipIsRemovable"
+                          [disabled]="disabled"
+                          class="chipStyle  {{classNames}}"
+                          (remove)="removeChipControl(chip.value, selectOptions);">
+                                <span #label [class]="'igx-chip__text'">
+                                    {{optionDetails(chip.value, selectOptions)?.name}}
+                                </span>
+                </igx-chip>
+
+            </ng-container>
+        </igx-chips-area>
+    </div>
+
+    <div class="x-small-space"></div>
+    <app-multi-select-box (onSave)="syncFormArray($event)" [addText]="actionButtonText"
+                          [disabled]="disabled"
+                          [optionsList]="selectOptions" #multiSelectBox>
+
+    </app-multi-select-box>
+
+</form>

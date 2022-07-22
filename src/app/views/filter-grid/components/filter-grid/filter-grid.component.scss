@@ -1,0 +1,222 @@
+.action__grid-select, .action__grid, .action__grid igx-icon {
+    display: inline-block;
+}
+
+.action__grid, .action__grid igx-icon {
+    vertical-align: middle;
+}
+
+.custom-tooltip {
+    position: absolute;
+    width: 150px;
+    height: 70px;
+    border: 1px solid cornflowerblue;
+    overflow: hidden;
+    pointer-events: none;
+    transition: opacity 1s;
+}
+
+.custom-tooltip.ag-tooltip-hiding {
+    opacity: 0;
+}
+
+.custom-tooltip p {
+    margin: 5px;
+    white-space: nowrap;
+}
+
+.custom-tooltip p:first-of-type {
+    font-weight: bold;
+}
+
+.filters-bar igx-chip {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 2px;
+}
+
+ag-grid-angular {
+    width: 100%;
+    height: 550px;
+}
+
+:host ::ng-deep app-filters-sidebar-container igx-list {
+
+    max-height: calc(100vh - 56px);
+    min-height: calc(100vh - 56px);
+    overflow-y: scroll;
+    padding-top: 12px;
+
+    igx-list-item {
+        .igx-list__item-content {
+            min-height: auto;
+            padding-right: 0;
+
+            &:hover {
+                background: none;
+            }
+        }
+
+        igx-expansion-panel {
+            igx-expansion-panel-header {
+                .igx-expansion-panel__header-inner {
+                    padding: inherit;
+                    //padding: 0.5rem 0.5rem;
+
+                    .igx-expansion-panel__header-icon--start {
+                        margin-right: 0.5rem;
+                    }
+                }
+            }
+
+            igx-expansion-panel-body {
+                app-multi-select-box-card {
+                    igx-card {
+                        .igx-card {
+                            display: inherit;
+                            box-shadow: none;
+                            overflow: inherit;
+                        }
+
+                        igx-card-header {
+                            display: inherit;
+                            padding: inherit;
+                        }
+
+                        igx-card-content {
+                            padding-bottom: 0;
+                        }
+
+                        igx-card-actions {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+app-ag-grid-page-size.action__grid {
+    font-weight: 400;
+    max-width: 80px;
+
+    ::ng-deep .igx-input-group__bundle {
+        padding-top: inherit;
+    }
+}
+.with-side-filter{
+    &.collapsed{
+        .container-fluid.cust-height{
+            padding-left: 40px;
+            padding-right: 40px;
+        }
+    }
+}
+
+
+.row.cust-grid-area {
+    min-height: 250px;
+    .hideme {
+        height: 0!important;
+        position: fixed;
+        left: -1000%;
+    }
+    .ag-root-wrapper.ag-layout-normal {
+        min-height: 60px!important;
+    }
+    .container-fluid.cust-height {
+        min-height: 100%;
+        .igx-drop-down__item--selected.igx-drop-down__item--focused, 
+        .igx-drop-down__item--selected, .igx-drop-down__item--focused{
+            background: transparent!important;
+        }
+        .igx-button--icon:focus {
+            box-shadow: none;
+        }
+        h4 {
+            margin: 2px auto 0 auto;
+        }
+        .x-small-space{
+            height: 5px!important;
+        }
+    }
+}
+
+.custom-filter-collapsable {
+    .igx-list__item-base{
+        &:hover{
+            background: transparent;
+        }
+        .igx-expansion-panel__body{
+            padding-top: 10px;
+            padding-left:5px ;
+        }
+    }
+}
+
+.farm-small-font {
+    font-size: 16px;
+}
+.action__grid.mt1 {
+    margin-top: -5px;
+}
+
+::ng-deep .igx-drop-down__list {
+    min-width: auto;
+}
+
+.color-white {
+    color: #fff;
+}
+
+.font-16{
+    font-size: 16px;
+}
+.filter-heading{
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.date-column {
+    position: relative;
+    top: -5px;
+    padding: 0 0 0 24px;
+}
+
+.filter-dropdown + div {
+    margin-left: 16px;
+}
+
+.filter-heading {
+    margin-right: 10px;
+}
+
+
+.filter-dropdown-btn {
+    border: 1px solid var(--igx-button-flat-hover-text-color) ;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--igx-button-flat-hover-text-color) !important;
+    padding: 8px 12px !important;
+    height: auto !important;
+    line-height: normal;
+    min-width: auto;
+
+    igx-icon {
+        margin: 0 0 -2px 2px;
+    }
+
+    &:hover{
+        background: var(--igx-button-flat-hover-background);
+    }
+}
+.action-btn{
+    margin-left: 5px;
+}
+
+.drop-down__scroll-container {
+    max-height: 140px;
+    width: 200px;
+}
+

@@ -1,0 +1,343 @@
+<div class="sample-wrapper">
+    <section class="sample-content">
+        <article class="sample-column">
+
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-md-10 offset-md-1">
+
+                        <igx-card>
+                            <igx-card-header>
+                                <h3 class="igx-card-header__title">{{heading}}</h3>
+                                <!--<h5 class="igx-card-header__subtitle">Audi AG</h5>-->
+                            </igx-card-header>
+                            <igx-card-content>
+
+                                <form novalidate [formGroup]="form" (submit)="create(form.value)">
+
+                                    <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
+                                         class="alert alert-danger" role="alert">
+                                        <div><strong i18n="@@ohSnapFailure">Oops!</strong></div>
+                                        <div *ngFor="let error of errors">{{ error }}</div>
+                                    </div>
+                                    <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
+                                         class="alert alert-success" role="alert">
+                                        <div><strong i18n="@@hooraySuccess">Success!</strong></div>
+                                        <div *ngFor="let message of messages">{{ message }}</div>
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <igx-input-group>
+                                                <input igxInput name="company_name" formControlName="company_name"
+                                                       type="text"/>
+                                                <label igxLabel for="company_name">Company Name</label>
+                                            </igx-input-group>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <igx-input-group>
+                                                <input igxInput name="dba" formControlName="dba" type="text"/>
+                                                <label igxLabel for="dba">DBA</label>
+                                            </igx-input-group>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <app-places-search inputLabel="Address"
+                                                               formControlName="address"
+                                                               (addressObject)="onAddressGotten($event)"></app-places-search>
+                                            <!--<igx-input-group>
+                                                <input igxInput name="address" formControlName="address" type="text" />
+                                                <label igxLabel for="address">Address</label>
+                                            </igx-input-group>-->
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <igx-input-group>
+                                                <input igxInput name="city" formControlName="city" type="text"/>
+                                                <label igxLabel for="city">City</label>
+                                            </igx-input-group>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <igx-input-group>
+                                                <input igxInput name="state" formControlName="state" type="text"/>
+                                                <label igxLabel for="state">State</label>
+                                            </igx-input-group>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <igx-input-group>
+                                                <input igxInput name="zip" formControlName="zip" type="text"/>
+                                                <label igxLabel for="zip">Zip</label>
+                                            </igx-input-group>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <igx-input-group>
+                                                <input igxInput name="licnbr" formControlName="licnbr" type="text"/>
+                                                <label igxLabel for="licnbr">licnbr</label>
+                                            </igx-input-group>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <igx-input-group>
+                                                <input igxInput name="website" formControlName="website"
+                                                       type="website"/>
+                                                <label igxLabel for="website">Website</label>
+                                            </igx-input-group>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="small-space"></div>
+                                            <igx-checkbox [checked]="preferred.value" formControlName="preferred">
+                                                Preferred
+                                            </igx-checkbox>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="small-space"></div>
+                                            <igx-checkbox [checked]="share.value" formControlName="share">
+                                                Share
+                                            </igx-checkbox>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="row">
+
+                                                <ng-container formGroupName="contacts">
+
+                                                    <div class="col-md-12">
+                                                        <div class="small-space"></div>
+                                                        <h5>Primary Contact</h5>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <igx-input-group>
+                                                            <input igxInput name="p_name" formControlName="p_title"
+                                                                   type="text"/>
+                                                            <label igxLabel for="p_name">Name</label>
+                                                        </igx-input-group>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <igx-select formControlName="p_title">
+                                                            <label igxLabel>Title</label>
+                                                            <igx-select-item *ngFor="let item of titles"
+                                                                             [value]="item.value">
+                                                                {{ item.name }}
+                                                            </igx-select-item>
+                                                        </igx-select>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <igx-input-group>
+                                                            <input igxInput name="p_phone" formControlName="p_phone"
+                                                                   type="text"/>
+                                                            <label igxLabel for="p_phone">Phone</label>
+                                                        </igx-input-group>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <igx-input-group>
+                                                            <input igxInput name="p_mobile" formControlName="p_mobile"
+                                                                   type="text"/>
+                                                            <label igxLabel for="p_mobile">Mobile</label>
+                                                        </igx-input-group>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <igx-input-group>
+                                                            <input igxInput name="p_email" formControlName="p_email"
+                                                                   type="email"/>
+                                                            <label igxLabel for="p_email">email</label>
+                                                        </igx-input-group>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="small-space"></div>
+                                                        <h5>Secondary Contact</h5>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <igx-input-group>
+                                                            <input igxInput name="s_name" formControlName="s_name"
+                                                                   type="text"/>
+                                                            <label igxLabel for="s_name">Name</label>
+                                                        </igx-input-group>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <igx-select formControlName="s_title">
+                                                            <label igxLabel>Title</label>
+                                                            <igx-select-item *ngFor="let item of titles"
+                                                                             [value]="item.value">
+                                                                {{ item.name }}
+                                                            </igx-select-item>
+                                                        </igx-select>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <igx-input-group>
+                                                            <input igxInput name="s_phone" formControlName="s_phone"
+                                                                   type="text"/>
+                                                            <label igxLabel for="s_phone">Phone</label>
+                                                        </igx-input-group>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <igx-input-group>
+                                                            <input igxInput name="s_mobile" formControlName="s_mobile"
+                                                                   type="text"/>
+                                                            <label igxLabel for="s_mobile">Mobile</label>
+                                                        </igx-input-group>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <igx-input-group>
+                                                            <input igxInput name="s_email" formControlName="s_email"
+                                                                   type="email"/>
+                                                            <label igxLabel for="s_email">email</label>
+                                                        </igx-input-group>
+                                                    </div>
+
+                                                </ng-container>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+
+                                            <div class="small-space"></div>
+                                            <h5>Tags</h5>
+
+                                            <ng-container formArrayName="tags"
+                                                          *ngFor="let tag of tags.controls; let i = index;">
+                                                <div class="row">
+
+                                                    <div class="col-md-12">
+                                                        <igx-input-group>
+                                                            <input igxInput name="tag" [formControlName]="i"
+                                                                   type="text"/>
+                                                            <label igxLabel for="tag">Tag</label>
+                                                        </igx-input-group>
+                                                    </div>
+
+                                                </div>
+
+                                                <!--Chosen name: {{ tags.controls.items.controls[i].controls.name.value }}-->
+                                            </ng-container>
+
+                                            <div class="small-space">
+                                            </div>
+                                            <h5>Notes
+                                                <button igxButton="icon" igxRipple
+                                                        (click)="addNote()" type="button"
+                                                        igxButtonColor="#E41C77" igxRippleCentered="true">
+                                                    <igx-icon fontSet="material">add</igx-icon>
+                                                </button>
+                                            </h5>
+
+                                            <ng-container formArrayName="notes"
+                                                          *ngFor="let note of notes.controls; let i = index;">
+                                                <ng-container [formGroupName]="i">
+                                                    <div class="row">
+
+                                                        <div class="col-md-6">
+                                                            <igx-input-group>
+                                                                <input igxInput name="type" formControlName="type"
+                                                                       type="text"/>
+                                                                <label igxLabel for="type">Type</label>
+                                                            </igx-input-group>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <igx-input-group>
+                                                                <input igxInput name="format" formControlName="format"
+                                                                       type="text"/>
+                                                                <label igxLabel for="format">Format</label>
+                                                            </igx-input-group>
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <igx-input-group>
+                                                                <input igxInput name="subject" formControlName="subject"
+                                                                       type="text"/>
+                                                                <label igxLabel for="subject">Subject</label>
+                                                            </igx-input-group>
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <igx-input-group>
+                                                                <textarea igxInput name="notes"
+                                                                          formControlName="notes"></textarea>
+                                                                <label igxLabel for="notes">Notes</label>
+                                                            </igx-input-group>
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <div class="small-space"></div>
+                                                            <igx-checkbox [checked]="false"
+                                                                          formControlName="private">
+                                                                Private
+                                                            </igx-checkbox>
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <igx-input-group>
+                                                                <input igxInput name="created_by"
+                                                                       formControlName="created_by" type="text"/>
+                                                                <label igxLabel for="created_by">Created By</label>
+                                                            </igx-input-group>
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <igx-input-group>
+                                                                <input igxInput name="created_on"
+                                                                       formControlName="created_on" type="text"/>
+                                                                <label igxLabel for="created_on">Created On</label>
+                                                            </igx-input-group>
+                                                        </div>
+
+                                                        <div class="col-md-12"
+                                                             *ngIf="notes.controls.length > 0 && i !== notes.controls.length - 1">
+                                                            <div class="small-space"></div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </ng-container>
+
+                                            </ng-container>
+
+                                        </div>
+
+                                        <div class="col-md-12">
+
+                                            <div class="small-space"></div>
+                                            <button
+                                                type="submit"
+                                                [disabled]="!form.valid || submitted"
+                                                igxButton="raised"
+                                                igxRipple="white">
+                                                {{submitText}}
+                                            </button>
+
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </igx-card-content>
+                        </igx-card>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </article>
+    </section>
+</div>

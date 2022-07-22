@@ -1,0 +1,64 @@
+.align-to-middle {
+    vertical-align: middle;
+}
+
+.form-section__title {
+    igx-icon {
+        display: inline;
+    }
+    text-transform: uppercase;
+}
+
+.button__side-remove {
+    margin: auto;
+    padding: inherit;
+
+    .igx-button--icon {
+        width: auto;
+    }
+
+    igx-icon {
+        font-size: 20px;
+        color: darkgray;
+    }
+}
+
+.button__remove {
+    .igx-button--icon {
+        width: auto;
+    }
+
+    igx-icon {
+        font-size: 20px;
+        color: darkgray;
+    }
+}
+
+.prefix__label-select {
+    max-width: 8em;
+}
+
+.form-section__icon {
+    vertical-align: middle !important;
+}
+
+:host ::ng-deep igx-prefix app-dropdown igx-input-group {
+    .igx-input-group__bundle {
+        padding-top: 0;
+    }
+}
+
+// Fix to add top padding to recurring event date label dropdown select
+:host ::ng-deep .igx-input-group__bundle-date igx-prefix app-dropdown igx-input-group {
+    .igx-input-group__bundle {
+        padding-top: 1.125rem;
+    }
+}
+
+.bold-text {
+    font-weight: bold;
+}
+
+igx-circular-bar {
+    height: 40px;
+}

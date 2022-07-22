@@ -1,0 +1,24 @@
+<form novalidate [formGroup]="form">
+    <mat-button-toggle-group
+      #matButtonToggleGroup
+      #group="matButtonToggleGroup"
+      [formControl]="selectField"
+      aria-label="Font Style"
+      color="primary"
+      [multiple]=multiSelect
+      [vertical]=vertical
+    >
+      <mat-button-toggle
+        (change)="onValChange($event.value, $event.source._checked)"
+        [matTooltip]="bttn.tooltip"
+        [checked]="bttn.selected"
+        [value]="bttn.id"
+        [disabled]="!bttn.togglable"
+        *ngFor="let bttn of trackOptions"
+      >
+        <mat-icon>{{ bttn.icon }}</mat-icon></mat-button-toggle
+      >
+    </mat-button-toggle-group>
+    <br />
+  </form>
+  

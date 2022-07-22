@@ -1,0 +1,125 @@
+<div class="grid__wrapper">
+
+    <!--<ng-container *ngIf="(gridColumns$ | async).length > 0">-->
+    <div class="x-small-space"></div>
+    <igx-grid #grid
+              [data]="remoteData | async"
+              [height]="null"
+              [width]="'100%'"
+              [autoGenerate]='false'
+              
+              (onColumnVisibilityChanged)="toggleColumn($event)"
+              (onSortingDone)="processData($event)"
+              (onFilteringDone)="processData($event)"
+              >
+        <igx-grid-toolbar>
+            <igx-grid-toolbar-title>{{ gridInput.title ? gridInput.title : '' }}</igx-grid-toolbar-title>
+            <igx-grid-toolbar-actions>
+                <igx-grid-toolbar-hiding title="Column Hiding" prompt="Hidden"></igx-grid-toolbar-hiding>
+                <igx-grid-toolbar-pinning></igx-grid-toolbar-pinning>
+                <igx-grid-toolbar-exporter [exportExcel]="true" [exportCSV]="true" exportText="Export"  ></igx-grid-toolbar-exporter>
+            </igx-grid-toolbar-actions>
+        </igx-grid-toolbar>
+        <ng-container *ngIf="gridInput.actions && gridInput.actions.length > 0">
+            <igx-column [disableHiding]="true" [resizable]="true">
+                <ng-template igxCell let-cell="cell">
+                    <button igxButton="icon" (click)="editRow(cell.cellID.rowIndex)">
+                        <igx-icon>edit</igx-icon>
+                    </button>
+                </ng-template>
+            </igx-column>
+        </ng-container>
+
+        <ng-container *ngFor="let column of tableHeaders">
+
+            <igx-column *ngIf="column.type === columnTypes.DATE; else default"
+                        field="{{column.column_name}}"
+                        [resizable]="true"
+                        [hidden]="!column.display"
+                        header="{{column.column_heading}}"
+                        [dataType]="'date'"
+                        [filterable]="column.filter">
+                <ng-template igxCell let-cell="cell" let-val>
+                    {{val | date:'dd/MM/yyyy'}}
+                </ng-template>
+            </igx-column>
+
+            <ng-template #default>
+                <igx-column field="{{column.column_name}}"
+                            [resizable]="true"
+                            [hidden]="!column.display"
+                            header="{{column.column_heading}}"
+                            [filterable]="column.filter">
+
+                </igx-column>
+            </ng-template>
+
+        </ng-container>
+
+    </igx-grid>
+
+
+    <ng-template #pager>
+        <!--<div *ngIf="grid.paging && pagingConfig.totalPages > 0" class="igx-paginator">
+            <button [disabled]="isFirstPage" (click)="paginate(0)" igxButton="icon" igxRipple igxRippleCentered="true">
+                <igx-icon>first_page</igx-icon>
+            </button>
+            <button [disabled]="isFirstPage" (click)="previousPage()" igxButton="icon" igxRipple igxRippleCentered="true">
+                <igx-icon>chevron_left</igx-icon>
+            </button>
+            <span>{{ pagingConfig.page + 1 }} of {{ pagingConfig.totalPages }}</span>
+            <button [disabled]="isLastPage" (click)="nextPage()" igxRipple igxRippleCentered="true" igxButton="icon">
+                <igx-icon>chevron_right</igx-icon>
+            </button>
+            <button [disabled]="isLastPage" (click)="paginate(pagingConfig.totalPages - 1)" igxButton="icon" igxRipple igxRippleCentered="true">
+                <igx-icon>last_page</igx-icon>
+            </button>
+
+            <label for="goToPage">Go to page&nbsp;</label>
+            <input matInput id="goToPage" min="0" [max]="pagingConfig.totalPages - 1" type="number" #goToPage (change)="paginate(+$event.target.value - 1)">
+
+            <select (change)="updatePerPage($event)">
+                <option *ngFor="let selectOption of perPageItems"
+                        [value]="selectOption"
+                        selected="{{selectOption === 15 ? 'selected' : ''}}">{{ selectOption }}</option>
+            </select>
+        </div>-->
+
+        <div *ngIf="grid.paging && pagingConfig.totalPages > 0" class="igx-paginator">
+            <button [disabled]="isFirstPage" (click)="paginate(0)" igxButton="icon" igxRipple igxRippleCentered="true">
+                <igx-icon fontSet="material">first_page</igx-icon>
+            </button>
+            <button [disabled]="isFirstPage" (click)="previousPage()" igxButton="icon" igxRipple
+                    igxRippleCentered="true">
+                <igx-icon fontSet="material">chevron_left</igx-icon>
+            </button>
+            <span>{{ pagingConfig.page + 1 }} of {{ pagingConfig.totalPages }}</span>
+            <button [disabled]="isLastPage" (click)="nextPage()" igxRipple igxRippleCentered="true" igxButton="icon">
+                <igx-icon fontSet="material">chevron_right</igx-icon>
+            </button>
+            <button [disabled]="isLastPage" (click)="paginate(pagingConfig.totalPages - 1)" igxButton="icon" igxRipple
+                    igxRippleCentered="true">
+                <igx-icon fontSet="material">last_page</igx-icon>
+            </button>
+            <select style="margin-left: 1rem;" (change)="updatePerPage($event)">
+                <option [value]="val" [selected]="pagingConfig.perPage == val"
+                        *ngFor="let val of [5, 10, 15, 25, 50, 100, 500]">{{ val }}</option>
+            </select>
+            <span style="margin-left: 1rem;">
+                <label for="goToPage">Go to page&nbsp;</label>
+            <input id="goToPage" min="0" [max]="pagingConfig.totalPages"
+                   type="number" (change)="paginate(+$event.target.value - 1)">
+            </span>
+        </div>
+
+    </ng-template>
+
+    <!--</ng-container>-->
+
+    <igx-toast #toast></igx-toast>
+
+</div>
+
+
+
+

@@ -1,0 +1,17 @@
+igx-chip {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 2px;
+}
+
+::ng-deep {
+    igx-chip{
+        &.square-chips{
+            .igx-chip__item{
+                border-radius: 4px;
+                margin: 0 2px;
+            }
+        }
+    }
+    
+}

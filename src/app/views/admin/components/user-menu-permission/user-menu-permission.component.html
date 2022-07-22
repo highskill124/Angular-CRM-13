@@ -1,0 +1,66 @@
+<h1>User Menu Permission</h1>
+<div [formGroup]="form">
+<button class="k-button" (click)="collapse()">Collapse</button>
+<button class="k-button" (click)="expand()">Expand</button>
+<!-- <button class="k-button" (click)="printDebug(treeView, form)">Print Debug</button> -->
+
+<igx-input-group class="drop">
+    <select igxInput
+            (change)="onInputChange($event.target.value)"
+            name="user_id"
+            formControlName="user_id"
+            id="input-selectField">
+
+        
+            <option *ngFor="let selectOption of userList$ | async"
+                    [value]="selectOption.guid">
+                {{ selectOption.user_name }}
+            </option>
+    </select>
+
+  </igx-input-group>
+
+  <ng-container *ngIf="enableDragDrop; else noDragAndDrop">
+   <kendo-treeview
+        #treeView
+        [nodes]="data"
+        textField="text"
+        formControlName="permission"
+        kendoTreeViewHierarchyBinding
+        childrenField="child"
+        kendoTreeViewExpandable
+        [expandedKeys]="expandedKeys"
+        [expandBy]="'text'"         
+        
+        kendoTreeViewDragAndDrop
+        kendoTreeViewDragAndDropEditing
+        (nodeDrop)="handleDrop($event)"
+        >
+   </kendo-treeview>
+</ng-container>
+
+<ng-template #noDragAndDrop>
+   <kendo-treeview
+    #treeView
+    [nodes]="data"
+    textField="text"
+    formControlName="permission"
+    kendoTreeViewHierarchyBinding
+    childrenField="child"
+    [filterable]="true"
+    kendoTreeViewExpandable
+    [expandedKeys]="expandedKeys"
+    [expandBy]="'text'"
+    [kendoTreeViewCheckable]="checkableSettings"
+    (checkedChange)="handleChecking($event)"
+    [(checkedKeys)]="checkedKeys"
+    checkBy="guid"              
+    >
+    
+    </kendo-treeview>
+</ng-template>
+
+
+</div>
+
+`

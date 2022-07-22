@@ -1,0 +1,354 @@
+<div class="row cust-grid-area" [class.with-side-filter]="filters?.length"
+    [class.collapsed]="filtersSidebarContainer?.isSidebarCollapsed">
+    <div class="col-md-12 text-center d-flex justify-content-center pt-2 load-cont"
+        *ngIf="(!isGridLoaded || reloadingNow ) && showLoading">
+        <div class="cust-loader"></div>
+    </div>
+    <ng-container *ngIf="!toHide">
+        <!-- SIDEBAR -->
+        <div [class.hideme]="(reloadingNow || !isGridLoaded)" *ngIf="filters?.length"
+            class="{{filtersSidebarContainer.isSidebarCollapsed ? '' : 'col-md-3 pr-md-0'}}">
+            <app-filters-sidebar-container #filtersSidebarContainer [enabled]="showFilterBar">
+                <igx-list *ngIf="filters" class="custom-filter-collapsable">
+
+                    <igx-list-item isHeader="true">Filters</igx-list-item>
+
+                    <igx-list-item class="list-item__expandable" *ngFor="let filterGroup of filters">
+                        <igx-expansion-panel [collapsed]="isFilterCollapsed">
+                            <igx-expansion-panel-header>
+                                <igx-expansion-panel-title>{{ filterGroup.label }}</igx-expansion-panel-title>
+                            </igx-expansion-panel-header>
+                            <igx-expansion-panel-body>
+                                <!-- <div class="xx-small-space"></div> -->
+                                <app-filter [filters]="filterGroup.filters" [group]="filterGroup.group"
+                                    [gridGuid]="gridGuid" [type]="filterGroup.type"
+                                    [resetFiltersFunc]="filterGroup.resetFiltersFunc">
+
+                                </app-filter>
+                            </igx-expansion-panel-body>
+                        </igx-expansion-panel>
+                    </igx-list-item>
+
+                </igx-list>
+            </app-filters-sidebar-container>
+        </div>
+
+
+
+        <!-- GRID -->
+        <div [class.hideme]="(reloadingNow || !isGridLoaded)"
+            class="{{(!filters?.length || (filtersSidebarContainer && filtersSidebarContainer?.isSidebarCollapsed)) ? 'col-md-12' : 'col-md-9 pl-md-0'}}"
+            *ngIf="isGridLoaded">
+
+            <div class="container-fluid cust-height">
+                <div class="row">
+
+                    <div class="col-md-12 pt-2">
+
+                        <div class="row sleek-scroll">
+                            <!-- [ngClass]="(quickSearchTypeOptionConfigId && isGridReady)?'col-md-8 m-auto':'col-md-12 m-auto'" -->
+                            <div class="col-md-8">
+                                <div class="filter-heading-container d-flex align-items-center">
+                                    <label class="filter-heading">{{ pageTitle }}</label>
+                                    <ng-container *ngIf="isGridReady">
+                                        <!-- Reload grid data -->
+                                        <button (click)="agGridBase.reloadData()" class="action__grid"
+                                            #target="tooltipTarget" [igxTooltipTarget]="reloadRef" igxButton="icon"
+                                            igxRipple>
+                                            <igx-icon [style.color]="'green'">autorenew</igx-icon>
+                                        </button>
+                                        <div #reloadRef="tooltip" igxTooltip> Reload </div>
+
+                                        <!--<app-ag-grid-page-size class="action__grid"
+                                                               [parentGridApi]="agGridBase.api">
+
+                                        </app-ag-grid-page-size>-->
+
+                                        <!-- Export -->
+                                        <app-data-export-dialog *ngIf="exportFormats && exportFormats.length"
+                                            class="action__grid" [exportFormats]="exportFormats"
+                                            (onResult)="onExport($event)">
+
+                                        </app-data-export-dialog>
+
+                                        <!--<igx-checkbox class="action__grid"
+                                                      (change)="agGridBase.onSelectAllUpdate($event)">
+
+                                        </igx-checkbox>-->
+
+                                        <button *ngIf="!hideSelectOption" igxButton="flat" class="action__grid"
+                                            #target="tooltipTarget" [igxTooltipTarget]="selecAllRef" igxButton="icon"
+                                            igxRipple (click)="agGridBase.selectAllNodes()">
+                                            <igx-icon [style.color]="'green'">check</igx-icon>
+                                        </button>
+                                        <div #selecAllRef="tooltip" igxTooltip> Select All </div>
+
+                                        <button *ngIf="!hideSelectOption" igxButton="flat" class="action__grid"
+                                            #target="tooltipTarget" [igxTooltipTarget]="clearAllRef" igxButton="icon"
+                                            igxRipple (click)="agGridBase.clearSelectedNodes()">
+                                            <igx-icon [style.color]="'green'">block</igx-icon>
+                                        </button>
+                                        <div #clearAllRef="tooltip" igxTooltip> Clear Selection </div>
+
+                                        <!-- Selected count -->
+                                        <!-- <button type="button"
+                                                [disabled]="true"
+                                                [hidden]="!agGridBase?.selectedRows?.length"
+                                                class="action__grid"
+                                                igxButton
+                                                igxRipple="white">
+                                                {{agGridBase?.selectedRows?.length}} Selected
+                                        </button> -->
+                                        <!-- Total count -->
+                                        <button *ngIf="!hideSelectOption" type="button" [disabled]="true"
+                                            class="action__grid farm-small-font" igxButton igxRipple="white">
+                                            {{agGridBase?.selectedRows?.length}} of {{totalRowCount}} Selected
+                                        </button>
+
+                                        <!-- Hidden count -->
+                                        <button *ngIf="!hideHiddenDisplay" type="button" [disabled]="true"
+                                            class="action__grid farm-small-font" igxButton igxRipple="white">
+                                            <igx-icon>visibility_off</igx-icon>
+                                            &nbsp;{{agGridBase?.hiddenColumns?.length}} Hidden
+                                        </button>
+
+
+                                        <igx-drop-down #menuAddActions (selectionChanging)="actionChange($event)" class="filter-dropdown">
+
+                                            <ng-container *ngFor="let item of plusActions">
+                                                <igx-drop-down-item *ngIf="showPlusAction('modal', item)">
+                                                    <button igxButton="flat"  igxRipple (click)="item.click(agGridBase)">
+                                                        {{ item.label }}
+
+
+                                                    </button>
+                                                </igx-drop-down-item>
+
+                                                <igx-drop-down-item *ngIf="showPlusAction('list-action', item)">
+                                                    <app-list-action
+                                                        [list]="{DocId: null, name: null, items: selectedRowIds}">
+                                                    </app-list-action>
+                                                </igx-drop-down-item>
+                                            </ng-container>
+                                        </igx-drop-down>
+
+
+
+                                        <!-- date dropdown -->
+                                        <div *ngIf="quickSelectShow">
+                                            <button igxButton="raised" class="ml-0 button color-white font-16 filter-dropdown-btn"
+                                                [igxToggleAction]="dropdown1" [igxDropDownItemNavigation]="dropdown1">
+                                                {{ (quickSelectTitle)?quickSelectTitle:"Filter" }}
+
+                                                <igx-icon aria-hidden="true" class="material-icons igx-icon">arrow_drop_down</igx-icon>
+                                            </button>
+                                            <igx-drop-down #dropdown1 (selectionChanging)="onQuickSelect($event)">
+                                                <div class="drop-down__scroll-container">
+                                                    <igx-drop-down-item
+                                                        *ngFor="let option of quickSelectOptions$ | async"
+                                                        [value]="option">
+                                                        {{ option.name }}
+                                                    </igx-drop-down-item>
+                                                </div>
+                                            </igx-drop-down>
+                                        </div>
+
+                                        <!-- First Calander Input -->
+                                        <div class="date-column" *ngIf="quickSelectShow && showCalendar1">
+                                            <igx-date-picker class="" [showWeekNumbers]="false" label="From Date"
+                                                [formControl]="startDate" >
+                                            </igx-date-picker>
+                                        </div>
+
+                                        <!-- Second Calander Input -->
+                                        <div class="date-column" *ngIf="quickSelectShow && showCalendar2">
+                                            <igx-date-picker class="" [showWeekNumbers]="false" label="To Date"
+                                            [formControl]="endDate">
+                                            </igx-date-picker>
+                                        </div>
+
+                                        <!-- Add actions -->
+                                        <ng-container *ngIf="plusActions?.length > 0">
+                                            <button type="button" class="action__grid igx-button--icon"
+                                                *ngIf="checkShowForSingleActionCount; else oldTemplate"
+                                                (click)="plusActions[0].click(agGridBase)">
+                                                <igx-icon>add</igx-icon>
+                                            </button>
+                                            <ng-template #oldTemplate>
+                                                <button [igxToggleAction]="menuAddActions" type="button"
+                                                    class="action__grid" [igxToggleOutlet]="outletAddActions"
+                                                    [igxDropDownItemNavigation]="menuAddActions" igxButton="icon"
+                                                    igxRipple>
+                                                    <igx-icon>add</igx-icon>
+                                                </button>
+                                                <igx-drop-down #menuAddActions>
+                                                    <ng-container *ngFor="let item of plusActions">
+                                                        <igx-drop-down-item *ngIf="showPlusAction('modal', item)"
+                                                            class="fullwidth">
+                                                            <button igxButton="flat" igxRipple
+                                                                (click)="item.click(agGridBase)">
+                                                                {{ item.label }}
+                                                            </button>
+                                                        </igx-drop-down-item>
+
+                                                        <igx-drop-down-item *ngIf="showPlusAction('list-action', item)">
+                                                            <app-list-action
+                                                                [list]="{DocId: null, name: null, items: selectedRowIds}">
+                                                            </app-list-action>
+                                                        </igx-drop-down-item>
+
+                                                    </ng-container>
+                                                </igx-drop-down>
+                                            </ng-template>
+                                        </ng-container>
+
+                                        <!-- TODO: Fix single vs multiple items on Plus sign -->
+
+                                        <ng-template #oneItem>
+                                            <button type="button" class="action__grid" igxButton="icon" igxRipple>
+                                                <igx-icon>add_circle</igx-icon>
+                                            </button>
+                                        </ng-template>
+
+
+
+                                        <div class="overlayOutlet" igxOverlayOutlet #outletAddActions="overlay-outlet">
+                                        </div>
+
+                                        <!-- </ng-container> -->
+                                    </ng-container>
+                                </div>
+
+                            </div>
+                            <!-- New DropDown Selection -->
+
+
+                            <!-- End New Drop Down Selection -->
+                            <div class="col-md-4 m-auto d-flex align-items-center justify-content-end">
+
+
+
+
+
+
+
+                                <ng-container *ngIf="quickSearchTypeOptionConfigId && isGridReady">
+                                    <app-ag-grid-search-filter #agGridSearchFilter
+                                        [qstypeOptions]="quickSearchTypeOptions" [agGridBase]="agGridBase">
+
+                                    </app-ag-grid-search-filter>
+                                </ng-container>
+
+
+                                <!-- <button type="button" class="action__grid ml-3 mt1 igx-button--icon float-right" igxButton="icon"
+                                            (click)="deleteCustomConfig(gridGuid)" igxRipple>
+                                            <igx-icon>build</igx-icon>
+                                        </button> -->
+
+                                         <!-- Action menu -->
+
+                                <button [igxToggleAction]="menuBuildOptions" type="button" (click)="checkIfonTop()"
+                                class="action__grid action-btn" [igxToggleOutlet]="outletAddActions"
+                                [igxDropDownItemNavigation]="menuBuildOptions" [overlaySettings]="overlaySettings"
+                                igxButton="icon" igxRipple>
+                                <igx-icon style="font-size: 20px;">build</igx-icon>
+                            </button>
+                            <igx-drop-down #menuBuildOptions>
+                                <div class="right-30">
+                                    <ng-container *ngFor="let item of ranchOptions">
+                                        <igx-drop-down-item class="fullwidth">
+                                            <button igxButton="flat" igxRipple (click)="item.callback()">
+                                                {{ item.label }}
+                                            </button>
+                                        </igx-drop-down-item>
+                                    </ng-container>
+                                </div>
+                            </igx-drop-down>
+
+                            </div>
+                        </div>
+
+                        <div class="x-small-space"></div>
+                    </div>
+
+
+
+
+                    <!-- GRID -->
+                    <div class="col-md-12" *ngIf="columnsList">
+
+                        <!-- ACTIVE FILTERS BAR -->
+                        <div *ngIf="!supressChip" class="row filters-bar">
+                            <div class="col-md-12">
+                                <igx-chips-area #chipsArea class="mat-filters-chips">
+
+                                    <ng-container *ngIf="activeFilters">
+                                        <ng-container *ngFor="let filter of activeFilters">
+                                            <ng-container *ngFor="let item of filter.value">
+                                                <igx-chip [id]="filter.group" *ngIf="item.value !== EMPTY_STRING"
+                                                    [removable]="true"
+                                                    (remove)="activeFilterUpdated(filter.group, item, true)">
+                                                    <span igxPrefix>{{filter.group | titlecase}}:</span>
+                                                    <span>{{item.name}}</span>
+                                                </igx-chip>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="agGridBase && agGridBase.getDataFetcherParams().qsearch; let searchFilter">
+                                        <igx-chip id="qsearch" [removable]="true"
+                                            (remove)="agGridSearchFilter.reset()">
+                                            <span igxPrefix>qsearch:</span>
+                                            <span>{{searchFilter}}</span>
+                                        </igx-chip>
+                                    </ng-container>
+
+                                </igx-chips-area>
+
+                            </div>
+                        </div>
+
+                        <!--<div class="row" *ngIf="agGridBase">
+                            <div class="col-md-2 pb-1">
+
+                            </div>
+                        </div>-->
+
+                        <div class="row">
+                            <div #agGridContainer class="col-md-12 pr-0 mt-3">
+                                <app-ag-grid-base #agGridBase [isInfiniteScrollGrid]="true" 
+                                    [columnsList]="columnsList"
+                                    [supplementaryColumnDefs]="supplementaryColumns" 
+                                    theme="ag-theme-material"
+                                    (onGridReload)="onGridReload($event)" 
+                                    [dataFetcherFactory]="dataFetcherFactory"
+                                    [sideBar]="showSideBar" 
+                                    [DocId]="DocId"
+                                    (onViewAction)="onView($event.DocId)"
+                                    (onGridReady)="baseGridReady($event)" 
+                                    [gridGuid]="gridGuid"
+                                    [gridHeight]="gridHeight || calcGridHeight" 
+                                    [gridWidth]="gridWidth"
+                                    [progressBG]="progressBG" 
+                                    [notifyTemp]="notifyTemp"
+                                    (onGridLoaded)="baseGridLoaded($event)" 
+                                    (onGridDataLoaded)="allDataLoaded()"
+                                    (onFirstDataRendered)="baseFirstDataRendered($event)"
+                                    [DocId]="DocId"
+                                    [rowIndex]="rowIndex"
+                                    [showCheckBox]="showCheckBox"
+                                    >
+
+                                </app-ag-grid-base>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="small-space"></div>
+
+                </div>
+            </div>
+
+        </div>
+    </ng-container>
+</div>

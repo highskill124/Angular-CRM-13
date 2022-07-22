@@ -1,0 +1,125 @@
+<div class="modal-header ds-primary-bg">
+    <h5 class="modal-title text-white">Email Information</h5>
+    <button type="button" class="close text-white" (click)="closeDialog()">&times;</button>
+</div>
+
+
+<form novalidate [formGroup]="form" (submit)="create(form.value)">
+    <div class="form">
+
+    <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
+         class="alert alert-danger" role="alert">
+        <div><strong i18n="@@ohSnapFailure">Oops!</strong></div>
+        <div *ngFor="let error of errors">{{ error }}</div>
+    </div>
+    <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
+         class="alert alert-success" role="alert">
+        <div><strong i18n="@@hooraySuccess">Success!</strong></div>
+        <div *ngFor="let message of messages">{{ message }}</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <igx-input-group>
+                <input igxInput
+                       id="number"
+                       name="number"
+                       formControlName="number"
+                       [readonly]="formIsReadOnly"
+                       type="text" />
+                <label igxLabel
+                       for="number">Phone Number</label>
+            </igx-input-group>
+
+        </div>
+
+        <div class="col-md-12">
+            <app-dropdown placeholder="Phone Type"
+                          [disabled]="formIsReadOnly"
+                          [options]="phoneTypeOptions$ | async"
+                          formControlName="type">
+
+            </app-dropdown>
+        </div>
+
+        <div class="col-md-12">
+            <app-dropdown placeholder="Phone Source"
+                          [disabled]="formIsReadOnly"
+                          [options]="phoneSourceOptions$ | async"
+                          formControlName="source">
+
+            </app-dropdown>
+        </div>
+
+        <div class="col-md-12">
+            <igx-input-group>
+                <textarea igxInput
+                          id="description"
+                          name="description"
+                          [readonly]="formIsReadOnly"
+                          formControlName="description">
+
+                </textarea>
+                <label igxLabel
+                       for="description">Description</label>
+            </igx-input-group>
+        </div>
+
+        <div class="col-md-12">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="small-space"></div>
+                    <igx-checkbox [checked]="sms.value"
+                                  formControlName="sms"
+                                  [disabled]="formIsReadOnly">
+                        SMS
+                    </igx-checkbox>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="small-space"></div>
+                    <igx-checkbox [checked]="dflt.value"
+                                  formControlName="dflt"
+                                  [disabled]="formIsReadOnly">
+                        Default Number
+                    </igx-checkbox>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 text-left">
+
+        </div>
+
+        <div class="col-md-6 text-right">
+            <div class="small-space"></div>
+
+            <div class="igx-dialog__window-actions">
+
+                <button  type="button" igxButton igxRipple (click)="closeDialog()">
+                    Close
+                </button>
+
+                <button type="submit"
+                    [disabled]="!form.valid || form.pristine"
+                    igxButton="raised" igxRipple="white">
+                {{ saveBttn }}
+        </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</form>
+
+Prestine {{form.pristine}} <br>
+Valid {{form.valid}} <br>
+{{form.value | json}}

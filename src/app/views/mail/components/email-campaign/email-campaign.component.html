@@ -1,0 +1,350 @@
+<h2>{{heading}}</h2>
+<div class="row">
+    <div class="col-md-12">
+
+        <button (click)="goBack()" class="text-left-1" igxButton="icon" igxRipple igxRippleCentered="true">
+            <igx-icon fontSet="material">arrow_back_ios</igx-icon>
+        </button>
+
+        <ng-container>
+
+
+
+            <!-- <button (click)="deleteFarm(farm.DocId)"
+                    class="float-right" igxButton="icon" igxRipple
+                    igxRippleCentered="true">
+                <igx-icon [style.color]="'red'" fontSet="material">delete</igx-icon>
+            </button> -->
+
+            <button (click)="printCampaign()" type="button"
+                    class="float-right" igxButton="icon" igxRipple
+                    igxRippleCentered="true">
+                <igx-icon fontSet="material">print</igx-icon>
+            </button>
+
+            <button (click)="reloadForm()"
+                    class="float-right" igxButton="icon" igxRipple
+                    igxRippleCentered="true">
+                <igx-icon [style.color]="'green'" fontSet="material">refresh</igx-icon>
+            </button>
+
+        </ng-container>
+
+
+    </div>
+</div>
+<div [formGroup]="emailCampaignForm"  class="mainFrom">
+    <mat-card class="topCard">
+    <div class="row" class="mainFrom">
+        <mat-form-field class="col-md-12">
+            <textarea
+                matInput
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="3"
+
+                placeholder="Campaign Summary"
+                formControlName ="summary">
+            </textarea>
+            </mat-form-field>
+
+        <mat-form-field class="col-md-12">
+
+                <input
+                    matInput
+                    placeholder="Email Subject"
+                    formControlName ="subject"
+                    type ="text"
+                >
+        </mat-form-field>
+    </div>
+
+    <mat-form-field  class="col-md-6">
+        <mat-select [disabled]="disableTemplate"
+            placeholder="Email Template"
+            formControlName ="template_id"
+            >
+    <mat-option *ngFor="let List of  emailTemplateList$" [value]="List.id">{{ List.subject}} - {{List.created_on | date}}</mat-option>
+    </mat-select>
+    </mat-form-field>
+
+    <div class="row" class="mainFrom">
+
+        <mat-form-field class="col-md-3">
+
+                <input matInput [matDatepicker]="pickerStart"
+                        placeholder="Choose Start date"
+                        formControlName ="start_date"
+                        >
+
+                <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                <mat-datepicker #pickerStart></mat-datepicker>
+
+        </mat-form-field>
+        <mat-form-field class="col-md-3">
+            <input matInput [matDatepicker]="pickerEnd"
+                    placeholder="Choose End date"
+                    formControlName ="end_date"
+                    >
+            <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+            <mat-datepicker #pickerEnd></mat-datepicker>
+        </mat-form-field>
+
+    <!-- <mat-form-field class="col-md-3">
+
+        <input
+            matInput
+            placeholder="Status"
+            formControlName ="status"
+            type ="text"
+        >
+</mat-form-field> -->
+
+<mat-form-field  class="col-md-3">
+    <mat-select
+        placeholder="Campaign Status"
+        formControlName ="status"
+        >
+
+    <mat-option *ngFor="let status of statusList" [value]="status.value">{{status.name}}</mat-option>
+
+</mat-select>
+
+</mat-form-field>
+
+    </div>
+    </mat-card>
+
+    <div class="mainFrom">
+    <mat-tab-group class="mainFrom">
+
+        <mat-tab label="Metrics" class="mainFrom">
+            <div class="row" class="mainFrom-tab">
+
+                <mat-form-field class="col-md-6">
+
+                        <input
+                            matInput
+                            placeholder="First Email Sent On"
+                            formControlName ="first_email_sent"
+                            type ="text"
+                        >
+                </mat-form-field>
+                <mat-form-field class="col-md-6">
+
+                    <input
+                        matInput
+                        placeholder="Last Email Sent On"
+                        formControlName ="last_email_send"
+                        type ="text"
+                    >
+            </mat-form-field>
+            </div>
+            <div class="row" class="mainFrom-tab">
+
+                <mat-form-field class="col-md-4">
+
+                        <input
+                            matInput
+                            placeholder="#of Attachment Opened"
+                            formControlName ="nbr_of_attachments_opened"
+                            type ="text"
+                        >
+                </mat-form-field>
+                <mat-form-field class="col-md-4">
+
+                    <input
+                        matInput
+                        placeholder="# of Emails Bunced"
+                        formControlName ="nbr_of_bounces"
+                        type ="text"
+                    >
+            </mat-form-field>
+            <mat-form-field class="col-md-4">
+
+                <input
+                    matInput
+                    placeholder="# of Emails Sent"
+                    formControlName ="nbr_of_emails"
+                    type ="text"
+                >
+        </mat-form-field>
+            </div>
+            <div class="row" class="mainFrom-tab">
+
+                <mat-form-field class="col-md-4">
+
+                        <input
+                            matInput
+                            placeholder="# of Emails Opened"
+                            formControlName ="nbr_of_email_opened"
+                            type ="text"
+                        >
+                </mat-form-field>
+                <mat-form-field class="col-md-4">
+
+                    <input
+                        matInput
+                        placeholder="# of Unique Attchments Opened"
+                        formControlName ="nbr_of_unique_attachments_opened"
+                        type ="text"
+                    >
+            </mat-form-field>
+            <mat-form-field class="col-md-4">
+
+                <input
+                    matInput
+                    placeholder="# of Unique Emails opened"
+                    formControlName ="nbr_of_unique_email_opened"
+                    type ="text"
+                >
+        </mat-form-field>
+            </div>
+
+
+
+
+        </mat-tab>
+        <mat-tab label="Email List" class="mainFrom">
+            <mat-card>
+            <div class="row">
+
+                <mat-form-field class="col-md-3">
+                    <mat-label>Filter</mat-label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
+                </mat-form-field>
+
+                <mat-slide-toggle
+                    formControlName="showbounce"
+                    (change)="filterchange({id: 'bounce', data: $event})"
+                    class="col-md-3 toggle">Show Bounce
+                </mat-slide-toggle>
+
+                <mat-slide-toggle
+                    formControlName="showopened"
+                    (change)="filterchange({id: 'open', data: $event})"
+                    class="col-md-3 toggle">Show Opened
+                </mat-slide-toggle>
+
+                <mat-slide-toggle
+                    formControlName="shownotopened"
+                    (change)="filterchange({id: 'notopen', data: $event})"
+                    class="col-md-3 toggle">Show Not Opened
+                </mat-slide-toggle>
+
+            </div>
+        </mat-card>
+
+              <div class="example-table-container">
+
+              <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="tracking_nbr">
+                  <th mat-header-cell *matHeaderCellDef> Tracking # </th>
+                  <td mat-cell *matCellDef="let element"> {{element.tracking_nbr}} </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="email">
+                  <th mat-header-cell *matHeaderCellDef> Email </th>
+                  <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="bounce">
+                  <th mat-header-cell *matHeaderCellDef width ="10%"> Bounce </th>
+                  <td mat-cell *matCellDef="let element">
+                  <mat-icon *ngIf="element.bounce" class="red-icon" >check</mat-icon>
+                </td>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="opened">
+                  <th mat-header-cell *matHeaderCellDef width ="10%"> Opened </th>
+                  <td mat-cell *matCellDef="let element">
+                    <mat-icon *ngIf="element.opened" class="green-icon" >check</mat-icon>
+                  </td>
+                </ng-container>
+
+                 <!-- Action Date Column -->
+                 <ng-container matColumnDef="actiondate">
+                    <th mat-header-cell *matHeaderCellDef width ="20%" class="mat-small"> Date </th>
+                    <td mat-cell *matCellDef="let element"> {{element.date | date:'medium'}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="actionsColumn">
+                    <th mat-header-cell *matHeaderCellDef width ="5%"></th>
+                    <mat-cell *matCellDef="let row">
+                        <button (click)="viewTrackingInfo(row)" mat-icon-button><mat-icon>search</mat-icon></button>
+
+                    </mat-cell>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns ; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+
+            </div>
+
+          </mat-tab>
+
+        <mat-tab label="History" class="mainFrom">
+            <div class="row" class="mainFrom-tab">
+
+                <mat-form-field class="col-md-6">
+
+                        <input
+                            matInput
+                            placeholder="Created On"
+                            formControlName ="created_on"
+                            type ="text"
+                        >
+                </mat-form-field>
+                <mat-form-field class="col-md-6">
+
+                    <input
+                        matInput
+                        placeholder="Created By"
+                        formControlName ="created_by"
+                        type ="text"
+                    >
+            </mat-form-field>
+            </div>
+            <div class="row" class="mainFrom">
+
+                <mat-form-field class="col-md-6">
+
+                        <input
+                            matInput
+                            placeholder="Updated On"
+                            formControlName ="updated_on"
+                            type ="text"
+                        >
+                </mat-form-field>
+                <mat-form-field class="col-md-6">
+
+                    <input
+                        matInput
+                        placeholder="Updated By"
+                        formControlName ="updated_by"
+                        type ="text"
+                    >
+            </mat-form-field>
+            </div>
+
+
+
+
+
+          </mat-tab>
+      </mat-tab-group>
+    </div>
+
+    <div mat-dialog-actions class="dialogactions" align="end">
+
+        <button appPreventDoubleClick [disabled]="!emailCampaignForm.valid || emailCampaignForm.pristine" [throttleTime]="10000" class="button" (click)="save()"  mat-raised-button color="primary">{{ saveBttnText }}</button>
+        <button class="button"  (click)="close()" mat-raised-button color="warn">Exit</button>
+    </div>
+
+</div>

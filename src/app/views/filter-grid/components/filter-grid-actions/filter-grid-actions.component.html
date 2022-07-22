@@ -1,0 +1,6 @@
+<ng-container *ngFor="let action of actions">
+    <a (click)="handleAction(action)" igxButton="icon">
+        <igx-icon [active]="getIsActive(action)" [ngClass]="getClass(action)"
+                  [style.color]="action.color">{{ action.icon }}</igx-icon>
+    </a>
+</ng-container>

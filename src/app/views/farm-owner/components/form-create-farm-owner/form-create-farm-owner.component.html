@@ -1,0 +1,204 @@
+<form novalidate [formGroup]="form" (submit)="create(form.value)">
+
+    <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
+         class="alert alert-danger" role="alert">
+        <div><strong i18n="@@ohSnapFailure">Oops!</strong></div>
+        <div *ngFor="let error of errors">{{ error }}</div>
+    </div>
+    <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
+         class="alert alert-success" role="alert">
+        <div><strong i18n="@@hooraySuccess">Success!</strong></div>
+        <div *ngFor="let message of messages">{{ message }}</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x-small-space"></div>
+        </div>
+        <div class="col-md-6">
+            <p><b>Primary Owner</b></p>
+
+            <!-- OWNER 1 -->
+            <igx-input-group>
+                <input igxInput
+                       name="owner1FName"
+                       id="owner1FName"
+                       formControlName="owner1FName"
+                       type="text"/>
+                <label igxLabel for="owner1FName">Owner 1 First Name</label>
+            </igx-input-group>
+
+            <igx-input-group>
+                <input igxInput
+                       name="owner1MName"
+                       formControlName="owner1MName"
+                       id="owner1MName"
+                       type="text"/>
+                <label igxLabel for="owner1MName">Owner 1 Middle Name</label>
+            </igx-input-group>
+
+            <igx-input-group>
+                <input igxInput
+                       name="owner1LName"
+                       formControlName="owner1LName"
+                       id="owner1LName"
+                       type="text"/>
+                <label igxLabel for="owner1LName">Owner 1 Last Name</label>
+            </igx-input-group>
+
+            <igx-input-group>
+                <input igxInput
+                       name="owner1FullName"
+                       formControlName="owner1FullName"
+                       id="owner1FullName"
+                       [readOnly]="true"
+                       type="text"/>
+                <label igxLabel for="owner1FullName">Owner 1 Full Name</label>
+            </igx-input-group>
+
+            <!-- OWNER 1 SPOUSE -->
+            <igx-input-group>
+                <input igxInput
+                       name="owner1SpouseFName"
+                       id="owner1SpouseFName"
+                       formControlName="owner1SpouseFName"
+                       type="text"/>
+                <label igxLabel for="owner1SpouseFName">Owner 1 Spouse First Name</label>
+            </igx-input-group>
+
+            <igx-input-group>
+                <input igxInput
+                       name="owner1SpouseMName"
+                       formControlName="owner1SpouseMName"
+                       id="owner1SpouseMName"
+                       type="text"/>
+                <label igxLabel for="owner1SpouseMName">Owner 1 Spouse Middle Name</label>
+            </igx-input-group>
+
+            <igx-input-group>
+                <input igxInput
+                       name="owner1SpouseLName"
+                       formControlName="owner1SpouseLName"
+                       id="owner1SpouseLName"
+                       type="text"/>
+                <label igxLabel for="owner1SpouseLName">Owner 1 Spouse Last Name</label>
+            </igx-input-group>
+
+            <igx-input-group>
+                <input igxInput
+                       name="ownerNameFormatted"
+                       formControlName="ownerNameFormatted"
+                       id="ownerNameFormatted"
+                       type="text"/>
+                <label igxLabel for="ownerNameFormatted">Owner Name Formatted</label>
+            </igx-input-group>
+        </div>
+
+        <div class="col-md-6">
+            <p><b>Secondary Owner</b></p>
+
+            <!-- OWNER 2 -->
+            <igx-input-group>
+                <input igxInput
+                       name="owner2FName"
+                       id="owner2FName"
+                       formControlName="owner2FName"
+                       type="text"/>
+                <label igxLabel for="owner2FName">Owner 2 First Name</label>
+            </igx-input-group>
+
+            <igx-input-group>
+                <input igxInput
+                       name="owner2MName"
+                       formControlName="owner2MName"
+                       id="owner2MName"
+                       type="text"/>
+                <label igxLabel for="owner2MName">Owner 2 Middle Name</label>
+            </igx-input-group>
+
+            <igx-input-group>
+                <input igxInput
+                       name="owner2LName"
+                       formControlName="owner2LName"
+                       id="owner2LName"
+                       type="text"/>
+                <label igxLabel for="owner2LName">Owner 2 Last Name</label>
+            </igx-input-group>
+
+            <igx-input-group>
+                <input igxInput
+                       name="owner2FullName"
+                       formControlName="owner2FullName"
+                       id="owner2FullName"
+                       [readOnly]="true"
+                       type="text"/>
+                <label igxLabel for="owner2FullName">Owner 2 Full Name</label>
+            </igx-input-group>
+
+            <!-- OWNER 2 SPOUSE -->
+            <igx-input-group>
+                <input igxInput
+                       name="owner2SpouseFName"
+                       id="owner2SpouseFName"
+                       formControlName="owner2SpouseFName"
+                       type="text"/>
+                <label igxLabel for="owner2SpouseFName">Owner 2 Spouse First Name</label>
+            </igx-input-group>
+
+            <igx-input-group>
+                <input igxInput
+                       name="owner2SpouseMName"
+                       formControlName="owner2SpouseMName"
+                       id="owner2SpouseMName"
+                       type="text"/>
+                <label igxLabel for="owner2SpouseMName">Owner 2 Spouse Middle Name</label>
+            </igx-input-group>
+
+            <igx-input-group>
+                <input igxInput
+                       name="owner2SpouseLName"
+                       formControlName="owner2SpouseLName"
+                       id="owner2SpouseLName"
+                       type="text"/>
+                <label igxLabel for="owner2SpouseLName">Owner 2 Spouse Last Name</label>
+            </igx-input-group>
+
+            <igx-input-group>
+                <input igxInput
+                       name="ownerNameS"
+                       formControlName="ownerNameS"
+                       id="ownerNameS"
+                       type="text"/>
+                <label igxLabel for="ownerNameS">Owner Name S</label>
+            </igx-input-group>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 text-left">
+
+        </div>
+
+        <div class="col-md-6 text-right">
+            <div class="small-space"></div>
+
+            <div class="igx-dialog__window-actions">
+
+                <button *ngIf="leftButtonText" type="button"
+                        igxButton igxRipple (click)="leftButtonSelected()">
+                    {{ leftButtonText }}
+                </button>
+
+                <button type="submit"
+                        *ngIf="formOperation !== 'view'"
+                        [disabled]="!form.valid || submitted"
+                        igxButton="raised"
+                        igxRipple="white">
+                    Save
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+</form>

@@ -1,0 +1,38 @@
+<div class="modal-content ds-modal">
+    <div class="modal-header ds-primary-bg">
+    <h5 class="modal-title text-white">{{data.title}}</h5>
+    <button id="cancelButton" class="cancelButton close text-white" mat-dialog-close >&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="emailForm-wrapper">
+            <div class="row">
+                <div class="col-12">
+                    <app-mat-table-dynamic
+                        [tableHeader]="'Mat Table'"
+                        [gridId]="contactsColums"
+                        dataId="cb5596b4-d1db-4028-8d7f-45e199050250"
+                        [pageData]="pageData"
+                        reOrderCol="position"
+                        (getData)="printUpdatedData($event)"
+                        [Reorder]="true"
+                        tableWidth="100%"
+                        tableHeight="300px"
+                        [reload]="toReloadNow"
+                        [actions]="actionsColumns"
+                        multiSelect="true"
+                        [plusActions]="plusActions"
+                    ></app-mat-table-dynamic>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <div class="small-space"></div>
+                    <div class="d-flex justify-content-end">
+                        <button class="no-focus btn mr-3 btn-danger" mat-raised-button [mat-dialog-close]="false">Cancel</button>
+                        <button class="no-focus btn btn-success" mat-raised-button [mat-dialog-close]="false">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

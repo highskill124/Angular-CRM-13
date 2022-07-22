@@ -1,0 +1,13 @@
+igx-prefix.prefix-chipsarea {
+    height: auto;
+}
+
+:host ::ng-deep igx-suffix {
+    float: right;
+}
+
+.search-input {
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}

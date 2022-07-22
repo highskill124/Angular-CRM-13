@@ -1,0 +1,235 @@
+<div class="wrapper" igxLayout>
+    <igx-nav-drawer #navdrawer [enableGestures]="drawerState.enableGestures" [isOpen]="drawerState.open" [(pin)]="drawerState.pin"
+                    [position]="drawerState.position">
+        <ng-template igxDrawer>
+            <nav>
+                <div class="nav-header" style="position: relative;">
+
+                    <ng-container *ngIf="(user$ | async); let user">
+                        <div>
+                            <igx-avatar initials="{{ user?.f_name?.charAt(0) + '' + user?.l_name?.charAt(0) }}"
+                                        [roundShape]="true"
+                                        size="medium"
+                                        [bgColor]="'#0375be'"
+                                        [style.color]="'black'">
+                            </igx-avatar>
+                        </div>
+                        <div class="name-flex">
+                            <div class="xx-small-space"></div>
+                            &nbsp;<span>{{user?.title}} {{user?.f_name + ' ' + user?.l_name}} </span>
+
+                            <button [igxToggleAction]="sidebarUserMenuActionsDropdown"
+                                    type="button"
+                                    style="vertical-align: middle;"
+                                    igxButton="icon"
+                                    >
+                                <igx-icon>more_vert</igx-icon>
+                            </button>
+
+                            <igx-drop-down #sidebarUserMenuActionsDropdown class="small-menu"  (selectionChanging)="onSelection($event)" #toggleDirectiveMenu>
+
+                                <igx-drop-down-item  [isHeader]="true">
+                                    <span>Version: {{environment.version}}</span>
+                                </igx-drop-down-item>
+
+
+
+                                <igx-drop-down-item class="small-menu-item" routerLink="/Setup/Admin/UserEdit">
+                                    <igx-icon>create</igx-icon>
+                                    <span>Edit User</span>
+                                </igx-drop-down-item>
+
+                                <igx-drop-down-item class="small-menu-item" (click)="editPassword()">
+                                    <igx-icon>security</igx-icon>
+                                    <span>Change Password</span>
+                                </igx-drop-down-item>
+
+                                <igx-drop-down-item class="small-menu-item" (click)="reloadMenu()">
+                                    <igx-icon fontSet="material">refresh</igx-icon>
+                                    <span>Relaod Menu</span>
+                                </igx-drop-down-item>
+
+
+                                <igx-drop-down-item class="small-menu-item" routerLink="/Logout">
+                                    <igx-icon>exit_to_app</igx-icon>
+                                    <span>Logout</span>
+                                </igx-drop-down-item>
+
+                            </igx-drop-down>
+
+                        </div>
+                        
+                    </ng-container>
+
+                    <!-- Reload -->
+                    <!-- <span class="reloadme" igxRipple (click)="reloadMenu()">
+                        <button igxButton="icon" igxRipple igxRippleCentered="true">
+                            <igx-icon fontSet="material">refresh</igx-icon>
+                        </button>
+                    </span> -->
+
+                </div>
+                <!-- Home -->
+                <span igxDrawerItem igxRipple routerLink="/home" routerLinkActive="igx-nav-drawer__item--active">
+                    <button igxButton="icon" igxRipple igxRippleCentered="true">
+                        <igx-icon fontSet="material">home</igx-icon>
+                    </button>
+                    Home
+                </span>
+
+                <!-- Search -->
+                <!-- <igx-input-group type="search" class="searchGroup">
+                    <igx-prefix>
+                        <igx-icon>search</igx-icon>
+                    </igx-prefix>
+                    <input #search igxInput placeholder="Search" [(ngModel)]="searchValue" (ngModelChange)="searchValueChanged()">
+                    <igx-suffix *ngIf="search.value.length > 0" (click)="clearSearchValue()">
+                        <igx-icon>clear</igx-icon>
+                    </igx-suffix>
+                </igx-input-group> -->
+                <div *ngIf="currentNavItems$?.length">
+                    <span *ngFor="let navItem of currentNavItems$">
+                        <ng-container *ngIf="navItem.children.length > 0; else noChildren">
+                            <!-- Header -->
+                            <span class="main-menu-item" igxDrawerItem igxRipple routerLinkActive="igx-nav-drawer__item--active" (click)="toggleParent('header' + navItem.name)">
+                                <span class="menu-btn-icon">
+                                    <button  igxButton="icon" igxRipple igxRippleCentered="true" style="vertical-align: middle">
+                                        <igx-icon fontSet="material">{{navItem.icon}}</igx-icon>
+                                    </button>
+                                </span>
+                                <span class="menu-label" style="vertical-align: middle">{{navItem.name}}</span>
+                                <span class="menu-collap-btn">
+                                    <button igxButton="icon" igxRipple igxRippleCentered="true" style="vertical-align: middle">
+                                        <igx-icon fontSet="material">{{convertNodeStateToIconNew('header' + navItem.name)}}</igx-icon>
+                                    </button>
+                                </span>
+                            </span>
+                            <!-- Children -->
+                            <span class="menu-child-collapse" [id]="'header' + navItem.name" style="display:none">
+                                <ng-container *ngFor="let childNavItem of navItem.children">
+
+                                    <ng-container *ngIf="childNavItem.children.length > 0; else noGrandChildren">
+
+                                        <!-- Header -->
+                                        <span class="main-menu-item child collapse" igxDrawerItem
+                                              igxRipple
+                                              routerLinkActive="igx-nav-drawer__item--active"
+                                              (click)="toggleParent('header' + childNavItem.name, 'child')">
+                                              <span class="menu-btn-icon">
+                                                  <button igxButton="icon"
+                                                          igxRipple
+                                                          igxRippleCentered="true"
+                                                          style="vertical-align: middle">
+                                                      <igx-icon fontSet="material">{{childNavItem.icon}}</igx-icon>
+                                                  </button>
+                                              </span>
+                                            <span class="menu-label" style="vertical-align: middle">{{childNavItem.name}}</span>
+                                            <span class="menu-collap-btn">
+                                                <button igxButton="icon" igxRipple igxRippleCentered="true" style="vertical-align: middle">
+                                                    <igx-icon fontSet="material">{{convertNodeStateToIconNew('header' + childNavItem.name)}}</igx-icon>
+                                                </button>
+                                            </span>
+                                        </span>
+                                        <!-- Children -->
+                                        <span class="menu-grand-collapse" [id]="'header' + childNavItem.name" style="display:none">
+                                            <a class="innerItem"
+                                                  *ngFor="let grandChildNavItem of childNavItem.children"
+                                                  igxDrawerItem
+                                                  igxRipple
+                                                  routerLink="{{'/' + navItem.link + '/' + childNavItem.link + '/' + grandChildNavItem.link}}"
+                                                  routerLinkActive="igx-nav-drawer__item--active">
+                                                  <span class="main-menu-item grand-child">
+                                                      <span class="menu-btn-icon">
+                                                        <button igxButton="icon"
+                                                            igxRipple
+                                                            igxRippleCentered="true"
+                                                            style="vertical-align: middle">
+                                                            <igx-icon fontSet="material">{{grandChildNavItem.icon}}</igx-icon>
+                                                        </button>
+                                                      </span>
+                                                      <span class="menu-label">{{grandChildNavItem.name}}</span>
+                                                      <span class="menu-collap-btn">
+                                                          <!-- no arrows -->
+                                                      </span>
+                                                  </span>
+                                            </a>
+                                        </span>
+
+                                    </ng-container>
+
+                                    <ng-template #noGrandChildren>
+                                        <a class="innerItem"
+                                              igxDrawerItem
+                                              igxRipple
+                                              routerLink="{{'/' + navItem.link + '/' + childNavItem.link}}"
+                                              routerLinkActive="igx-nav-drawer__item--active">
+                                              <span class="main-menu-item child">
+                                                <span class="menu-btn-icon">
+                                                    <button igxButton="icon"
+                                                            igxRipple
+                                                            igxRippleCentered="true"
+                                                            style="vertical-align: middle">
+                                                            <igx-icon fontSet="material">{{childNavItem.icon}}</igx-icon>
+                                                    </button>
+                                                </span>
+                                                <span class="menu-label">{{childNavItem.name}}</span>
+                                                <span class="menu-collap-btn">
+                                                    <!-- no arrows -->
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </ng-template>
+
+                                </ng-container>
+                            </span>
+
+                        </ng-container>
+                        <ng-template #noChildren>
+                            <a igxDrawerItem
+                                  igxRipple
+                                  routerLink="{{'/' + navItem.link}}"
+                                  routerLinkActive="igx-nav-drawer__item--active">
+                                  <span class="main-menu-item">
+                                    <span class="menu-btn-icon">
+                                        <button igxButton="icon"
+                                                igxRipple
+                                                igxRippleCentered="true"
+                                                style="vertical-align: middle">
+                                                <igx-icon fontSet="material">{{navItem.icon}}</igx-icon>
+                                        </button>
+                                    </span>
+                                    <span class="menu-label">
+                                        {{navItem.name}}
+                                    </span>
+                                    <span class="menu-collap-btn">
+                                        <!-- no arrows -->
+                                    </span>
+                                  </span>
+                                <!-- <button igxButton="icon" igxRipple igxRippleCentered="true">
+                                    <ng-container *ngIf="navItem.link === 'Logout'; else defaultIcon">
+                                        <igx-icon fontSet="material">exit_to_app</igx-icon>
+                                    </ng-container>
+                                    <ng-template #defaultIcon>
+                                        <igx-icon fontSet="material">home</igx-icon>
+                                    </ng-template>
+                                </button>
+                                {{navItem.name}} -->
+                            </a>
+                        </ng-template>
+                    </span>
+                </div>
+            </nav>
+        </ng-template>
+    </igx-nav-drawer>
+
+    <div igxFlex class="main">
+        <igx-navbar [title]="selectedDisplayName" class="navbar-con" actionButtonIcon="menu" (action)="navdrawer.toggle()">
+            <app-quick-actions></app-quick-actions>
+            <app-notifications></app-notifications>
+            <app-user-menu [user]="user$ | async"></app-user-menu>
+        </igx-navbar>
+        <div class="content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

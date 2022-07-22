@@ -1,0 +1,164 @@
+
+
+
+    <div class="ds-primary-bg row">
+        <h5 class="tooltext">Menu Item Edit</h5>
+        <button type="button" (click)="cancel()"  class="xbutton">X</button>
+        </div>
+     
+    
+        <form  [formGroup]="form">
+    
+    <div class="col-md-12 noscroll">
+        
+        <div class="row">
+            <mat-form-field class="col-md-6">
+                <mat-label>Menu Name</mat-label>
+                <input
+                    matInput
+                    placeholder="Menu Name"
+                    formControlName ="name"
+                    type ="text">
+            </mat-form-field>
+
+            <mat-form-field class="col-md-6">
+                <mat-label>Link Path</mat-label>
+                <input
+                    matInput
+                    placeholder="Link Path"
+                    formControlName ="link"
+                    type ="text">
+            </mat-form-field>
+        </div>
+        <div class="row">
+
+            <mat-form-field class="col-md-12">
+                <mat-label>Description</mat-label>
+                <input
+                    matInput
+                    placeholder="Description"
+                    formControlName ="description"
+                    type ="text">
+            </mat-form-field>
+
+            <mat-form-field class="col-md-12">
+                <mat-label>Tooltip</mat-label>
+                <input
+                    matInput
+                    placeholder="Tooltip"
+                    formControlName ="tooltip"
+                    type ="text">
+            </mat-form-field>
+
+        </div>
+        <div class="main">
+     
+        <div class="row">
+        <mat-form-field class="col-md-8"  ngDefaultControl label=" ">
+        <mat-label>Parent</mat-label>
+       
+        <mat-select formControlName="parent">
+        <mat-option value="" aria-selected="true" selected> --Select Parent -- </mat-option>
+        <mat-option *ngFor="let parent of menuParents$ | async" [value]="parent._id">
+            {{ parent.name}}
+        </mat-option>
+        </mat-select>
+        </mat-form-field>
+        
+
+        
+
+        <mat-form-field class="col-md-2">
+            <mat-label>Level</mat-label>
+            <input
+                matInput
+                placeholder="Level"
+                formControlName ="level"
+                type ="text">
+        </mat-form-field>
+
+        <mat-form-field class="col-md-2">
+            <mat-label>Position</mat-label>
+            <input
+                matInput
+                placeholder="Position"
+                formControlName ="position"
+                type ="text">
+        </mat-form-field>
+
+    
+        </div>
+    
+        
+        </div>
+        <div class="main">
+     
+        <div class="row">
+        <mat-form-field class="col-md-6"  ngDefaultControl label=" ">
+        <mat-label>Image Libary</mat-label>
+        <mat-select formControlName="iconlibary">
+        <mat-option value="" aria-selected="true" selected> --Select Image Libary -- </mat-option>
+        <mat-option value="material" aria-selected="true" selected>Material</mat-option>
+        <mat-option value="fontawsome" aria-selected="true" selected>FontAwsome</mat-option>
+        </mat-select>
+        </mat-form-field>
+    
+
+        <mat-form-field class="col-md-6">
+            <mat-label>Icon</mat-label>
+            <input
+                matInput
+                placeholder="Icon"
+                formControlName ="icon"
+                type ="text">
+        </mat-form-field>
+
+        <mat-form-field class="col-md-12">
+            <mat-label>Class</mat-label>
+            <input
+                matInput
+                placeholder="Class"
+                formControlName ="class"
+                type ="text">
+        </mat-form-field>
+
+        <mat-form-field class="col-md-12">
+            <mat-label>Style</mat-label>
+            <input
+                matInput
+                placeholder="Style"
+                formControlName ="style"
+                type ="text">
+        </mat-form-field>
+        
+        
+        </div>
+        <div class="row">
+            <mat-checkbox class="col-md-6" formControlName ="admin">Administrator</mat-checkbox>
+            <mat-checkbox class="col-md-6" formControlName ="disabled">Menu disabled</mat-checkbox>
+
+        </div>
+        </div>
+    </div>
+    
+    Prestine: {{form.pristine}} Form Status: {{form.valid}}<br>
+    Created on: {{form.value.created_on}}  Created by: {{form.value.created_by}}<br>
+    Updated on: {{form.value.updated_on}}  Updated by: {{form.value.updated_by}}
+
+    
+    </form>
+
+    <ng-template #loading>
+        Loading User...
+      </ng-template>
+
+    <div class="button-row">
+      
+        <button mat-raised-button (click)="cancel()" class="acction-button" color="warn">Cancel</button>
+        <button mat-raised-button [disabled]="!form.valid || form.pristine"  (click)="submit(form.value)" class="acction-button-right" color="primary">{{saveBttn}}</button>
+       
+       
+      </div>
+
+
+    

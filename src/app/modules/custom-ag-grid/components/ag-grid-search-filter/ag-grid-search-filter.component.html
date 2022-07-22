@@ -1,0 +1,38 @@
+<ng-container *ngIf="agGridBase">
+    <form novalidate>
+        <igx-input-group class="no-top-pad">
+
+            <igx-prefix class="prefix__qstype-select" *ngIf="qstypeOptions">
+                <app-dropdown
+
+                    (optionSelected)="onDropDownSelect($event)"
+                    placeholder="Select Field"
+                    (click)="$event.stopPropagation();"
+                    [options]="qstypeOptions">
+
+                </app-dropdown>
+            </igx-prefix>
+
+            <input igxInput id="ag-grid-search-filter"
+                   appDebounceInput
+                   placeholder="Search"
+                   [(ngModel)]="newValue"
+                   name="quickFilterInput" type="text"/>
+
+            <igx-suffix>
+                <button type="button" igxButton="icon"
+                        igxRipple
+                        (click)="$event.stopPropagation(); onSearchFilter()">
+                    <igx-icon>search</igx-icon>
+                </button>
+                <button type="button" igxButton="icon"
+                        igxRipple
+                        *ngIf="qstype || newValue"
+                        (click)="$event.stopPropagation(); reset();">
+                    <igx-icon>clear</igx-icon>
+                </button>
+            </igx-suffix>
+
+        </igx-input-group>
+    </form>
+</ng-container>

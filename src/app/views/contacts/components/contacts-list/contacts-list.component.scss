@@ -1,0 +1,96 @@
+.action__grid-select, .action__grid, .action__grid igx-icon {
+    display: inline-block;
+}
+
+.action__grid, .action__grid igx-icon {
+    vertical-align: middle;
+}
+
+.custom-tooltip {
+    position: absolute;
+    width: 150px;
+    height: 70px;
+    border: 1px solid cornflowerblue;
+    overflow: hidden;
+    pointer-events: none;
+    transition: opacity 1s;
+}
+
+.custom-tooltip.ag-tooltip-hiding {
+    opacity: 0;
+}
+
+.custom-tooltip p {
+    margin: 5px;
+    white-space: nowrap;
+}
+
+.custom-tooltip p:first-of-type {
+    font-weight: bold;
+}
+
+.filters-bar igx-chip {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 2px;
+}
+
+:host ::ng-deep app-filters-sidebar-container igx-list {
+
+    max-height: calc(100vh - 56px);
+    min-height: calc(100vh - 56px);
+    overflow-y: scroll;
+
+    igx-list-item {
+        .igx-list__item-content {
+            min-height: auto;
+            padding-right: 0;
+
+            &:hover {
+                background: none;
+            }
+        }
+
+        igx-expansion-panel {
+            igx-expansion-panel-header {
+                .igx-expansion-panel__header-inner {
+                    padding: inherit;
+                    //padding: 0.5rem 0.5rem;
+
+                    .igx-expansion-panel__header-icon--start {
+                        margin-right: 0.5rem;
+                    }
+                }
+            }
+
+            igx-expansion-panel-body {
+                app-multi-select-box-card {
+                    igx-card {
+                        .igx-card {
+                            display: inherit;
+                            box-shadow: none;
+                            overflow: inherit;
+                        }
+
+                        igx-card-header {
+                            display: inherit;
+                            padding: inherit;
+                        }
+
+                        igx-card-content {
+                            padding-bottom: 0;
+                        }
+
+                        igx-card-actions {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.filter-collapsed{
+    padding-left: 40px;
+}

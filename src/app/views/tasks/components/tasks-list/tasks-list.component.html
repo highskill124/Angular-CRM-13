@@ -1,0 +1,32 @@
+<div class="row">
+
+    <!-- GRID -->
+    <div class="col-md-12 pl-md-0">
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="x-small-space"></div>
+
+                <div class="col-md-12" *ngIf="columnsList$ | async">
+                    <app-ag-grid-base [supplementaryColumnDefs]="supplementaryColumnDefs"
+                                      #agGridBase
+                                      [columnsList]="columnsList"
+                                      [theme]="theme"
+                                      (onGridReload)="fetchColumnsList()"
+                                      (onViewAction)="onView($event)"
+                                      (onEditAction)="onEdit($event.DocId)"
+                                      [dataFetcherFactory]="dataFetcherFactory"
+                                      [sideBar]="sideBar" [gridGuid]="gridGuid"
+                                      (onDeleteAction)="onDelete($event.DocId)">
+
+                    </app-ag-grid-base>
+                </div>
+
+                <div class="x-small-space"></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

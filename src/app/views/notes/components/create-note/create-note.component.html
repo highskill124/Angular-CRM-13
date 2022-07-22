@@ -1,0 +1,72 @@
+<div class="modal-content ds-modal">
+    <div class="modal-header ds-primary-bg">
+        <h5 class="modal-title text-white">{{ data.mode === 'new' ? 'Create' : 'Update' }} Note</h5>
+        <button type="button" class="close text-white" (click)="close()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="emailForm-wrapper">
+            <form novalidate [formGroup]="form" (submit)="create(form.value)">
+    
+                <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
+                     class="alert alert-danger" role="alert">
+                    <div><strong i18n="@@ohSnapFailure">Oops!</strong></div>
+                    <div *ngFor="let error of errors">{{ error }}</div>
+                </div>
+                <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
+                     class="alert alert-success" role="alert">
+                    <div><strong i18n="@@hooraySuccess">Success!</strong></div>
+                    <div *ngFor="let message of messages">{{ message }}</div>
+                </div>
+            
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="emailForm-input-wrapper">
+                            <label for="">Subject </label>
+                            <input name="subject" formControlName="subject"
+                                 class="form-control sm-pad" type="text" />
+                        </div>
+                        <div class="col-md-12" *ngIf="froalaOptions">
+                            <div [froalaEditor]="froalaOptions" id="template-body"
+                            formControlName="notes" class="emailForm-input-wrapper">
+                            </div>
+                        </div>
+            
+                    </div>
+                </div>
+            
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <div class="small-space"></div>
+            
+                        <div class="igx-dialog__window-actions">
+                            <button type="button"
+                                    igxButton igxRipple
+                                    (click)="close()"
+                                    >
+                                Close 
+                            </button>
+                            <button type="submit"
+                                    [disabled]="!form.valid || !form.dirty"
+                                    igxButton="raised"
+                                    igxRipple="white">
+                                {{saveButton}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="data.mode != 'new'">
+                    <div class="col-md-12 crdt-updt">
+                        <p class="crtd-by" *ngIf="created_by_name">
+                            <span class="label">Created by: </span>
+                            <span class="value">{{created_by_name }} <span *ngIf="created_on">on: {{created_on | date : 'EEE, MMM dd, yyyy hh:mm:ss'}}</span></span>
+                        </p>
+                        <p class="crtd-by" [class.text-right]="created_by_name" *ngIf="updated_by_name">
+                            <span class="label">Updated by </span>
+                            <span class="value">{{updated_by_name }} <span *ngIf="updated_on">on: {{updated_on | date : 'EEE, MMM dd, yyyy hh:mm:ss'}}</span></span>
+                        </p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

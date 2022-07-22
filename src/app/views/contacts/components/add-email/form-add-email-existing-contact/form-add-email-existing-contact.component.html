@@ -1,0 +1,43 @@
+<form novalidate [formGroup]="form" (submit)="create(form.value)">
+
+    <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
+         class="alert alert-danger" role="alert">
+        <div><strong i18n="@@ohSnapFailure">Oops!</strong></div>
+        <div *ngFor="let error of errors">{{ error }}</div>
+    </div>
+    <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
+         class="alert alert-success" role="alert">
+        <div><strong i18n="@@hooraySuccess">Success!</strong></div>
+        <div *ngFor="let message of messages">{{ message }}</div>
+    </div>
+
+    <igx-input-group>
+        <input igxInput name="email_address" formControlName="email_address" type="text" [readonly]="true" />
+        <label igxLabel for="email_address">Email Address</label>
+    </igx-input-group>
+
+    <app-input-autocomplete-select label="Contact"
+                                   [isRequired]="true"
+                                   (onQueryValue)="setContacts($event)"
+                                   formControlName="DocId"
+                                   [selectOptions]="contacts$ | async">
+
+    </app-input-autocomplete-select>
+
+
+    <div class="small-space"></div>
+
+    <div class="igx-dialog__window-actions">
+        <button *ngIf="leftButtonText" type="button"
+                igxButton igxRipple (click)="leftButtonSelected()">
+            {{ leftButtonText }}
+        </button>
+        <button type="submit"
+                [disabled]="!form.valid || submitted"
+                igxButton="raised"
+                igxRipple="white">
+            Save
+        </button>
+    </div>
+
+</form>

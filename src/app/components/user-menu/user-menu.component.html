@@ -1,0 +1,36 @@
+<igx-avatar *ngIf="(user)"
+            class="bordered-avatar"
+            (click)="toggleMenu($event)"
+            [igxDropDownItemNavigation]="menu"
+            tabindex="0"
+            initials="{{ user?.f_name?.charAt(0) + '' + user?.l_name?.charAt(0) }}"
+            [roundShape]="true"
+            size="small"
+            [bgColor]="'inherit'"
+            [style.color]="'white'">
+
+</igx-avatar>
+
+<igx-drop-down #menu>
+
+    <igx-drop-down-item [isHeader]="true">
+        <igx-avatar *ngIf="(user)"
+                    class="bordered-avatar"
+                    (click)="toggleMenu($event)"
+                    [igxDropDownItemNavigation]="menu"
+                    tabindex="0"
+                    initials="{{ user?.f_name?.charAt(0) + '' + user?.l_name?.charAt(0) }}"
+                    [roundShape]="true"
+                    size="small"
+                    [bgColor]="'#09f'"
+                    [style.color]="'white'">
+        </igx-avatar>
+        <div>
+            <b>{{user?.email}}</b>
+            <!--<br>
+            {{user?.email_alternate ? user.email_alternate : user?.email}}-->
+        </div>
+    </igx-drop-down-item>
+</igx-drop-down>
+
+<div class="overlayOutlet" igxOverlayOutlet #outlet="overlay-outlet"></div>

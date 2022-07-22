@@ -1,0 +1,9 @@
+<ng-container *ngIf="addFollowupActionTemplate; else defaultButton">
+    <ng-container *ngTemplateOutlet="addFollowupActionTemplate"></ng-container>
+</ng-container>
+
+<ng-template #defaultButton>
+    <button igxButton="flat" igxRipple (click)="openDialog()">
+        Add Followup
+    </button>
+</ng-template>

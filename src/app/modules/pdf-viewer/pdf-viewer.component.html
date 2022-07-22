@@ -1,0 +1,11 @@
+
+
+<ngx-extended-pdf-viewer
+[base64Src]="data"
+backgroundColor="#ffffff"
+[height]="'90vh'"
+[useBrowserLocale]="true"
+[handTool]="false"
+(pagesLoaded)="pageLoad($event)"
+[showHandToolButton]="true"
+></ngx-extended-pdf-viewer>

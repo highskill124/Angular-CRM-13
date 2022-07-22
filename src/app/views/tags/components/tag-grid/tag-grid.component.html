@@ -1,0 +1,18 @@
+<app-filter-grid #filterGrid
+
+    pageTitle="Tag List"
+    [gridConfigId]="config.grid"
+    [columnConfigId]="config.column"
+    [filterConfigId]="config.filter"
+    [quickSearchTypeOptionConfigId]="config.quickSearchTypeOption"
+    [exportFormats]="config.exportFormats"
+    [actions]="config.actions"
+    [plusActions]="config.plusActions"
+
+    [dataFetcherMethod]="dataFetcherMethod"
+    [dataExportMethod]="dataExportMethod"
+
+    gridHeight="80%"
+    gridWidth="100%"
+
+></app-filter-grid>

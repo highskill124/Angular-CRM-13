@@ -1,0 +1,20 @@
+<ng-container *ngIf="optionsFiltered">
+
+    <div class="values-cell" #target="tooltipTarget" [igxTooltipTarget]="tooltipRef">
+        <div *ngIf="optionsFiltered[0]">{{showName ? (optionsFiltered[0].name | titlecase) : ''}}{{showName && optionsFiltered[0].name && showValue && optionsFiltered[0].value ? ': ' : ''}}{{showValue ? optionsFiltered[0].value : ''}}</div>
+
+        <ng-container *ngIf="optionsFiltered.length > 1">
+            <ng-container *ngIf="hasClickAction; else defaultMore">
+                <!--<app-multi-select-box [optionsList]="options" addText="+{{options.length - 1}} More"></app-multi-select-box>-->
+                <button  igxButton="flat" class="more">+{{optionsFiltered.length - 1}} More</button>
+            </ng-container>
+        </ng-container>
+
+    </div>
+</ng-container>
+
+<ng-template #defaultMore>
+    <div class="more">+{{optionsFiltered.length - 1}} More</div>
+</ng-template>
+
+<div #tooltipRef="tooltip" igxTooltip [innerHTML]="tooltipContent" style="min-width: 250px;" class="tooltip-content"></div>

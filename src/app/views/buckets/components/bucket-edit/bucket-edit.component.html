@@ -1,0 +1,72 @@
+<div class="windowHead"><h3>{{submitText}} Bucket</h3></div>
+<div [formGroup]="bucketForm">
+
+        <div class="row">
+
+                <mat-form-field class="bucket_name col-md-12">
+                        <input
+                            matInput
+                            placeholder="Bucket Names"
+                            formControlName ="text"
+                        >
+                </mat-form-field>
+
+               </div>
+               <div class="row">
+
+               <mat-form-field  class="col-md-12">
+                        <textarea
+                            matInput
+                            placeholder="Bucket Description"
+                            formControlName ="description"
+                            rows="5"
+                        >
+                        </textarea>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field  class="col-md-12">
+                        <mat-select
+                            placeholder="Bucket Group"
+                            formControlName ="doc_group"
+                            multiple>
+
+                        <mat-option *ngFor="let  bucketList of  bucketGroupLists" [value]="bucketList.value">{{ bucketList.name }}</mat-option>
+
+                  </mat-select>
+
+                </mat-form-field>
+
+
+
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <mat-form-field>
+                                <input
+                                        matInput
+                                        placeholder="Reminder Interval"
+                                        formControlName ="reminder_interval"
+                                >
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-4">
+                            <mat-form-field>
+                                <input
+                                        matInput
+                                        placeholder="Sort Order"
+                                        formControlName ="sort_order"
+                                >
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div mat-dialog-actions align="end">
+                            <button  (click)="saveUpdade()"  [disabled]="!bucketForm.valid || bucketForm.pristine" mat-raised-button color="primary">{{submitText}}</button>
+                            <button  (click)="close()" mat-raised-button color="warn">Exit</button>
+                    </div>
+                </div>
+            </div>
+</div>

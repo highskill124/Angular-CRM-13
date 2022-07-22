@@ -1,0 +1,26 @@
+:host ::ng-deep igx-input-group.no-top-pad .igx-input-group__bundle {
+    padding-top: 0!important;
+}
+
+.locationTooltip {
+    
+    padding: 3px;
+    font-size: 12px;
+}
+
+.locationTooltipContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo {
+    margin-right: 10px;
+    min-width: 25px;
+    width: 45px;
+    height: 45px;
+}
+
+.action__grid, .action__grid igx-icon {
+    vertical-align: middle;
+}

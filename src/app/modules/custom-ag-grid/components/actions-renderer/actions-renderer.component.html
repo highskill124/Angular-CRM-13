@@ -1,0 +1,25 @@
+<ng-container *ngIf="actions">
+    <ng-container *ngFor="let action of actions">
+
+        <ng-container [ngSwitch]="action.action">
+
+            <a (click)="onView(action)" igxButton="icon" *ngSwitchCase="gridActions.VIEW">
+                <igx-icon>remove_red_eye</igx-icon>
+            </a>
+
+            <a (click)="onEdit(action)" igxButton="icon" *ngSwitchCase="gridActions.EDIT">
+                <igx-icon>edit</igx-icon>
+            </a>
+
+            <a (click)="onDelete(action)" igxButton="icon" *ngSwitchCase="gridActions.DELETE">
+                <igx-icon [style.color]="'red'">delete</igx-icon>
+            </a>
+
+            <a (click)="onTracking(action)" igxButton="icon" *ngSwitchCase="gridActions.TRACKING">
+                <igx-icon>track_changes</igx-icon>
+            </a>
+
+        </ng-container>
+
+    </ng-container>
+</ng-container>

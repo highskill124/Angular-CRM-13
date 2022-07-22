@@ -1,0 +1,20 @@
+<form novalidate [formGroup]="form">
+    <mat-form-field>
+    <mat-label>{{labelText}}</mat-label>
+    <mat-select class="select" #select [multiple]="multiselect" [formControl]="selectField" >
+      <div class="select-all">
+          <mat-checkbox *ngIf="multiselect" [(ngModel)]="allSelected"
+                          [ngModelOptions]="{standalone: true}"
+                          [indeterminate]="isIndeterminate()"
+                          [checked]="isChecked()" 
+                          (click)="$event.stopPropagation()"
+                          (change)="toggleAllSelection($event)">{{text}}</mat-checkbox>
+      </div>
+      <mat-option *ngFor="let item of data" [value]="item[idField]">
+        {{item[fieldName]}}
+      </mat-option>
+    </mat-select>
+    </mat-form-field>
+    </form>
+    
+    

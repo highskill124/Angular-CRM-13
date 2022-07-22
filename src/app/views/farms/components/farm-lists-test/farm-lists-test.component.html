@@ -1,0 +1,31 @@
+
+<div class="row">
+    <div class="col-12 p-5">
+        <app-mat-table-dynamic
+            [tableHeader]="'Mat Table'"
+            [gridId]="contactsColums"
+            dataId="cb5596b4-d1db-4028-8d7f-45e199050250"
+            [pageData]="pageData"
+            reOrderCol="position"
+            (getData)="printUpdatedData($event)"
+            [Reorder]="true"
+            tableWidth="90%"
+            tableHeight="400px"
+            [reload]="toReloadNow"
+            [actions]="actionsColumns"
+            multiSelect="true"
+            [plusActions]="plusActions"
+        ></app-mat-table-dynamic>
+    </div>
+</div>
+
+
+<!-- <div class="sample-wrapper">
+    <div class="container-fluid">
+
+        <ng-container *ngIf="tableHeaders && tableHeaders.length > 0">
+            <app-ig-grid-test [gridInput]="gridInput" [tableHeaders]="tableHeaders"></app-ig-grid-test>
+        </ng-container>
+
+    </div>
+</div> -->

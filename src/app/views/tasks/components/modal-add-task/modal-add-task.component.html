@@ -1,0 +1,19 @@
+<app-dismissible-container title="{{formOperation | titlecase}} Task" (onDismiss)="dismiss($event)">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="items-wrapper__item items-wrapper__item-small items-wrapper__item--blue">
+          <app-form-create-task [parentId]="parentId"
+                                #formCreateTask
+                                [formData]="task"
+                                [formOperation]="formOperation"
+                                [leftButtonText]="leftButtonText"
+                                (onLeftButtonSelect)="dismiss($event)"
+                                (onSubmitSuccess)="dismiss($event)">
+
+          </app-form-create-task>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-dismissible-container>

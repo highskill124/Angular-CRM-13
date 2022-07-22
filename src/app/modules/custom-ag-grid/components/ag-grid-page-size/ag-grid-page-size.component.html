@@ -1,0 +1,6 @@
+<app-dropdown placeholder="Per page.."
+              [options]="pageSizes"
+              (ngModelChange)="updatePaginationPageSize($event)"
+              [(ngModel)]="activePageSize">
+
+</app-dropdown>

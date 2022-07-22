@@ -1,0 +1,68 @@
+<div class="row">
+
+    <div class="col-md-6">
+        <p><b>Primary Owner</b></p>
+
+        <igx-input-group>
+            <input igxInput
+                   name="owner1Names"
+                   id="owner1Names"
+                   [readonly]="true"
+                   value="{{farmOwners.owner1FName && farmOwners.owner1FName + ' '}}{{farmOwners.owner1MName && farmOwners.owner1MName + ' '}}{{farmOwners.owner1LName && farmOwners.owner1LName}}"
+                   type="text"/>
+            <label igxLabel for="owner1Names">Owner 1 First + Middle + Last Name</label>
+        </igx-input-group>
+
+        <igx-input-group>
+            <input igxInput
+                   name="owner1FullName"
+                   id="owner1FullName"
+                   [readonly]="true"
+                   value="{{farmOwners.owner1FullName}}" type="text"/>
+            <label igxLabel for="owner1FullName">Owner 1 Full Name</label>
+        </igx-input-group>
+
+        <igx-input-group>
+            <input igxInput
+                   name="ownerSP1Names"
+                   id="ownerSP1Names"
+                   [readonly]="true"
+                   value="{{farmOwners.owner1SpouseFName && farmOwners.owner1SpouseFName + ' '}}{{farmOwners.owner1SpouseMName && farmOwners.owner1SpouseMName + ' '}}{{farmOwners.owner1SpouseLName && farmOwners.owner1SpouseLName}}"
+                   type="text"/>
+            <label igxLabel for="ownerSP1Names">Owner SP 1 First + Middle + Last Name</label>
+        </igx-input-group>
+    </div>
+
+    <div class="col-md-6">
+        <p><b>Secondary Owner</b></p>
+
+        <igx-input-group>
+            <input igxInput
+                   name="owner2Names"
+                   id="owner2Names"
+                   [readonly]="true"
+                   value="{{farmOwners.owner2FName && farmOwners.owner2FName + ' '}}{{farmOwners.owner2MName && farmOwners.owner2MName + ' '}}{{farmOwners.owner2LName && farmOwners.owner2LName}}"
+                   type="text"/>
+            <label igxLabel for="owner2Names">Owner 2 First + Middle + Last Name</label>
+        </igx-input-group>
+
+        <igx-input-group>
+            <input igxInput
+                   name="owner2FullName"
+                   id="owner2FullName"
+                   [readonly]="true"
+                   value="{{farmOwners.owner2FullName}}" type="text"/>
+            <label igxLabel for="owner2FullName">Owner 2 Full Name</label>
+        </igx-input-group>
+
+        <igx-input-group>
+            <input igxInput
+                   name="ownerSP2Names"
+                   id="ownerSP2Names"
+                   [readonly]="true"
+                   value="{{farmOwners.owner2SpouseFName && farmOwners.owner2SpouseFName + ' '}}{{farmOwners.owner2SpouseMName && farmOwners.owner2SpouseMName + ' '}}{{farmOwners.owner2SpouseLName && farmOwners.owner2SpouseLName}}"
+                   type="text"/>
+            <label igxLabel for="ownerSP2Names">Owner SP 2 First + Middle + Last Name</label>
+        </igx-input-group>
+    </div>
+</div>

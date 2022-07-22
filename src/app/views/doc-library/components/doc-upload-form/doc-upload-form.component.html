@@ -1,0 +1,160 @@
+<form *ngIf="form" novalidate [formGroup]="form" (submit)="create(form.value)">
+
+    <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
+         class="alert alert-danger" role="alert">
+        <div><strong i18n="@@ohSnapFailure">Oops!</strong></div>
+        <div *ngFor="let error of errors">{{ error }}</div>
+    </div>
+    <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
+         class="alert alert-success" role="alert">
+        <div><strong i18n="@@hooraySuccess">Success!</strong></div>
+        <div *ngFor="let message of messages">{{ message }}</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <igx-input-group>
+                <input igxInput name="fileid" formControlName="fileid" type="text" readonly/>
+                <label igxLabel for="fileid">File ID</label>
+            </igx-input-group>
+        </div>
+
+        <div class="col-md-2">
+            <igx-input-group>
+                <input igxInput name="type" formControlName="type" type="text" readonly/>
+                <label igxLabel for="type">File Type</label>
+            </igx-input-group>
+        </div>
+
+        <div class="col-md-7">
+            <igx-input-group>
+                <input igxInput name="orig_filename" formControlName="orig_filename" type="text" readonly/>
+                <label igxLabel for="orig_filename">Original Filename</label>
+            </igx-input-group>
+        </div>
+
+        <div class="col-md-6">
+            <igx-input-group>
+                <select igxInput name="client_id" formControlName="client_id">
+                    <option *ngFor="let selectOption of clientIdList$ | async"
+                            [value]="selectOption.client_guid">{{ selectOption.name }}</option>
+                </select>
+                <label igxLabel for="client_id">Client Name</label>
+            </igx-input-group>
+        </div>
+
+        <div class="col-md-6">
+            <igx-input-group>
+                <select igxInput name="transaction_id" formControlName="transaction_id">
+                    <ng-container *ngIf="client_id.value">
+                        <option *ngFor="let selectOption of transactionList$ | async"
+                                [value]="selectOption.trans_guid">{{ selectOption.trans_name }}</option>
+                    </ng-container>
+                </select>
+                <label igxLabel for="transaction_id">Transaction Name</label>
+            </igx-input-group>
+        </div>
+
+        <div class="col-md-6">
+            <igx-input-group>
+                <select igxInput name="library" formControlName="library">
+
+                    <option *ngFor="let selectOption of libraryList$ | async"
+                            [value]="selectOption.library_id">{{ selectOption.name }}</option>
+
+                </select>
+                <label igxLabel for="library">Library</label>
+            </igx-input-group>
+        </div>
+
+        <div class="col-md-6">
+            <igx-input-group>
+                <input igxInput name="parent_id" formControlName="parent_id" type="text"/>
+                <label igxLabel for="parent_id">Parent ID</label>
+            </igx-input-group>
+        </div>
+
+        <div class="col-md-12">
+            <div class="x-small-space"></div>
+            <igx-card>
+                <igx-card-content>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <igx-input-group>
+                                <select igxInput name="doclib_acronym" formControlName="doclib_acronym">
+
+                                    <option *ngFor="let selectOption of doclibraries$ | async"
+                                            [value]="selectOption.doclib_acronym">{{ selectOption.doclib_name }}</option>
+
+                                </select>
+                                <label igxLabel for="doclib_acronym">Doc Library</label>
+                            </igx-input-group>
+                        </div>
+
+                        <div class="col-md-12">
+                            <igx-input-group>
+                                <select igxInput name="doctype_guid" formControlName="doctype_guid">
+                                    <ng-container *ngIf="doclib_acronym.value">
+                                        <option *ngFor="let selectOption of libraryDocsList$ | async"
+                                                [value]="selectOption.doctype_guid">{{ selectOption.doctype_full }}</option>
+                                    </ng-container>
+                                </select>
+                                <label igxLabel for="doctype_guid">Doc Type</label>
+                            </igx-input-group>
+                        </div>
+                    </div>
+
+                </igx-card-content>
+            </igx-card>
+        </div>
+
+        <div class="col-md-6">
+            <div class="small-space"></div>
+            <igx-checkbox [checked]="new_version.value" formControlName="new_version">
+                New Version
+            </igx-checkbox>
+        </div>
+
+        <div class="col-md-6">
+            <div class="small-space"></div>
+            <igx-checkbox [checked]="zip.value" formControlName="zip">
+                Zip
+            </igx-checkbox>
+        </div>
+
+        <div class="col-md-12">
+            <igx-input-group>
+                <input igxInput name="subject" formControlName="subject" type="text"/>
+                <label igxLabel for="subject">Subject</label>
+            </igx-input-group>
+        </div>
+
+        <div class="col-md-12">
+            <igx-input-group>
+                <textarea igxInput name="notes" formControlName="notes"></textarea>
+                <label igxLabel for="notes">Notes</label>
+            </igx-input-group>
+        </div>
+
+        <div class="col-md-6">
+            <div class="small-space"></div>
+            <igx-checkbox [checked]="privacy.value" formControlName="privacy">
+                Privacy
+            </igx-checkbox>
+        </div>
+
+        <div class="col-md-12 text-left">
+
+            <div class="small-space"></div>
+            <button
+                type="submit"
+                [disabled]="!form.valid || submitted"
+                igxButton="raised"
+                igxRipple="white">
+                Save
+            </button>
+            <div class="small-space"></div>
+        </div>
+    </div>
+
+</form>

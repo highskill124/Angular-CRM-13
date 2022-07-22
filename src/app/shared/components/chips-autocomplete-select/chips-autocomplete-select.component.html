@@ -1,0 +1,49 @@
+<form novalidate [formGroup]="form">
+
+    <div class="inputs">
+        <igx-input-group #inputGroup>
+            <igx-prefix>{{label}}: <span *ngIf="isRequired">&nbsp;*</span></igx-prefix>
+            <igx-prefix class="prefix-chipsarea">
+                <div class="chips">
+                    <igx-chips-area #chipsArea class="chiparea"
+                                    (onMoveStart)="clickedOutside($event)">
+                        <ng-container formArrayName="chips"
+                                      *ngFor="let chip of chips.controls; let i = index;">
+
+                            <igx-chip [removable]="true"
+                                      [disabled]="disabled"
+                                      class="chipStyle  {{classNames}}"
+                                      (remove)="removeChipControl(chip.value, selectOptions);">
+                                <span #label [class]="'igx-chip__text'">
+                                    {{optionDisplayValue(chip.value, selectOptions)}}
+                                </span>
+                            </igx-chip>
+
+                        </ng-container>
+
+                        <input igxInput #inputForm (keyup.enter)="addEmail()"
+                               class="search-input"
+                               (keydown)="toggleDropDown($event)"
+                               (input)="onSearch($event.target.value)"
+                               (keydown.ArrowDown)="openDropDown()"
+                               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                               type="email" [igxDropDownItemNavigation]="dropdown"/>
+                    </igx-chips-area>
+                </div>
+                <ng-container *ngTemplateOutlet="suffixTemplate"></ng-container>
+            </igx-prefix>
+            <!--<label igxLabel>Email address <span *ngIf="isRequired">*</span></label>-->
+        </igx-input-group>
+
+        <igx-drop-down #dropdown (selectionChanging)="itemSelection($event)"  (onOpened)="onDropDownOpen()"
+                       (onClosed)="onDropDownClose()" #toggleDirectiveMenu>
+            <igx-drop-down-item *ngFor="let item of selectOptions | filter:inputForm.value" [value]="item.value">
+                <div class="igx-drop-down__item-template">
+                    <!--<igx-avatar igxPrefix fontSet="material" [src]="item.photo" roundShape="true"></igx-avatar>-->
+                    <span>{{item.name}}</span>
+                </div>
+            </igx-drop-down-item>
+        </igx-drop-down>
+    </div>
+
+</form>

@@ -1,0 +1,209 @@
+<form novalidate [formGroup]="form" (submit)="create(form.value)">
+
+    <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
+         class="alert alert-danger" role="alert">
+        <div><strong i18n="@@ohSnapFailure">Oops!</strong></div>
+        <div *ngFor="let error of errors">{{ error }}</div>
+    </div>
+    <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
+         class="alert alert-success" role="alert">
+        <div><strong i18n="@@hooraySuccess">Success!</strong></div>
+        <div *ngFor="let message of messages">{{ message }}</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <igx-input-group>
+                <input igxInput
+                       id="subject"
+                       name="subject"
+                       formControlName="subject"
+                       [readonly]="formIsReadOnly"
+                       type="text" />
+                <label igxLabel
+                       for="subject">Subject</label>
+            </igx-input-group>
+
+        </div>
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <igx-date-picker [disabled]="formIsReadOnly"
+                                     label="Start Date"
+                                     formControlName="startDateTime">
+
+                    </igx-date-picker>
+                </div>
+                <div class="col-md-6">
+                    <app-dropdown placeholder="Status"
+                                         [disabled]="formIsReadOnly"
+                                         [options]="statusOptions$ | async"
+                                         formControlName="status">
+
+                    </app-dropdown>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <igx-date-picker [disabled]="formIsReadOnly"
+                                     label="Due Date"
+                                     formControlName="dueDateTime">
+
+                    </igx-date-picker>
+                </div>
+                <div class="col-md-6">
+                    <app-dropdown placeholder="Priority"
+                                         [disabled]="formIsReadOnly"
+                                         [options]="priorityOptions$ | async"
+                                         formControlName="priority">
+
+                    </app-dropdown>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-4">
+                    <app-dropdown placeholder="Importance"
+                                         [disabled]="formIsReadOnly"
+                                         [options]="importanceOptions$ | async"
+                                         formControlName="importance">
+
+                    </app-dropdown>
+                </div>
+                <div class="col-md-4">
+                    <div class="small-space"></div>
+                    <igx-checkbox [checked]="sensitivity.value"
+                                  formControlName="sensitivity"
+                                  [disabled]="formIsReadOnly">
+                        Private
+                    </igx-checkbox>
+                </div>
+                <div class="col-md-4">
+                    <igx-input-group>
+                        <input igxInput
+                               id="percentComplete"
+                               name="percentComplete"
+                               formControlName="percentComplete"
+                               [readonly]="formIsReadOnly"
+                               type="number" />
+                        <label igxLabel
+                               for="percentComplete">% Complete</label>
+                    </igx-input-group>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="small-space"></div>
+                    <igx-checkbox [checked]="reminder.value"
+                                  formControlName="reminder"
+                                  [disabled]="formIsReadOnly">
+                        Reminder
+                    </igx-checkbox>
+                </div>
+                <div class="col-md-4">
+                    <igx-date-picker [disabled]="(reminder.value !== true) || formIsReadOnly"
+                                     label="Reminder Date" formControlName="reminderDate">
+
+                    </igx-date-picker>
+                </div>
+                <div class="col-md-4">
+                    <igx-time-picker formControlName="reminderTime"
+                                     id="time-picker"
+                                     [disabled]="(reminder.value !== true) || formIsReadOnly">
+                        <ng-template igxTimePickerTemplate
+                                     let-displayTime="displayTime"
+                                     let-openDialog="openDialog">
+                            <igx-input-group (click)="openDialog()">
+                                <label igxLabel>Reminder Time</label>
+                                <input igxInput [value]="displayTime" [disabled]="(reminder.value !== true) || formIsReadOnly"/>
+                            </igx-input-group>
+                        </ng-template>
+                    </igx-time-picker>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <igx-input-group>
+                <textarea igxInput
+                          id="body"
+                          name="body"
+                          [readonly]="formIsReadOnly"
+                          formControlName="body">
+
+                </textarea>
+                <label igxLabel
+                       for="body">Body</label>
+            </igx-input-group>
+        </div>
+
+        <div class="col-md-12">
+            <div class="small-space"></div>
+            <div class="row">
+                <div class="col-md-8">
+                    <small>Created: {{formData && formData.createdByName}} - {{formData && formData.createdOn | date:'medium'}}</small>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-6 text-left">
+                            Assigned to:
+                        </div>
+                        <div class="col-md-6 text-right" style="margin-top: -0.2em;">
+                            <Button igxButton
+                                    igxRipple
+                                    type="button">
+                                Assign
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12" *ngIf="formData && formData.history">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <small>Updated: {{formData.history.updated_by_name}} - {{ formData.history.updated_on | date:'medium' }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 text-left">
+            <div class="small-space"></div>
+            <igx-checkbox [checked]="outlook.value"
+                          formControlName="outlook"
+                          [disabled]="formIsReadOnly">
+                Add to Outlook
+            </igx-checkbox>
+        </div>
+        <div class="col-md-6 text-right">
+            <div class="small-space"></div>
+
+            <div class="igx-dialog__window-actions">
+                <button *ngIf="leftButtonText" type="button"
+                        igxButton igxRipple (click)="leftButtonSelected()">
+                    {{ leftButtonText }}
+                </button>
+                <button type="submit"
+                        *ngIf="formOperation !== 'view'"
+                        [disabled]="!form.valid || submitted"
+                        igxButton="raised"
+                        igxRipple="white">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+
+</form>

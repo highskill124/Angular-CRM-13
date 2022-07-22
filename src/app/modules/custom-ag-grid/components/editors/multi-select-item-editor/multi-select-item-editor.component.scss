@@ -1,0 +1,11 @@
+:host ::ng-deep igx-card {
+    igx-card-actions {
+        .igx-card-actions__igroup--end {
+            margin-left: inherit;
+        }
+    }
+}
+
+:host .editor-container {
+    max-width: 230px !important;
+}

@@ -1,0 +1,305 @@
+<div class="row">
+    <!-- SIDEBAR -->
+    <div class="{{filtersSidebarContainer.isSidebarCollapsed ? '' : 'col-md-3 pr-md-0'}}">
+        <app-filters-sidebar-container #filtersSidebarContainer>
+            <igx-list>
+
+                <igx-list-item isHeader="true">Filters</igx-list-item>
+
+                <igx-list-item class="list-item__expandable">
+                    <igx-expansion-panel>
+                        <igx-expansion-panel-header>
+                            <igx-expansion-panel-title>PHONE</igx-expansion-panel-title>
+                        </igx-expansion-panel-header>
+                        <igx-expansion-panel-body>
+                            <div class="xx-small-space"></div>
+                            <app-filter [filters]="phoneFilterOptions"
+                                        [group]="farmsFilters.PHONE"
+                                        [gridGuid]="gridGuid"
+                                        type="single"
+                                        [resetFiltersFunc]="resetSelectionSingleOptionFilter">
+
+                            </app-filter>
+                        </igx-expansion-panel-body>
+                    </igx-expansion-panel>
+                </igx-list-item>
+
+                <igx-list-item class="list-item__expandable">
+                    <igx-expansion-panel>
+                        <igx-expansion-panel-header>
+                            <igx-expansion-panel-title>EMAIL</igx-expansion-panel-title>
+                        </igx-expansion-panel-header>
+                        <igx-expansion-panel-body>
+                            <div class="xx-small-space"></div>
+                            <app-filter [filters]="emailFilterOptions"
+                                        [group]="farmsFilters.EMAIL"
+                                        [gridGuid]="gridGuid"
+                                        type="single"
+                                        [resetFiltersFunc]="resetSelectionSingleOptionFilter">
+
+                            </app-filter>
+                        </igx-expansion-panel-body>
+                    </igx-expansion-panel>
+                </igx-list-item>
+
+                <igx-list-item class="list-item__expandable">
+                    <igx-expansion-panel>
+                        <igx-expansion-panel-header>
+                            <igx-expansion-panel-title>OWNER OCCUPIED</igx-expansion-panel-title>
+                        </igx-expansion-panel-header>
+                        <igx-expansion-panel-body>
+                            <div class="xx-small-space"></div>
+                            <app-filter [filters]="ownerOccupiedFilterOptions"
+                                        [group]="farmsFilters.OWNER_OCCUPIED"
+                                        [gridGuid]="gridGuid"
+                                        type="single"
+                                        [resetFiltersFunc]="resetSelectionSingleOptionFilter">
+
+                            </app-filter>
+                        </igx-expansion-panel-body>
+                    </igx-expansion-panel>
+                </igx-list-item>
+
+                <igx-list-item class="list-item__expandable">
+                    <igx-expansion-panel>
+                        <igx-expansion-panel-header>
+                            <igx-expansion-panel-title>Owner Updates</igx-expansion-panel-title>
+                        </igx-expansion-panel-header>
+                        <igx-expansion-panel-body>
+                            <div class="xx-small-space"></div>
+                            <app-filter [filters]="updateFilterOptions"
+                                        [group]="farmsFilters.UPDATE"
+                                        [gridGuid]="gridGuid"
+                                        type="single"
+                                        [resetFiltersFunc]="resetSelectionSingleOptionFilter">
+
+                            </app-filter>
+                        </igx-expansion-panel-body>
+                    </igx-expansion-panel>
+                </igx-list-item>
+
+                <igx-list-item class="list-item__expandable">
+                    <igx-expansion-panel [collapsed]="false">
+                        <igx-expansion-panel-header>
+                            <igx-expansion-panel-title>TRACTS</igx-expansion-panel-title>
+                        </igx-expansion-panel-header>
+                        <igx-expansion-panel-body>
+                            <app-filter [filters]="tractsFilterOptions"
+                                        [group]="farmsFilters.TRACTS"
+                                        [gridGuid]="gridGuid"
+                                        type="multi">
+
+                            </app-filter>
+                        </igx-expansion-panel-body>
+                    </igx-expansion-panel>
+                </igx-list-item>
+
+            </igx-list>
+        </app-filters-sidebar-container>
+    </div>
+
+
+
+    <!-- GRID -->
+    <div class="{{filtersSidebarContainer.isSidebarCollapsed ? 'col-md-12' : 'col-md-9 pl-md-0'}}">
+
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-md-12">
+
+                    <div class="row">
+                        <div class="col-md-8 m-auto" [class.filter-collapsed]="filtersSidebarContainer?.isSidebarCollapsed">
+                            <h4>Farm List
+                                <ng-container *ngIf="agGridBase">
+                                    <!-- Reload grid data -->
+                                    <button (click)="agGridBase.reloadData()"
+                                            class="action__grid"
+                                            igxButton="icon" igxRipple>
+                                        <igx-icon [style.color]="'green'">autorenew</igx-icon>
+                                    </button>&nbsp;
+
+                                    <!--<app-ag-grid-page-size class="action__grid"
+                                                           [parentGridApi]="agGridBase.api">
+
+                                    </app-ag-grid-page-size>-->
+
+                                    <!-- Export -->
+                                    <app-data-export-dialog class="action__grid"
+                                                               (onResult)="onExport($event)">
+
+                                    </app-data-export-dialog>
+
+                                    <!--<igx-checkbox class="action__grid"
+                                                  (change)="agGridBase.onSelectAllUpdate($event)">
+
+                                    </igx-checkbox>-->
+
+                                    <button igxButton="flat"
+                                            class="action__grid"
+                                            igxRipple
+                                            (click)="agGridBase.selectAllNodes()">
+                                        Select All
+                                    </button>
+
+                                    <button igxButton="flat"
+                                            class="action__grid"
+                                            igxRipple
+                                            (click)="agGridBase.clearSelectedNodes()">
+                                        Clear Selection
+                                    </button>
+
+                                    <!-- Selected count -->
+                                    <button type="button"
+                                            [disabled]="true"
+                                            [hidden]="!agGridBase?.selectedRows?.length"
+                                            class="action__grid"
+                                            igxButton
+                                            igxRipple="white">
+                                        {{agGridBase?.selectedRows?.length}} Selected
+                                    </button>
+
+                                    <!-- Hidden count -->
+                                    <button type="button"
+                                            [disabled]="true"
+                                            class="action__grid"
+                                            igxButton
+                                            igxRipple="white">
+                                        <igx-icon>visibility_off</igx-icon>&nbsp;{{agGridBase?.hiddenColumns?.length}} Hidden
+                                    </button>
+
+                                    <!-- Add actions -->
+                                    <ng-container *ngIf="agGridBase?.selectedRowIds?.length">
+                                        <button [igxToggleAction]="menuAddActions"
+                                                type="button"
+                                                class="action__grid"
+                                                [igxToggleOutlet]="outletAddActions"
+                                                [igxDropDownItemNavigation]="menuAddActions"
+                                                igxButton="icon"
+                                                igxRipple>
+                                            <igx-icon>add</igx-icon>
+                                        </button>
+                                        <igx-drop-down #menuAddActions>
+                                            <ng-container *ngIf="agGridBase.selectedRowIds.length === 1">
+                                                <igx-drop-down-item>
+                                                    <app-add-interaction-action [parent_id]="agGridBase.selectedRowIds[0]"></app-add-interaction-action>
+                                                </igx-drop-down-item>
+                                                <igx-drop-down-item>
+                                                    <app-action-add-note [parentid]="agGridBase.selectedRowIds[0]"></app-action-add-note>
+                                                </igx-drop-down-item>
+                                                <igx-drop-down-item>
+                                                    <app-action-add-task [parentId]="agGridBase.selectedRowIds[0]"></app-action-add-task>
+                                                </igx-drop-down-item>
+                                                <igx-drop-down-item>
+                                                    <app-action-add-followup [parentid]="agGridBase.selectedRowIds[0]"></app-action-add-followup>
+                                                </igx-drop-down-item>
+                                                <igx-drop-down-item>
+                                                    <app-action-add-phone-number [parentId]="agGridBase.selectedRowIds[0]"></app-action-add-phone-number>
+                                                </igx-drop-down-item>
+                                                <igx-drop-down-item>
+                                                    <app-action-add-email [parentId]="agGridBase.selectedRowIds[0]"></app-action-add-email>
+                                                </igx-drop-down-item>
+                                                <igx-drop-down-item>
+                                                    <app-bucket-action></app-bucket-action>
+                                                </igx-drop-down-item>
+                                            </ng-container>
+                                            <ng-container *ngIf="agGridBase.selectedRowIds.length">
+                                                <igx-drop-down-item>
+                                                    <app-list-action [list]="{DocId: null, name: null, items: selectedRowIds}"></app-list-action>
+                                                </igx-drop-down-item>
+                                            </ng-container>
+                                        </igx-drop-down>
+
+                                        <div class="overlayOutlet" igxOverlayOutlet #outletAddActions="overlay-outlet"></div>
+
+                                    </ng-container>
+                                </ng-container>
+                            </h4>
+                        </div>
+
+                        <div class="col-md-4 m-auto">
+                            <app-ag-grid-search-filter *ngIf="agGridBase" #agGridSearchFilter
+                                                       [qstypeOptions]="qstypeOptions$ | async"
+                                                       [agGridBase]="agGridBase">
+
+                            </app-ag-grid-search-filter>
+                            <div class="small-space"></div>
+                        </div>
+                    </div>
+
+                    <div class="x-small-space"></div>
+                </div>
+                <!-- GRID -->
+                <div class="col-md-12" *ngIf="columnsList$ | async">
+
+                    <!-- ACTIVE FILTERS BAR -->
+                    <div class="row filters-bar">
+                        <div class="col-md-12">
+                            <igx-chips-area #chipsArea>
+
+                                <ng-container *ngIf="activeFilters">
+                                    <ng-container *ngFor="let filter of activeFilters">
+
+                                        <ng-container *ngFor="let item of filter.value">
+                                            <igx-chip [id]="filter.group"
+                                                      *ngIf="item.value !== emptyString"
+                                                      [removable]="true"
+                                                      (remove)="activeFilterUpdated(filter.group, item, true)">
+                                                <span igxPrefix>{{filter.group | titlecase}}:</span>
+                                                <span>{{item.name}}</span>
+                                            </igx-chip>
+                                        </ng-container>
+
+                                    </ng-container>
+                                </ng-container>
+
+                                <ng-container *ngIf="agGridBase.getDataFetcherParams().qsearch; let searchFilter">
+                                    <igx-chip id="qsearch"
+                                              [removable]="true"
+                                              (remove)="agGridSearchFilter.reset()">
+                                        <span igxPrefix>{{agGridBase.getDataFetcherParams().qtypeText}}:</span>
+                                        <span>{{searchFilter}}</span>
+                                    </igx-chip>
+                                </ng-container>
+
+                            </igx-chips-area>
+
+                        </div>
+                    </div>
+
+                    <!--<div class="row" *ngIf="agGridBase">
+                        <div class="col-md-2 pb-1">
+
+                        </div>
+                    </div>-->
+
+                    <div class="row">
+                        <div class="col-md-12 pr-0">
+                            <app-ag-grid-base #agGridBase
+                                              [isInfiniteScrollGrid]="true"
+                                              [columnsList]="columnsList"
+                                              [supplementaryColumnDefs]="supplementaryColumnDefs"
+                                              theme="ag-theme-balham"
+                                              (onGridReload)="onGridReload($event)"
+                                              [dataFetcherFactory]="dataFetcherFactory"
+                                              [sideBar]="sideBar"
+                                              (searchFilterChange)="searchFilterChanged($event)"
+                                              (onViewAction)="onView($event)"
+                                              (onRowClickAction)="onRowClick($event)"
+                                              (onGridReady)="baseGridReady($event)"
+                                              (onGridLoaded)="baseGridLoaded($event)"
+                                              [gridGuid]="gridGuid"
+                                              [BaseRowClassRules]="rowClassRules">
+
+                            </app-ag-grid-base>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="small-space"></div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

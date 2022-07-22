@@ -1,0 +1,26 @@
+<div class="windowHead"><h3>Intelius Import</h3></div>
+<div [formGroup]="InteliusForm">
+
+
+    <div class="row">
+
+        <mat-form-field class="col-md-12">
+                        <textarea
+                            matInput
+                            placeholder="Intelius Result"
+                            formControlName="emailphone"
+                            rows="10"
+                        >
+                        </textarea>
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions align="end">
+
+        <button (click)="saveUpdade()" [disabled]="!InteliusForm.valid || InteliusForm.pristine || saveDisabled"
+                mat-raised-button color="primary">Create Emails & Phone
+        </button>
+        <button (click)="close()" mat-raised-button color="warn">Exit</button>
+    </div>
+</div>
+
+

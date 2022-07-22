@@ -1,0 +1,141 @@
+<form novalidate [formGroup]="form" (submit)="create(form.value)">
+
+    <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
+         class="alert alert-danger" role="alert">
+        <div><strong i18n="@@ohSnapFailure">Oops!</strong></div>
+        <div *ngFor="let error of errors">{{ error }}</div>
+    </div>
+    <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
+         class="alert alert-success" role="alert">
+        <div><strong i18n="@@hooraySuccess">Success!</strong></div>
+        <div *ngFor="let message of messages">{{ message }}</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <igx-input-group>
+                <input igxInput
+                       id="address"
+                       name="address"
+                       formControlName="address"
+                       [readonly]="formIsReadOnly"
+                       type="text"/>
+                <label igxLabel
+                       for="address">Address</label>
+            </igx-input-group>
+
+        </div>
+        <div class="col-md-12">
+            <igx-input-group>
+                <input igxInput
+                       id="name"
+                       name="name"
+                       formControlName="name"
+                       [readonly]="formIsReadOnly"
+                       type="text"/>
+                <label igxLabel
+                       for="name">Name</label>
+            </igx-input-group>
+        </div>
+
+        <div class="col-md-12">
+            <app-dropdown placeholder="Email Type"
+                          [disabled]="formIsReadOnly"
+                          [options]="emailTypeOptions$ | async"
+                          formControlName="type">
+
+            </app-dropdown>
+        </div>
+
+        <div class="col-md-12">
+            <igx-input-group>
+                <input igxInput
+                       id="otherLabel"
+                       name="otherLabel"
+                       formControlName="otherLabel"
+                       [readonly]="formIsReadOnly"
+                       type="text"/>
+                <label igxLabel
+                       for="otherLabel">Other Type</label>
+            </igx-input-group>
+        </div>
+
+        <div class="col-md-12">
+            <app-dropdown placeholder="Email Source"
+                          [disabled]="formIsReadOnly"
+                          [options]="emailSourceOptions$ | async"
+                          formControlName="source">
+
+            </app-dropdown>
+        </div>
+
+        <div class="col-md-12">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="small-space"></div>
+                    <igx-checkbox [checked]="dflt.value"
+                                  formControlName="dflt"
+                                  [disabled]="formIsReadOnly">
+                        Default Email
+                    </igx-checkbox>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="small-space"></div>
+                    <igx-checkbox [checked]="dnmm.value"
+                                  formControlName="dnmm"
+                                  [disabled]="formIsReadOnly">
+                        Do Not Mass Mail
+                    </igx-checkbox>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="small-space"></div>
+                    <igx-checkbox [checked]="bounce.value"
+                                  formControlName="bounce"
+                                  [disabled]="formIsReadOnly">
+                        Bounced Address
+                    </igx-checkbox>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 text-left">
+            <!--
+              <button *ngIf="formData && formData.id" type="button"
+                      igxButton igxRipple (click)="markAsBad(formData.id)">
+                  Mark as Bad
+              </button>
+              -->
+        </div>
+
+        <div class="col-md-6 text-right">
+            <div class="small-space"></div>
+
+            <div class="igx-dialog__window-actions">
+
+                <button *ngIf="leftButtonText" type="button"
+                        igxButton igxRipple (click)="leftButtonSelected()">
+                    {{ leftButtonText }}
+                </button>
+
+                <button type="submit"
+                        *ngIf="formOperation !== 'view'"
+                        [disabled]="!form.valid || submitted"
+                        igxButton="raised"
+                        igxRipple="white">
+                    Save
+                </button>
+
+            </div>
+        </div>
+    </div>
+    TODO: Remove Debug Code
+    {{emailTypeOptions$ | async  | json}}
+
+</form>

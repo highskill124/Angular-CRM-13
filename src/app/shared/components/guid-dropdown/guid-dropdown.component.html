@@ -1,0 +1,13 @@
+<form novalidate [formGroup]="form">
+
+    <app-dropdown [options]="guid ? (options$ | async) : options"
+                  [isRequired]="isRequired"
+                  (optionSelected)="onChange($event)"
+                  (blur)="onTouched()"
+                  formControlName="selectField"
+                  [disabled]="disabled"
+                  [label]="placeholder">
+
+    </app-dropdown>
+
+</form>

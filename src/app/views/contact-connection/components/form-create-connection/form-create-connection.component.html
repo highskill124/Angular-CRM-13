@@ -1,0 +1,59 @@
+<form novalidate [formGroup]="form" (submit)="create(form.value)">
+
+    <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
+         class="alert alert-danger" role="alert">
+        <div><strong i18n="@@ohSnapFailure">Oops!</strong></div>
+        <div *ngFor="let error of errors">{{ error }}</div>
+    </div>
+    <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
+         class="alert alert-success" role="alert">
+        <div><strong i18n="@@hooraySuccess">Success!</strong></div>
+        <div *ngFor="let message of messages">{{ message }}</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <app-input-autocomplete-select formControlName="childid"
+                                           [isRequired]="true"
+                                           label="Search contact"
+                                           [selectOptions]="contacts$ | async"
+                                           (onSelectionChange)="setSelectedContact($event)"
+                                           (onQueryValue)="setContacts($event)">
+
+            </app-input-autocomplete-select>
+
+            <div class="row" *ngIf="childid.value">
+                <div class="col-md-12">
+                    <p class="connection-statement">
+                        {{contact && contact.Name ? contact.Name + ' is ' : ''}} {{selectedContact && selectedContact.name ? selectedContact.name + "'s" : ''}}
+                    </p>
+                    <app-guid-dropdown placeholder="Select relationship type"
+                                         formControlName="relationship"
+                                         [options]="relationshipTypes$ | async">
+
+                    </app-guid-dropdown>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <div class="small-space"></div>
+
+            <div class="igx-dialog__window-actions">
+                <button *ngIf="leftButtonText" type="button"
+                        igxButton igxRipple (click)="leftButtonSelected()">
+                    {{ leftButtonText }}
+                </button>
+                <button type="submit"
+                        [disabled]="!form.valid || submitted"
+                        igxButton="raised"
+                        igxRipple="white">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+
+</form>

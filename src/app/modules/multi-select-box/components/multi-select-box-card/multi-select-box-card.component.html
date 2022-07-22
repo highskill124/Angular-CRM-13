@@ -1,0 +1,32 @@
+<igx-card class="card-wrapper">
+    <igx-card-header>
+        <igx-input-group>
+            <input igxInput name="search" 
+            #optionsearch
+            type="text" />
+            <igx-suffix><igx-icon (click)="clearSearch()">clear</igx-icon></igx-suffix>
+            <label igxLabel for="search">Search</label>
+        </igx-input-group>
+    </igx-card-header>
+    <igx-card-content class="card-content">
+        <div *ngIf="!optionsList">
+            <igx-circular-bar [indeterminate]="true" [animate]="true"></igx-circular-bar>
+        </div>
+        <div *ngFor="let option of optionsList |  optionFilter : optionsearch.value : 'name'">
+            <igx-checkbox [checked]="option.selected"
+                          (change)="option.selected = !option.selected; emitOptionChanged(option)">
+                {{option.name}}
+            </igx-checkbox>
+        </div>
+    </igx-card-content>
+    <igx-card-actions *ngIf="optionsList && optionsList.length">
+        <div class="igx-card-actions__igroup--end">
+                        <span igxButton igxRipple (click)="save()">
+                            Save
+                        </span>
+            <span igxButton igxRipple (click)="cancel()">
+                            Cancel
+                        </span>
+        </div>
+    </igx-card-actions>
+</igx-card>

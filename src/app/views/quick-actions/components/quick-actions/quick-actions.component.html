@@ -1,0 +1,19 @@
+<button [igxToggleAction]="quickActionsDropdown"
+        type="button"
+        [igxToggleOutlet]="outletQuickActionsDropdown"
+        [igxDropDownItemNavigation]="quickActionsDropdown"
+        igxButton="icon" [overlaySettings]="overlaySettings"
+        igxRipple>
+    <igx-icon [style.color]="'white'">add</igx-icon>
+</button>
+
+<igx-drop-down #quickActionsDropdown (selectionChanging)="onSelection($event)" #toggleDirective>
+
+    <igx-drop-down-item *ngFor="let item of items" [value]="item" class="small-menu-item">
+        <igx-icon>{{item.icon}}</igx-icon>
+        <span>{{ item.text }}</span>
+    </igx-drop-down-item>
+
+</igx-drop-down>
+
+<div class="overlayOutlet" igxOverlayOutlet #outletQuickActionsDropdown="overlay-outlet"></div>

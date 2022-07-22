@@ -1,0 +1,50 @@
+<div class="row">
+
+    <!-- GRID -->
+    <div class="col-md-12 pl-md-0">
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="x-small-space"></div>
+
+                <div class="col-md-12">
+                    <ag-grid-angular
+                        #agGrid
+                        style="width: 100%; height: 500px;"
+                        id="myGrid"
+                        class="ag-theme-material"
+                        [columnDefs]="columnDefs"
+                        [rowSelection]="rowSelection"
+                        [rowModelType]="rowModelType"
+                        [paginationPageSize]="paginationPageSize"
+                        [cacheOverflowSize]="cacheOverflowSize"
+                        [cacheBlockSize]="cacheBlockSize"
+                        [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
+                        [infiniteInitialRowCount]="infiniteInitialRowCount"
+                        [maxBlocksInCache]="maxBlocksInCache"
+                        [pagination]="true"
+                        [paginationAutoPageSize]="true"
+                        [getRowId]="getRowId"
+                        [rowData]="rowData"
+                        [gridOptions]="gridOptions"
+                        [isExternalFilterPresent]="isExternalFilterPresent"
+                        [doesExternalFilterPass]="doesExternalFilterPass"
+
+                        [suppressRowClickSelection]="true"
+
+                        (modelUpdated)="onModelUpdated()"
+                        (gridReady)="onReady($event)"
+                    ></ag-grid-angular>
+                </div>
+
+                <div class="small-space"></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #notifyCell let-row>
+    <igx-icon (click)="updateNotifyStatus(row)" *ngIf="row?.notify === true" [style.color]="'green'">check</igx-icon>
+    <igx-icon (click)="updateNotifyStatus(row)" *ngIf="row?.notify === false" [style.color]="'red'">clear</igx-icon>
+</ng-template>

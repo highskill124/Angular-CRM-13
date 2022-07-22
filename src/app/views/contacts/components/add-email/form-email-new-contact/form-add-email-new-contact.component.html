@@ -1,0 +1,63 @@
+<form novalidate [formGroup]="form" (submit)="create(form.value)">
+
+    <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
+         class="alert alert-danger" role="alert">
+        <div><strong i18n="@@ohSnapFailure">Oops!</strong></div>
+        <div *ngFor="let error of errors">{{ error }}</div>
+    </div>
+    <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
+         class="alert alert-success" role="alert">
+        <div><strong i18n="@@hooraySuccess">Success!</strong></div>
+        <div *ngFor="let message of messages">{{ message }}</div>
+    </div>
+
+
+    <igx-input-group>
+        <input igxInput name="first_name" formControlName="first_name" type="text" />
+        <label igxLabel for="first_name">First Name</label>
+    </igx-input-group>
+
+    <igx-input-group>
+        <input igxInput name="middle_name" formControlName="middle_name" type="text" />
+        <label igxLabel for="middle_name">Middle Name</label>
+    </igx-input-group>
+
+    <igx-input-group>
+        <input igxInput name="last_name" formControlName="last_name" type="text" />
+        <label igxLabel for="last_name">Last Name</label>
+    </igx-input-group>
+
+    <igx-input-group>
+        <input igxInput name="email_address" formControlName="email_address" type="text" [readonly]="true" />
+        <label igxLabel for="email_address">Email Address</label>
+    </igx-input-group>
+
+    <igx-input-group>
+        <input igxInput name="phone" formControlName="phone" type="tel" />
+        <label igxLabel for="phone">Phone</label>
+    </igx-input-group>
+
+    <div class="x-small-space"></div>
+    <app-chips-select title="Bucket" titleIcon="attachment"
+                      [selectOptions]="bucketOptions$ | async"
+                      formControlName="buckets">
+
+    </app-chips-select>
+
+
+    <div class="small-space"></div>
+
+    <div class="igx-dialog__window-actions">
+        <button *ngIf="leftButtonText" type="button"
+                igxButton igxRipple (click)="leftButtonSelected()">
+            {{ leftButtonText }}
+        </button>
+        <button type="submit"
+                [disabled]="!form.valid || submitted"
+                igxButton="raised"
+                igxRipple="white">
+            Save
+        </button>
+    </div>
+
+</form>

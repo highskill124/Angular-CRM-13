@@ -1,0 +1,50 @@
+<h2>{{ mode }} Email</h2>
+<div [formGroup]="emailEditForm"  class="mainFrom">
+    <div class="row" class="mainFrom">
+
+        <mat-form-field class="col-md-12">
+
+                <input
+                    matInput
+                    placeholder="Email Address"
+                    formControlName ="address"
+                    type ="text"
+                >
+        </mat-form-field>
+    </div>
+    <div class="row" class="mainFrom">
+
+        <mat-form-field class="col-md-12">
+
+                <input
+                    matInput
+                    placeholder="Email Name"
+                    formControlName ="name"
+                    type ="text"
+                >
+        </mat-form-field>
+    </div>
+
+    <div class="row" >
+        <mat-form-field  class="col-md-12">
+                <mat-select
+                    placeholder="Email Type"
+                    formControlName ="type"
+                    >
+
+                <mat-option *ngFor="let type of  typeList" [value]="type.value">{{ type.name }}</mat-option>
+
+          </mat-select>
+
+        </mat-form-field>
+
+        <mat-slide-toggle class="showDetail" formControlName ="dflt">Default Email</mat-slide-toggle>
+        </div>
+    <div mat-dialog-actions align="end">
+
+        <button  (click)="saveEmail()"  [disabled]="emailEditForm.invalid" mat-raised-button color="primary">{{ modes[mode] }}</button>
+        <button  (click)="close()" mat-raised-button color="warn">Exit</button>
+    </div>
+    </div>
+
+

@@ -1,0 +1,19 @@
+<app-dismissible-container title="{{formOperation | titlecase}} Email" (onDismiss)="dismiss($event)">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="items-wrapper__item items-wrapper__item-small items-wrapper__item--blue">
+                    <app-form-create-email [parentId]="parentId"
+                                           #formCreate
+                                           [formData]="email"
+                                           [formOperation]="formOperation"
+                                           [leftButtonText]="leftButtonText"
+                                           (onLeftButtonSelect)="dismiss($event)"
+                                           (onSubmitSuccess)="dismiss($event)">
+
+                    </app-form-create-email>
+                </div>
+            </div>
+        </div>
+    </div>
+</app-dismissible-container>

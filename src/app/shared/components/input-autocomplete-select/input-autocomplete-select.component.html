@@ -1,0 +1,30 @@
+<form novalidate [formGroup]="form">
+
+    <div class="inputs">
+        <igx-input-group #inputGroup
+                         [class.igx-input-group--required]="isRequired"
+                         [class.igx-input-group--invalid]="!selected.valid">
+            <input igxInput #inputForm (keyup.enter)="null"
+                   class="search-input"
+                   (keydown)="toggleDropDown($event)"
+                   (input)="onSearch($event.target.value)"
+                   (change)="clearSelected($event)"
+                   (focusout)="clickedOutside($event)"
+                   (keydown.ArrowDown)="openDropDown()"
+                   type="text" [igxDropDownItemNavigation]="dropdown" />
+            <label igxLabel>{{label}} <span *ngIf="isRequired">&nbsp;*</span></label>
+        </igx-input-group>
+
+        <igx-drop-down #dropdown (selectionChanging)="itemSelection($event)"
+                       (onOpened)="onDropDownOpen()"
+                       (onClosed)="onDropDownClose()">
+            <igx-drop-down-item *ngFor="let item of selectOptions"
+                                [value]="item.value">
+                <div class="igx-drop-down__item-template">
+                    <span>{{item.name}}</span>
+                </div>
+            </igx-drop-down-item>
+        </igx-drop-down>
+    </div>
+
+</form>

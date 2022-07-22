@@ -1,0 +1,135 @@
+.mat-mb-table-conatiner {
+  p {
+      font-family: Lato;
+  }
+  table {
+    width: 100%;
+  }
+  .mat-form-field {
+    font-size: 14px;
+    width: 100px;
+  }
+  mat-form-field.mat-mb-inpt mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
+  .mat-mb-inpt {
+    .mat-form-field-wrapper {
+      padding-bottom: 0;
+    }
+    .mat-form-field-infix {
+      padding: 0;
+      border-top: 0;
+    }
+  }
+  
+  .mat-mb-table {
+    mat-icon.reorder-icon{
+      cursor: pointer;
+    }
+    .cdk-drag-disabled mat-icon.reorder-icon{
+      cursor: not-allowed;
+      color: rgba(0, 0, 0, 37%);
+    }
+  }
+  .cdk-column-position {
+    flex: 0 0 7%;
+  }
+  .mat-mb-toolbar {
+    display: flex;
+    padding: 10px 0;
+    &.paginator{
+      background-color: #fff;
+    }
+  }
+  .jst-rght{
+    justify-content: right;
+  }
+  .mat-mb-toolbar button {
+    margin-right: 15px;
+  }
+  .loading-data-table {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+  }
+  .mat-mb-text {
+    width: 100%;
+  }
+  .mat-mb-center, .mat-mb-Center {
+    text-align: center!important;
+  }
+  .mat-mb-right, .mat-mb-Right {
+    text-align: right!important;
+  }
+  .mat-mb-left, .mat-mb-Left {
+    text-align: right!important;
+  }
+  
+  .mat-mb-table-wrapper {
+    overflow: auto;
+    /* padding: 5px; */
+  }
+  
+  mat-icon.mat-icon.mat-icon-no-color.mat-red{
+      color: #f44336;
+  }
+  mat-icon.mat-icon.mat-icon-no-color.mat-yellow{
+    color: #ffd740;
+  }
+  mat-icon.mat-icon.mat-icon-no-color.mat-green{
+    color: #638161;
+  }
+  mat-icon.mat-icon.mat-icon-no-color.mat-blue{
+    color: #673ab7;
+  }
+  
+  .pointer {
+    cursor: pointer;
+  }
+  .aln-center{
+    display: flex;
+    align-items: center;
+  }
+  
+  .mat-mb-table-holder {
+    position: relative;
+    box-shadow: 0 5px 5px -3px #0000008c, 0 8px 10px 1px #0000008c, 0 3px 14px 2px #0000008c;
+  }
+  .mat-mb-table-holder .loading-data-page {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    top: calc(50% - 50px);
+    left: calc(50% - 50px);
+  }
+  .mat-mb-table-holder .mat-elevation-z8{
+    box-shadow: unset!important;
+  }
+  p {
+    font-family: inherit!important;
+  }
+  
+  .m-0 {
+    margin: 0!important;
+  }
+  .p-0 {
+    padding: 0!important;
+  }
+  
+  p.m-0.p-0{
+    display: flex;
+  }
+  button p.m-0.p-0{
+    align-items: center;
+  }
+  
+  span.mr.material-icons {
+    margin-right: 5px!important;
+    font-size: 16px!important;
+  }
+}
+  
+  
+
+
+

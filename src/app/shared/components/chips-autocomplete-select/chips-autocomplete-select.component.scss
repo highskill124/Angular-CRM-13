@@ -1,0 +1,27 @@
+igx-prefix.prefix-chipsarea {
+    height: auto;
+}
+
+:host ::ng-deep igx-suffix {
+    float: right;
+}
+
+.search-input {
+    max-width: max-content;
+}
+
+/*igx-input-group ::ng-deep .igx-input-group__bundle {
+    padding-top: inherit;
+}*/
+
+::ng-deep {
+    igx-chip{
+        &.square-chips{
+            .igx-chip__item{
+                border-radius: 4px;
+                margin: 0 2px;
+            }
+        }
+    }
+    
+}

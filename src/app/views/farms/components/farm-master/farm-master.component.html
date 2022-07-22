@@ -1,0 +1,943 @@
+<div class="small-space"></div>
+
+<div class="row">
+
+    <div class="col-md-12" *ngIf="farm">
+
+        <div class="row m-0" style="width: inherit; border-bottom: 1px solid #f1f1f1;">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>
+                            <b>Property :</b> {{formatPropertyAddress(farm.Record.PropertyAddress)}}
+                        </p>
+                    </div>
+                    <div class="col-md-3">
+                        <b>APN:</b> {{formatAPN(farm.Record.apn)}}
+                    </div>
+                    <div class="col-md-3 d-inline-block align-to-middle">
+                        <b>Owner Occupied:</b>&nbsp;
+                        <igx-icon class="align-to-middle" *ngIf="farm?.ownerOccupied === 'O'" [style.color]="'green'">check
+                        </igx-icon>
+                        <igx-icon class="align-to-middle" *ngIf="farm?.ownerOccupied !== 'O'" [style.color]="'red'">clear
+                        </igx-icon>
+                        <!--{{farm.ownerOccupied || 'n/a'}}-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 x-small-space"></div>
+        </div>
+
+        <igx-card>
+            <igx-card-content>
+                <!-- FARM DETAILS -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <igx-tabs>
+
+                            <!-- OWNER -->
+                            <igx-tab-item>
+                                <igx-tab-header>
+                                  <span igxTabHeaderLabel>Owner</span>
+                                </igx-tab-header>
+                                <igx-tab-content>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="x-small-space"></div>
+    
+                                            <ng-container *ngIf="!showFarmEdit">
+    
+                                                <button title="Edit farm owners"
+                                                        (click)="showFarmEdit = true"
+                                                        type="button"
+                                                        class="btn-owners-edit"
+                                                        igxButton="icon"
+                                                        igxButtonColor="green"
+                                                        igxRipple="white">
+                                                    <igx-icon>edit</igx-icon>
+                                                </button>
+    
+                                                <app-view-farm-owner [farmOwners]="farm.Record.Owners"></app-view-farm-owner>
+    
+                                            </ng-container>
+    
+                                            <app-form-create-farm-owner *ngIf="showFarmEdit" [formData]="farm.Record.Owners"
+                                                                        [parentId]="farm.DocId"
+                                                                        [leftButtonText]="'Cancel'"
+                                                                        formOperation="update"
+                                                                        (onLeftButtonSelect)="showFarmEdit = false"
+                                                                        (onSubmitSuccess)="farmOwnerUpdated($event)">
+    
+                                            </app-form-create-farm-owner>
+                                        </div>
+                                    </div>
+                                </igx-tab-content>
+                            </igx-tab-item>
+                            
+
+                            <!-- MAILING ADDRESS -->
+                            <igx-tab-item>
+                                <igx-tab-header>
+                                  <span igxTabHeaderLabel>Mailing Address</span>
+                                </igx-tab-header>
+                                <igx-tab-content>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="x-small-space"></div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <igx-input-group>
+                                                        <input igxInput id="mailing-address__address" name="address"
+                                                               [value]="farm.Record.mailingAddress.address" [readOnly]="true"
+                                                               type="text"/>
+                                                        <label igxLabel for="mailing-address__address">Address</label>
+                                                    </igx-input-group>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <igx-input-group>
+                                                        <input igxInput id="mailing-address__unit" name="address"
+                                                               value="{{farm.Record.mailingAddress.unitType && farm.Record.mailingAddress.unitType + ' '}}{{farm.Record.mailingAddress.unitNumber && farm.Record.mailingAddress.unitNumber}}"
+                                                               [readOnly]="true" type="text"/>
+                                                        <label igxLabel for="mailing-address__unit">Unit</label>
+                                                    </igx-input-group>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <igx-input-group>
+                                                        <input igxInput id="mailing-address__city" name="address"
+                                                               [value]="farm.Record.mailingAddress.city" [readOnly]="true"
+                                                               type="text"/>
+                                                        <label igxLabel for="mailing-address__city">City</label>
+                                                    </igx-input-group>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="mailing-address__zip" name="address"
+                                                               [value]="farm.Record.mailingAddress.zip" [readOnly]="true"
+                                                               type="text"/>
+                                                        <label igxLabel for="mailing-address__zip">Zip</label>
+                                                    </igx-input-group>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="mailing-address__zip4" name="address"
+                                                               [value]="farm.Record.mailingAddress.zip4" [readOnly]="true"
+                                                               type="text"/>
+                                                        <label igxLabel for="mailing-address__zip4">Zip4</label>
+                                                    </igx-input-group>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </igx-tab-content>
+                            </igx-tab-item>
+
+                            <!-- PROPERTY DETAIL -->
+                            <igx-tab-item>
+                                <igx-tab-header>
+                                  <span igxTabHeaderLabel>Property Detail</span>
+                                </igx-tab-header>
+                                <igx-tab-content>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="x-small-space"></div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="row">
+    
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="bed" name="bed" [value]="farm.Record.beds"
+                                                               [readOnly]="true" type="text"/>
+                                                        <label igxLabel for="bed">Bed</label>
+                                                    </igx-input-group>
+                                                </div>
+    
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="bath" name="bath" [value]="farm.Record.baths"
+                                                               [readOnly]="true" type="text"/>
+                                                        <label igxLabel for="bath">Bath</label>
+                                                    </igx-input-group>
+                                                </div>
+    
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="partial-bath" name="partialBaths"
+                                                               [value]="farm.Record.partialBaths" [readOnly]="true" type="text"/>
+                                                        <label igxLabel for="partial-bath">Partial Bath</label>
+                                                    </igx-input-group>
+                                                </div>
+    
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="rooms" name="rooms" [value]="farm.Record.rooms"
+                                                               [readOnly]="true" type="text"/>
+                                                        <label igxLabel for="rooms">Rooms</label>
+                                                    </igx-input-group>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="row">
+    
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="buildingArea" name="buildingArea"
+                                                               value="{{farm.buildingArea | number}}" [readOnly]="true"
+                                                               type="text"/>
+                                                        <label igxLabel for="buildingArea">Building Area</label>
+                                                    </igx-input-group>
+                                                </div>
+    
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="lotArea" name="lotArea"
+                                                               value="{{farm.Record.lotArea | number}} {{farm.Record.lotAreaUnits}}"
+                                                               [readOnly]="true" type="text"/>
+                                                        <label igxLabel for="lotArea">Lot Area</label>
+                                                    </igx-input-group>
+                                                </div>
+    
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="fireplace" name="fireplace"
+                                                               [value]="farm.Record.fireplace" [readOnly]="true" type="text"/>
+                                                        <label igxLabel for="fireplace">Fireplace</label>
+                                                    </igx-input-group>
+                                                </div>
+    
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="pool" name="pool" [value]="farm.Record.pool"
+                                                               [readOnly]="true" type="text"/>
+                                                        <label igxLabel for="pool">Pool</label>
+                                                    </igx-input-group>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="row">
+    
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="numStories" name="numStories"
+                                                               [value]="farm.Record.numStories" [readOnly]="true" type="text"/>
+                                                        <label igxLabel for="numStories">N Stories</label>
+                                                    </igx-input-group>
+                                                </div>
+    
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="numUnits" name="numUnits"
+                                                               [value]="farm.Record.numUnits" [readOnly]="true" type="text"/>
+                                                        <label igxLabel for="numUnits">N Units</label>
+                                                    </igx-input-group>
+                                                </div>
+    
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="yearBuilt" name="yearBuilt"
+                                                               [value]="farm.Record.yearBuilt" [readOnly]="true" type="text"/>
+                                                        <label igxLabel for="yearBuilt">Year Build</label>
+                                                    </igx-input-group>
+                                                </div>
+    
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="propertyType" name="propertyType"
+                                                               [value]="farm.Record.propertyType" [readOnly]="true" type="text"/>
+                                                        <label igxLabel for="propertyType">Property Type</label>
+                                                    </igx-input-group>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="row">
+    
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="tract" name="tract" [value]="farm.Record.tract"
+                                                               [readOnly]="true" type="text"/>
+                                                        <label igxLabel for="tract">Tract</label>
+                                                    </igx-input-group>
+                                                </div>
+    
+                                                <div class="col-md-6">
+                                                    <igx-input-group>
+                                                        <input igxInput id="legalDescription" name="legalDescription"
+                                                               [value]="farm.Record.legalDescription" [readOnly]="true"
+                                                               type="text"/>
+                                                        <label igxLabel for="legalDescription">Legal Description</label>
+                                                    </igx-input-group>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </igx-tab-content>
+                              </igx-tab-item>
+
+                            <!-- CONTACT INFO -->
+                            <igx-tab-item>
+                                <igx-tab-header>
+                                  <span igxTabHeaderLabel>Contact Info</span>
+                                </igx-tab-header>
+                                <igx-tab-content>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="x-small-space"></div>
+                                            <div class="col-12 bold-text">Bulk Insert
+                                                <button
+                                                    igxButton="icon"
+                                                    igxRipple
+                                                    (click)="bulkEdit()">
+                                                    <igx-icon>add</igx-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+    
+                                        <div class="col-md-6">
+                                            <!-- EMAILS -->
+                                            <div class="row">
+                                                <div class="col-12 bold-text">Email
+                                                    <button
+                                                    igxButton="icon"
+                                                    igxRipple
+                                                    (click)="addEmail()">
+                                                    <igx-icon>add</igx-icon>
+                                                </button>
+                                        
+                                                </div>
+                                                <div class="col-12">
+                                                    <span *ngIf="!farm.Record.emails?.length">n/a</span>
+                                                    <p *ngFor="let email of farm.Record.emails" class="m-0">
+    
+                                                        <igx-input-group>
+                                                            <igx-prefix>
+                                                                <a href="mailto:{{email.address}}"
+                                                                   (click)="$event.stopPropagation()">
+                                                                    <span *ngIf="email.dflt ; else elseDflt"><igx-icon
+                                                                        [style.color]="'green'">mail</igx-icon></span>
+                                                                    <ng-template #elseDflt>
+                                                                        <igx-icon>mail</igx-icon>
+                                                                    </ng-template>
+    
+                                                                </a>
+                                                            </igx-prefix>
+    
+                                                            <input igxInput
+                                                                   name="{{email.id}}"
+                                                                   id="{{email.id}}"
+                                                                   [readonly]="true"
+                                                                   value="{{email.address}}" type="text"/>
+                                                            <label igxLabel for="{{email.id}}">{{email.type}}</label>
+    
+                                                            <igx-suffix>
+                                                                <span *ngIf="email.dnmm"><igx-icon
+                                                                    [style.color]="'red'">cancel</igx-icon></span>
+                                                                <span *ngIf="email.bounce"><igx-icon
+                                                                    [style.color]="'red'">report</igx-icon></span>
+    
+                                                               
+    
+    
+                                                                    <button 
+                                                                            igxButton="icon"
+                                                                            igxRipple type="button"
+                                                                            (click)="emailEdit(email)">
+                                                                        <igx-icon>edit</igx-icon>
+                                                                    </button>
+                                                    
+    
+                                                                <button igxButton="icon"
+                                                                        igxRipple type="button"
+                                                                        (click)="$event.stopPropagation(); deleteEmail(email)">
+                                                                    <igx-icon [style.color]="'red'">delete</igx-icon>
+                                                                </button>
+                                                            </igx-suffix>
+                                                        </igx-input-group>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+    
+                                        <div class="col-md-6">
+                                            <!-- PHONES -->
+                                            <div class="row">
+                                                <div class="col-12 bold-text">Phone
+                                                    <button
+                                                    igxButton="icon"
+                                                    igxRipple
+                                                    (click)="addPhone()">
+                                                    <igx-icon>add</igx-icon>
+                                                </button>
+                                        
+                                                </div>
+                                                <div class="col-12">
+                                                    <span *ngIf="!farm.Record.phones?.length">n/a</span>
+                                                    <p *ngFor="let phone of farm.Record.phones" class="m-0">
+    
+                                                        <igx-input-group>
+                                                            <igx-prefix>
+                                                                <a [href]="'sms:' + formatPhoneNumber(phone.number)"
+                                                                   (click)="$event.stopPropagation()">
+                                                                    <igx-icon *ngIf="phone.sms">message</igx-icon>
+                                                                </a>
+                                                                <a [href]="'tel:' + formatPhoneNumber(phone.number)"
+                                                                   (click)="$event.stopPropagation()">
+                                                                    <igx-icon>call</igx-icon>
+                                                                </a>
+                                                            </igx-prefix>
+    
+                                                            <input igxInput
+                                                                   name="{{phone.id}}"
+                                                                   id="{{phone.id}}"
+                                                                   [readonly]="true"
+                                                                   value="{{formatPhoneNumber(phone.number)}}" type="text"/>
+                                                            <label igxLabel for="{{phone.id}}">{{phone.type}}</label>
+    
+                                                            <igx-suffix>
+                                                                <button 
+                                                                            igxButton="icon"
+                                                                            igxRipple type="button"
+                                                                            (click)="editPhone(phone)">
+                                                                        <igx-icon>edit</igx-icon>
+                                                                    </button>
+    
+                                                                <button igxButton="icon"
+                                                                        igxRipple type="button"
+                                                                        (click)="$event.stopPropagation(); deletePhoneNumber(phone)">
+                                                                    <igx-icon [style.color]="'red'">delete</igx-icon>
+                                                                </button>
+                                                            </igx-suffix>
+                                                        </igx-input-group>
+    
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+    
+                                    </div>
+                                </igx-tab-content>
+                            </igx-tab-item>
+                            
+
+                            <!-- SALES INFO -->
+                            <igx-tab-item>
+                                <igx-tab-header>
+                                  <span igxTabHeaderLabel>Sales Info</span>
+                                </igx-tab-header>
+                                <igx-tab-content>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="x-small-space"></div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <igx-input-group>
+                                                        <input igxInput
+                                                               id="seller1"
+                                                               name="seller1"
+                                                               value="{{farm.Record.SalesInfo.seller1FName && farm.Record.SalesInfo.seller1FName + ' '}}{{farm.Record.SalesInfo.seller1LName && farm.Record.SalesInfo.seller1LName + ' '}}"
+                                                               [readOnly]="true"
+                                                               type="text"/>
+                                                        <label igxLabel for="seller1">Seller 1</label>
+                                                    </igx-input-group>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <igx-input-group>
+                                                        <input igxInput
+                                                               id="seller2"
+                                                               name="seller2"
+                                                               value="{{farm.Record.SalesInfo.seller2FName && farm.Record.SalesInfo.seller2FName + ' '}}{{farm.Record.SalesInfo.seller2LName && farm.Record.SalesInfo.seller2LName + ' '}}"
+                                                               [readOnly]="true"
+                                                               type="text"/>
+                                                        <label igxLabel for="seller2">Seller 2</label>
+                                                    </igx-input-group>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="lastSaleDate" name="lastSaleDate"
+                                                               value="{{farm.Record.SalesInfo.lastSaleDate | date}}"
+                                                               [readOnly]="true" type="text"/>
+                                                        <label igxLabel for="lastSaleDate">Last Sale Date</label>
+                                                    </igx-input-group>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="lastSaleDocNumber" name="lastSaleDocNumber"
+                                                               [value]="farm.Record.SalesInfo.lastSaleDocNumber" [readOnly]="true"
+                                                               type="text"/>
+                                                        <label igxLabel for="lastSaleDocNumber">Last Sale Doc Number</label>
+                                                    </igx-input-group>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="lastSaleBookNumber" name="lastSaleBookNumber"
+                                                               [value]="farm.Record.SalesInfo.lastSaleBookNumber" [readOnly]="true"
+                                                               type="text"/>
+                                                        <label igxLabel for="lastSaleBookNumber">Last Sale Book
+                                                            Number</label>
+                                                    </igx-input-group>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="lastSalePageNumber" name="lastSalePageNumber"
+                                                               [value]="farm.Record.SalesInfo.lastSalePageNumber" [readOnly]="true"
+                                                               type="text"/>
+                                                        <label igxLabel for="lastSalePageNumber">Last Sale Page
+                                                            Number</label>
+                                                    </igx-input-group>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="lastContractDate" name="lastContractDate"
+                                                               [value]="farm.Record.SalesInfo.lastContractDate" [readOnly]="true"
+                                                               type="text"/>
+                                                        <label igxLabel for="lastContractDate">Last Contract Date</label>
+                                                    </igx-input-group>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="recorderBookNo" name="recorderBookNo"
+                                                               [value]="farm.Record.SalesInfo.recorderBookNo" [readOnly]="true"
+                                                               type="text"/>
+                                                        <label igxLabel for="recorderBookNo">Recorder Book Number</label>
+                                                    </igx-input-group>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="recorderPageNo" name="recorderPageNo"
+                                                               [value]="farm.Record.SalesInfo.recorderPageNo" [readOnly]="true"
+                                                               type="text"/>
+                                                        <label igxLabel for="recorderPageNo">Recorder Page Number</label>
+                                                    </igx-input-group>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="saleInfoPropertyType"
+                                                               name="saleInfoPropertyType" [value]="farm.Record.propertyType"
+                                                               [readOnly]="true" type="text"/>
+                                                        <label igxLabel for="saleInfoPropertyType">Property Type</label>
+                                                    </igx-input-group>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="salesPrice" name="salesPrice"
+                                                               value="{{farm.Record.SalesInfo.salesPrice | number}}"
+                                                               [readOnly]="true" type="text"/>
+                                                        <label igxLabel for="salesPrice">Sales Price</label>
+                                                    </igx-input-group>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="salesPriceCode" name="salesPriceCode"
+                                                               [value]="farm.Record.SalesInfo.salesPriceCode" [readOnly]="true"
+                                                               type="text"/>
+                                                        <label igxLabel for="salesPriceCode">Sales Price Code</label>
+                                                    </igx-input-group>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="saleType" name="saleType"
+                                                               [value]="farm.Record.SalesInfo.saleType" [readOnly]="true"
+                                                               type="text"/>
+                                                        <label igxLabel for="saleType">Sales Type</label>
+                                                    </igx-input-group>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <igx-input-group>
+                                                        <input igxInput id="homeownerExemption" name="homeownerExemption"
+                                                               [value]="farm.Record.SalesInfo.homeownerExemption" [readOnly]="true"
+                                                               type="text"/>
+                                                        <label igxLabel for="homeownerExemption">Home Owner
+                                                            Exemption</label>
+                                                    </igx-input-group>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </igx-tab-content>
+                            </igx-tab-item>
+    
+                                <!-- TAXES -->
+                                <igx-tab-item>
+                                    <igx-tab-header>
+                                      <span igxTabHeaderLabel>Taxes</span>
+                                    </igx-tab-header>
+                                    <igx-tab-content>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="x-small-space"></div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <igx-input-group>
+                                                            <input igxInput id="assessedYear" name="assessedYear"
+                                                                   [value]="farm.Record.Taxes.assessedYear" [readOnly]="true"
+                                                                   type="text"/>
+                                                            <label igxLabel for="assessedYear">Assessed Year</label>
+                                                        </igx-input-group>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <igx-input-group>
+                                                            <input igxInput id="assessedValue" name="assessedValue"
+                                                                   [value]="farm.Record.Taxes.assessedValue" [readOnly]="true"
+                                                                   type="text"/>
+                                                            <label igxLabel for="assessedValue">Assessed Value</label>
+                                                        </igx-input-group>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <igx-input-group>
+                                                            <input igxInput id="totalAssessedValue" name="totalAssessedValue"
+                                                                   [value]="farm.Record.Taxes.totalAssessedValue" [readOnly]="true"
+                                                                   type="text"/>
+                                                            <label igxLabel for="totalAssessedValue">Total Assessed
+                                                                Value</label>
+                                                        </igx-input-group>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <igx-input-group>
+                                                            <input igxInput id="marketValueAssessed" name="marketValueAssessed"
+                                                                   [value]="farm.Record.Taxes.marketValueAssessed" [readOnly]="true"
+                                                                   type="text"/>
+                                                            <label igxLabel for="marketValueAssessed">Market Value
+                                                                Assessed</label>
+                                                        </igx-input-group>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <igx-input-group>
+                                                            <input igxInput id="taxAmount" name="taxAmount"
+                                                                   [value]="farm.Record.Taxes.taxAmount" [readOnly]="true"
+                                                                   type="text"/>
+                                                            <label igxLabel for="taxAmount">Tax Amount</label>
+                                                        </igx-input-group>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <igx-input-group>
+                                                            <input igxInput id="taxYear" name="taxYear"
+                                                                   [value]="farm.Record.Taxes.taxYear" [readOnly]="true" type="text"/>
+                                                            <label igxLabel for="taxYear">Tax Year</label>
+                                                        </igx-input-group>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <igx-input-group>
+                                                            <input igxInput id="taxRateCodeArea" name="taxRateCodeArea"
+                                                                   [value]="farm.Record.Taxes.taxRateCodeArea" [readOnly]="true"
+                                                                   type="text"/>
+                                                            <label igxLabel for="taxRateCodeArea">Tax Rate Code Area</label>
+                                                        </igx-input-group>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <igx-input-group>
+                                                            <input igxInput id="delinquent" name="delinquent"
+                                                                   [value]="farm.Record.Taxes.delinquent" [readOnly]="true"
+                                                                   type="text"/>
+                                                            <label igxLabel for="delinquent">Delinquent</label>
+                                                        </igx-input-group>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <igx-input-group>
+                                                            <input igxInput id="amountOfDelinquentTaxes"
+                                                                   name="amountOfDelinquentTaxes"
+                                                                   [value]="farm.Record.Taxes.amountOfDelinquentTaxes"
+                                                                   [readOnly]="true" type="text"/>
+                                                            <label igxLabel for="amountOfDelinquentTaxes">Amount of Delinquent
+                                                                Taxes</label>
+                                                        </igx-input-group>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <igx-input-group>
+                                                            <input igxInput id="mostRecentYearOfTaxDelinquency"
+                                                                   name="mostRecentYearOfTaxDelinquency"
+                                                                   [value]="farm.Record.Taxes.mostRecentYearOfTaxDelinquency"
+                                                                   [readOnly]="true" type="text"/>
+                                                            <label igxLabel for="mostRecentYearOfTaxDelinquency">Most Recent
+                                                                Year of Tax Delinquency</label>
+                                                        </igx-input-group>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <igx-input-group>
+                                                            <input igxInput id="landValue" name="landValue"
+                                                                   [value]="farm.Record.Taxes.landValue" [readOnly]="true"
+                                                                   type="text"/>
+                                                            <label igxLabel for="landValue">Land Value</label>
+                                                        </igx-input-group>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <igx-input-group>
+                                                            <input igxInput id="percentImprovement" name="percentImprovement"
+                                                                   [value]="farm.Record.Taxes.percentImprovement" [readOnly]="true"
+                                                                   type="text"/>
+                                                            <label igxLabel for="percentImprovement">Percent Improvement</label>
+                                                        </igx-input-group>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <igx-input-group>
+                                                            <input igxInput id="zoningCode" name="zoningCode"
+                                                                   [value]="farm.Record.Taxes.zoningCode" [readOnly]="true"
+                                                                   type="text"/>
+                                                            <label igxLabel for="zoningCode">Zoning Code</label>
+                                                        </igx-input-group>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <igx-input-group>
+                                                            <input igxInput id="censusTract" name="censusTract"
+                                                                   [value]="farm.Record.Taxes.censusTract" [readOnly]="true"
+                                                                   type="text"/>
+                                                            <label igxLabel for="censusTract">Census Tract</label>
+                                                        </igx-input-group>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </igx-tab-content>
+                                </igx-tab-item>
+                                
+
+                            <!-- LENDER -->
+                            <igx-tab-item>
+                                <igx-tab-header>
+                                  <span igxTabHeaderLabel>Lender</span>
+                                </igx-tab-header>
+                                <igx-tab-content>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="xx-small-space"></div>
+                                        </div>
+                                    </div>
+                                </igx-tab-content>
+                            </igx-tab-item>
+                            
+
+                            <!-- History -->
+                            <igx-tab-item>
+                                <igx-tab-header>
+                                  <span igxTabHeaderLabel>History</span>
+                                </igx-tab-header>
+                                <igx-tab-content>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="xx-small-space"></div>
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <igx-input-group>
+                                                            <input igxInput id="createdOn" name="createdOn"
+                                                                   [value]="farm.Record.History.created_on | date:'medium'"
+                                                                   [readOnly]="true" type="text"/>
+                                                            <label igxLabel for="createdOn">Created On</label>
+                                                        </igx-input-group>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <igx-input-group>
+                                                            <input igxInput id="updatedOn" name="updatedOn"
+                                                                   [value]="farm.Record.History.updated_on | date:'medium'"
+                                                                   [readOnly]="true" type="text"/>
+                                                            <label igxLabel for="updatedOn">Updated On</label>
+                                                        </igx-input-group>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <igx-input-group>
+                                                            <input igxInput id="updateFlag" name="updateFlag"
+                                                                   [value]="farm.Record.History.updated_flag" [readOnly]="true"
+                                                                   type="text"/>
+                                                            <label igxLabel for="updateFlag">Owner Change</label>
+                                                        </igx-input-group>
+                                                    </div>
+    
+                                                    <div class="col-md-3">
+                                                        <igx-input-group>
+                                                            <input igxInput id="updateFlagDate" name="updateFlagDate"
+                                                                   [value]="farm.Record.History.updated_flag_date | date:'medium'"
+                                                                   [readOnly]="true" type="text"/>
+                                                            <label igxLabel for="updateFlagDate">Owner Change Date</label>
+                                                        </igx-input-group>
+                                                    </div>
+    
+                                                    <div class="col-md-1">
+                                                        <button (click)="clearupdateFlag(farm.DocId)"
+                                                                style="position:relative"
+                                                                igxButton="icon" igxRipple
+                                                                igxRippleCentered="true">
+                                                            <igx-icon [style.color]="'green'" fontSet="material">clear</igx-icon>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </igx-tab-content>
+                              </igx-tab-item>
+
+                        </igx-tabs>
+                    </div>
+                </div>
+            </igx-card-content>
+        </igx-card>
+
+        <div class="col-md-12">
+            <div class="small-space"></div>
+        </div>
+
+        <igx-card class="fixed-min-height">
+            <igx-card-content>
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <igx-tabs (selectedItemChange)="itemSelected($event)" >
+                            <igx-tab-item>
+                                <igx-tab-header>
+                                  <span igxTabHeaderLabel>Interaction</span>
+                                </igx-tab-header>
+                                <igx-tab-content>
+                                    <div class="row">
+                                             
+                                        <div class="col-md-12">
+
+                                            <app-shared-interactions *ngIf="showInteraction" 
+                                            #interactionsList
+                                            [hideSelectOption]="true"
+                                            [hideHiddenDisplay]="true"
+                                            [parent_id]="farm.DocId"
+                                            gridtitle=""
+                                            [showloading]="true"
+                                            [hardReload]="true"
+                                            ></app-shared-interactions>
+                                        </div>
+                                    </div>
+                                </igx-tab-content>
+                            </igx-tab-item>
+
+                            <!-- NOTE -->
+                            <igx-tab-item>
+                                <igx-tab-header>
+                                  <span igxTabHeaderLabel>Note</span>
+                                </igx-tab-header>
+                                <igx-tab-content>
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+                                            <app-shared-notes *ngIf="showNote"
+                                            #notesList
+                                            [hideSelectOption]="true"
+                                            [hideHiddenDisplay]="true"
+                                            [parent_id]="farm.DocId"
+                                            gridtitle=""
+                                            [showloading]="true"
+                                            [hardReload]="true"
+                                            ></app-shared-notes>
+                                            </div>
+                                           
+                                    </div>
+                                </igx-tab-content>
+                            </igx-tab-item>
+                            
+
+                            <!-- EMAIL -->
+                            <igx-tab-item>
+                                <igx-tab-header>
+                                  <span igxTabHeaderLabel>Email</span>
+                                </igx-tab-header>
+                                <igx-tab-content>
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+    
+                                            <app-shared-emails *ngIf="showEmail"
+                                            #mailsList
+                                            [hideSelectOption]="true"
+                                            [hideHiddenDisplay]="true"
+                                            [parent_id]="farm.DocId"
+                                            gridtitle=""
+                                            [showloading]="true"
+                                            [hardReload]="true"
+                                            ></app-shared-emails>
+                                            </div>
+    
+                                    </div>
+                                </igx-tab-content>
+                            </igx-tab-item>
+                            
+
+                            <!-- TASK -->
+                            <igx-tab-item>
+                                <igx-tab-header>
+                                  <span igxTabHeaderLabel>Task</span>
+                                </igx-tab-header>
+                                <igx-tab-content>
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+    
+                                            <app-shared-tasks *ngIf="showTask"
+                                            #tasksList
+                                            [hideSelectOption]="true"
+                                            [hideHiddenDisplay]="true"
+                                            [parent_id]="farm.DocId"
+                                            gridtitle=""
+                                            [showloading]="true"
+                                            [hardReload]="true"
+                                            ></app-shared-tasks>
+                                            </div>
+    
+                                    </div>
+                                </igx-tab-content>
+                            </igx-tab-item>
+
+                                  <!-- FOLLOWUP -->
+                                <igx-tab-item>
+                                    <igx-tab-header>
+                                      <span igxTabHeaderLabel>Followup</span>
+                                    </igx-tab-header>
+                                    <igx-tab-content>
+                                        <div class="row">                                
+                                   
+                                            <div class="col-md-12">
+                                                <app-shared-follow-up *ngIf="showFollowup" 
+                                                #followupsList 
+                                                [parent_id]="farm.DocId"
+                                                [hideSelectOption]="true"
+                                                [hideHiddenDisplay]="true"
+                                                gridtitle=""
+                                                [showloading]="true"
+                                                [hardReload]="true"
+                                                ></app-shared-follow-up>
+                                            </div>
+                                        </div>
+                                    </igx-tab-content>
+                                </igx-tab-item>
+                            
+
+                        </igx-tabs>
+
+                    </div>
+                </div>
+            </igx-card-content>
+        </igx-card>
+
+        
+
+        <div class="small-space"></div>
+
+    </div>
+</div>
+
+

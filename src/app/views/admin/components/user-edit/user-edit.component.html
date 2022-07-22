@@ -1,0 +1,343 @@
+<div [formGroup]="userForm" *ngIf="hasData" class="form">
+
+
+    <div class="row" class="mainFrom">
+
+        <mat-form-field class="col-md-5">
+
+                <input
+                    matInput
+                    placeholder="Username"
+                    formControlName ="username"
+                    type ="text"
+                >
+        </mat-form-field>
+
+        <mat-slide-toggle  class="toggle" formControlName ="locked">Locked</mat-slide-toggle>
+        <mat-slide-toggle  class="toggle" formControlName ="rsa">RSA</mat-slide-toggle>
+        <mat-slide-toggle  class="toggle" formControlName ="admin">Admin</mat-slide-toggle>
+        <mat-slide-toggle  class="toggle" formControlName ="developer">Developer</mat-slide-toggle>
+
+    </div>
+
+    <div class="row" class="mainFrom">
+
+    <mat-form-field class="col-md-5">
+
+            <input
+                matInput
+                placeholder="First Name"
+                formControlName ="f_name"
+                type ="text"
+            >
+    </mat-form-field>
+
+    <mat-form-field class="col-md-2">
+
+        <input
+            matInput
+            placeholder="Middle Name"
+            formControlName ="m_name"
+            type ="text"
+        >
+</mat-form-field>
+
+<mat-form-field class="col-md-5">
+
+    <input
+        matInput
+        placeholder="Last Name"
+        formControlName ="l_name"
+        type ="text"
+    >
+</mat-form-field>
+
+   </div>
+
+   <mat-accordion multi=true>
+   <mat-expansion-panel (opened)="panelPhoneOpenState = true"
+                        (closed)="panelPhoneOpenState = false"
+                        [expanded]="panelPhoneOpenState">
+<mat-expansion-panel-header>
+<mat-panel-title>
+Phone Numbers
+</mat-panel-title>
+<mat-panel-description>{{panelPhoneOpenState}}
+<div *ngIf="!panelPhoneOpenState">
+    Phone : <b>{{defaultPhone[0]?.number}}</b> Type : {{defaultPhone[0]?.type}}  SMS : {{defaultPhone[0]?.sms}}
+    </div>
+</mat-panel-description>
+</mat-expansion-panel-header>
+
+<div class="row" >
+    <table mat-table [dataSource]="dataPhone" class="mat-elevation-z8">
+          <!-- Mail Address Column -->
+    <ng-container matColumnDef="number">
+      <th mat-header-cell *matHeaderCellDef width="500px"> Phone Number </th>
+      <td mat-cell *matCellDef="let element">({{element.number |slice:0:3}}) {{element.number |slice:3:6}} - {{element.number |slice:6:10}}</td>
+    </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef width="300px"> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+            <!-- Default Column -->
+            <ng-container matColumnDef="dflt">
+              <th mat-header-cell *matHeaderCellDef> Default </th>
+              <td mat-cell *matCellDef="let element">
+              <button *ngIf="!element.dflt" (click)="phoneDflt(element)" mat-icon-button class="gray-icon"><mat-icon>check</mat-icon></button>
+              <mat-icon *ngIf="element.dflt" class="green-icon" >check</mat-icon>
+            </td>
+            </ng-container>
+                <!-- Type Column -->
+                <ng-container matColumnDef="type">
+                  <th mat-header-cell *matHeaderCellDef width="200px"> Type </th>
+                  <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+                </ng-container>
+
+                  <!-- SMS Column -->
+                  <ng-container matColumnDef="sms">
+                    <th mat-header-cell *matHeaderCellDef width="200px"> SMS </th>
+                    <td mat-cell *matCellDef="let element"> <mat-icon>{{element.sms ? 'check' : ''}} </mat-icon></td>
+                  </ng-container>
+                  <!-- Actions Column -->
+                  <ng-container matColumnDef="actionsColumn">
+                    <mat-header-cell *matHeaderCellDef>
+                        <button (click)="phoneNew()" mat-icon-button><mat-icon>add</mat-icon></button>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <button (click)="phoneEdit(row)" mat-icon-button><mat-icon>edit</mat-icon></button>
+                        <button (click)="phoneDelete(row)" mat-icon-button class="red-icon"><mat-icon>delete</mat-icon></button>
+                    </mat-cell>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsPhone"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsPhone;"></tr>
+
+    </table>
+    </div>
+
+</mat-expansion-panel>
+
+<mat-expansion-panel (opened)="panelEmailOpenState = true"
+(closed)="panelEmailOpenState = false" [expanded]="panelEmailOpenState">
+<mat-expansion-panel-header>
+<mat-panel-title>
+Email Address <button (click)="emailNew()" mat-icon-button class="red-icon"><mat-icon>add</mat-icon></button>
+</mat-panel-title>
+<mat-panel-description>
+    <div *ngIf="!panelEmailOpenState">
+        Email : <b>{{defaultEmail[0].address}}</b> Type : {{defaultEmail[0].type}}
+        </div>
+</mat-panel-description>
+</mat-expansion-panel-header>
+
+<div class="row">
+<table mat-table [dataSource]="dataEmail" class="mat-elevation-z8">
+<!-- Mail Address Column -->
+<ng-container matColumnDef="address">
+<th mat-header-cell *matHeaderCellDef width="300px"> Email Address </th>
+<td mat-cell *matCellDef="let element"> {{element.address}} </td>
+</ng-container>
+<!-- Name Column -->
+<ng-container matColumnDef="name">
+<th mat-header-cell *matHeaderCellDef width="300px"> Name </th>
+<td mat-cell *matCellDef="let element"> {{element.name}} </td>
+</ng-container>
+<!-- Default Column -->
+<ng-container matColumnDef="dflt">
+<th mat-header-cell *matHeaderCellDef> Default </th>
+<td mat-cell *matCellDef="let element">
+
+<button *ngIf="!element.dflt" (click)="emailDflt(element)" mat-icon-button class="gray-icon"><mat-icon>check</mat-icon></button>
+<mat-icon *ngIf="element.dflt" class="green-icon" >check</mat-icon>
+</td>
+</ng-container>
+<!-- Type Column -->
+<ng-container matColumnDef="type">
+<th mat-header-cell *matHeaderCellDef width="200px"> Type </th>
+<td mat-cell *matCellDef="let element"> {{element.type}} </td>
+</ng-container>
+<ng-container matColumnDef="actionsColumn">
+<mat-header-cell *matHeaderCellDef>
+<!-- <button (click)="emailNew()" mat-icon-button><mat-icon>add</mat-icon></button> -->
+</mat-header-cell>
+<mat-cell *matCellDef="let row">
+<button (click)="emailEdit(row)" mat-icon-button><mat-icon>edit</mat-icon></button>
+<button (click)="emailDelete(row)" mat-icon-button class="red-icon"><mat-icon>delete</mat-icon></button>
+</mat-cell>
+</ng-container>
+
+<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+</table>
+</div>
+
+</mat-expansion-panel>
+</mat-accordion>
+
+   <div class="row" class="mainFrom">
+   <mat-tab-group class="mainFrom">
+    <mat-tab label="Office Address">
+        <mat-form-field class="col-md-12 tab-area">
+        <input
+        matInput
+        placeholder="Address Line 1"
+        formControlName ="office_address_line_1"
+        type ="text"
+        >
+        </mat-form-field>
+        <mat-form-field class="col-md-12">
+            <input
+            matInput
+            placeholder="Address Line 2"
+            formControlName ="office_address_line_2"
+            type ="text"
+            >
+            </mat-form-field>
+            <mat-form-field class="col-md-6">
+                <input
+                matInput
+                placeholder="City"
+                formControlName ="office_address_city"
+                type ="text"
+                >
+                </mat-form-field>
+                <mat-form-field class="col-md-3">
+                    <input
+                    matInput
+                    placeholder="State"
+                    formControlName ="office_address_state"
+                    type ="text"
+                    >
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-3">
+                        <input
+                        matInput
+                        placeholder="Zip"
+                        formControlName ="office_address_zip"
+                        type ="text"
+                        >
+                        </mat-form-field>
+
+    </mat-tab>
+    <mat-tab label="Mailing Address">
+        <mat-form-field class="col-md-12 tab-area">
+            <input
+            matInput
+            placeholder="Address Line 1"
+            formControlName ="mailing_address_line_1"
+            type ="text"
+            >
+            </mat-form-field>
+            <mat-form-field class="col-md-12">
+                <input
+                matInput
+                placeholder="Address Line 2"
+                formControlName ="mailing_address_line_2"
+                type ="text"
+                >
+                </mat-form-field>
+                <mat-form-field class="col-md-6">
+                    <input
+                    matInput
+                    placeholder="City"
+                    formControlName ="mailing_address_city"
+                    type ="text"
+                    >
+                    </mat-form-field>
+                    <mat-form-field class="col-md-3">
+                        <input
+                        matInput
+                        placeholder="State"
+                        formControlName ="mailing_address_state"
+                        type ="text"
+                        >
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-3">
+                            <input
+                            matInput
+                            placeholder="Zip"
+                            formControlName ="mailing_address_zip"
+                            type ="text"
+                            >
+                            </mat-form-field>
+    </mat-tab>
+    <mat-tab label="Home Address">
+        <mat-form-field class="col-md-12 tab-area">
+            <input
+            matInput
+            placeholder="Address Line 1"
+            formControlName ="home_address_line_1"
+            type ="text"
+            >
+            </mat-form-field>
+            <mat-form-field class="col-md-12">
+                <input
+                matInput
+                placeholder="Address Line 2"
+                formControlName ="home_address_line_2"
+                type ="text"
+                >
+                </mat-form-field>
+                <mat-form-field class="col-md-6">
+                    <input
+                    matInput
+                    placeholder="City"
+                    formControlName ="home_address_city"
+                    type ="text"
+                    >
+                    </mat-form-field>
+                    <mat-form-field class="col-md-3">
+                        <input
+                        matInput
+                        placeholder="State"
+                        formControlName ="home_address_state"
+                        type ="text"
+                        >
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-3">
+                            <input
+                            matInput
+                            placeholder="Zip"
+                            formControlName ="home_address_zip"
+                            type ="text"
+                            >
+                            </mat-form-field> </mat-tab>
+                            <mat-tab label="Default Email Signature">
+                                <div class="row">
+                                    <div class="col-md-12" *ngIf="froalaOptions">
+                                        <div class="signature" [froalaEditor]="froalaOptions" id="template-body"
+                                             formControlName="email_signature">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </mat-tab>
+  </mat-tab-group>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 text-right">
+        <div class="small-space"></div>
+
+        <button  class="button" (click)="reloadData()" mat-raised-button color="warn">Reload Data</button>
+        <button  class="button" (click)="saveUser()" [disabled]="!userForm.valid || userForm.pristine" mat-raised-button color="warn">Save user</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+

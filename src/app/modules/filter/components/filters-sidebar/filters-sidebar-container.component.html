@@ -1,0 +1,20 @@
+<div class="side-br">
+    <button [igxButton]="'icon'"
+            (click)="toggleSidebarCollapsed()"
+            class="sidebar-toggle"
+            [ngClass]="isSidebarCollapsed ? 'is-collapsed' : 'is-open'"
+            type="button"   
+            #target="tooltipTarget" [igxTooltipTarget]="tooltipRef"
+            
+            >
+    
+        <igx-icon fontSet="material">{{toggleIcon}}</igx-icon>
+    
+    </button>
+    <div class="sidebar-content" [hidden]="isSidebarCollapsed">
+        <ng-content></ng-content>
+    </div>
+</div>
+
+
+<div #tooltipRef="tooltip" igxTooltip [innerHTML]="(isSidebarCollapsed)?'Show Filter Selection':'Hide Filter'" style="margin: 5px 10px;" class="tooltip-content"></div>

@@ -1,0 +1,19 @@
+<igx-list>
+
+    <igx-list-item isHeader="true">Filters</igx-list-item>
+
+    <igx-list-item class="list-item__expandable">
+        <igx-expansion-panel [collapsed]="false">
+            <igx-expansion-panel-header>
+                <igx-expansion-panel-title>TRACTS</igx-expansion-panel-title>
+            </igx-expansion-panel-header>
+            <igx-expansion-panel-body *ngIf="tractsOptions$ | async; let tractOptions">
+                <app-multi-select-box-card [optionsList]="tractOptions"
+                                           (optionSelectionChanged)="updateOptionSelection({filter: farmFilters.TRACTS, observableName: farmFilters.TRACTS+'Options$', optionsList: tractOptions, changed: $event})">
+
+                </app-multi-select-box-card>
+            </igx-expansion-panel-body>
+        </igx-expansion-panel>
+    </igx-list-item>
+
+</igx-list>

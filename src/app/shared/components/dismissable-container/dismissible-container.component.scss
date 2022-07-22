@@ -1,0 +1,16 @@
+.container__title {
+    text-transform: uppercase;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.igx-dialog__window-title igx-icon {
+    cursor: pointer;
+}
+
+@media only screen and (min-width: 480px){
+    .igx-dialog__window {
+        min-width: 30rem;
+    }
+
+}

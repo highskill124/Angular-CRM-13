@@ -1,0 +1,74 @@
+<div class="container login-container">
+    <div class="row">
+        <div class="col-md-5 m-auto">
+            <igx-card>
+                <igx-card-header>
+                    <h3 class="igx-card-header__title text-center">Login to continue</h3>
+                    <!--<h5 class="igx-card-header__subtitle">Audi AG</h5>-->
+                </igx-card-header>
+                <igx-card-content>
+
+                    <form class="input-group-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                        <!--<h4 class="sample-title"></h4>-->
+
+                        <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
+                             class="alert alert-danger" role="alert">
+                            <div><strong>Oops!</strong></div>
+                            <div *ngFor="let error of errors">{{ error }}</div>
+                        </div>
+
+                        <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
+                             class="alert alert-success" role="alert">
+                            <div><strong>Success!</strong></div>
+                            <div *ngFor="let message of messages">{{ message }}</div>
+                        </div>
+
+                        <igx-input-group>
+                            <label igxLabel for="username">Username</label>
+                            <input igxInput type="text" formControlName="username" id="username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+                            <igx-suffix>
+                                <igx-icon>person</igx-icon>
+                            </igx-suffix>
+                            <!--<igx-hint *ngIf="submitted && f.username.errors"
+                                      position="start">
+                                <span *ngIf="f.username.errors.required">Username is required</span>
+                            </igx-hint>-->
+                        </igx-input-group>
+
+                        <igx-input-group>
+                            <label igxLabel for="password">Password</label>
+                            <input igxInput type="password" formControlName="password" id="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                            <igx-suffix>
+                                <igx-icon>vpn_key</igx-icon>
+                            </igx-suffix>
+                            <!--<igx-hint *ngIf="submitted && f.password.errors"
+                                      position="start">
+                                <span *ngIf="f.password.errors.required">Password is required</span>
+                            </igx-hint>-->
+                        </igx-input-group>
+
+                        <igx-input-group>
+                            <label igxLabel for="rsakey">RSA Token</label>
+                            <input igxInput type="rsakey" formControlName="rsakey" id="rsakey" />
+                            <igx-suffix>
+                                <igx-icon>vpn_key</igx-icon>
+                            </igx-suffix>
+                            <!--<igx-hint *ngIf="submitted && f.password.errors"
+                                      position="start">
+                                <span *ngIf="f.password.errors.required">Password is required</span>
+                            </igx-hint>-->
+                        </igx-input-group>
+                        <br>
+                        <div class="button-wrapper text-center">
+                            <button igxButton="raised" igxRipple type="submit" [disabled]="loading">
+                                Login &nbsp; <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                            </button>
+                        </div>
+                    </form>
+
+                </igx-card-content>
+            </igx-card>
+        </div>
+    </div>
+</div>
+

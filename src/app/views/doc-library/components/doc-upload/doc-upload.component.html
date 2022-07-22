@@ -1,0 +1,186 @@
+<div class="sample-wrapper">
+    <section class="sample-content">
+        <article class="sample-column">
+
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <igx-card>
+                            <igx-card-content>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                        <h3>Select files</h3>
+
+                                        <div ng2FileDrop
+                                             [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+                                             (fileOver)="fileOverBase($event)"
+                                             [uploader]="uploader"
+                                             class="well my-drop-zone">
+                                            Base drop zone
+                                        </div>
+
+                                        Multiple
+                                        <input type="file" ng2FileSelect [uploader]="uploader" multiple/><br/><br>
+
+                                        Single
+                                        <input type="file" ng2FileSelect [uploader]="uploader"/>
+                                    </div>
+
+                                    <div class="col-md-9" style="margin-bottom: 40px">
+                                        <h3>Upload queue</h3>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p>Queue length: {{ uploader?.queue?.length }}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>
+                                                    <button [disabled]="!uploader.queue.length"
+                                                            (click)="toggleFileItemAccordions()"
+                                                            class="float-md-right"
+                                                            igxButton="flat" igxRipple="#FBB13C"
+                                                            type="button">
+                                                        {{ collapseAll ? 'Collapse All' : 'Expand All' }} &nbsp;
+                                                        <igx-icon fontSet="material">
+                                                            {{ collapseAll ? 'remove' : 'add' }}
+                                                        </igx-icon>
+                                                    </button>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <table class="table table-bordered table-responsive">
+                                            <thead>
+                                            <tr>
+                                                <th width="50%">Name</th>
+                                                <th width="10%">Size</th>
+                                                <th width="10%">Progress</th>
+                                                <th width="10%">Status</th>
+                                                <th width="20%">Actions</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <ng-container *ngFor="let item of uploader.queue; let i = index">
+                                                <tr>
+                                                    <td>
+                                                        <button *ngIf="item.isSuccess"
+                                                                (click)="toggleFileItemAccordion(item)"
+                                                                igxButton="icon" igxRipple igxRippleCentered="true"
+                                                                type="button">
+                                                            <igx-icon fontSet="material">
+                                                                {{ item.formData.accordionOpened ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}
+                                                            </igx-icon>
+                                                        </button>
+
+                                                        &nbsp;&nbsp;<span
+                                                        style="padding-bottom: 5px;"><strong>{{ item?.file?.name }}</strong></span>
+                                                    </td>
+                                                    <td nowrap>
+                                                        <span>{{ item?.file?.size / 1024 / 1024 | number:'.2' }} MB
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="progress">
+                                                            <igx-linear-bar *ngIf="item.file" [animate]="false"
+                                                                            [max]="100"
+                                                                            [value]="item.progress"></igx-linear-bar>
+                                                            <!--<div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>-->
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span *ngIf="item.isSuccess">
+                                                            <igx-icon fontSet="material">done</igx-icon>
+                                                        </span>
+                                                        <span *ngIf="item.isCancel">
+                                                            <igx-icon fontSet="material">block</igx-icon>
+                                                        </span>
+                                                        <span *ngIf="item.isError">
+                                                            <igx-icon fontSet="material">clear</igx-icon>
+                                                        </span>
+                                                    </td>
+                                                    <td nowrap>
+                                                        <button igxButton="icon" igxRipple igxRippleCentered="true"
+                                                                type="button"
+                                                                (click)="item.upload()"
+                                                                [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                                                            <igx-icon fontSet="material">cloud_upload</igx-icon>
+                                                        </button>
+                                                        <button igxButton="icon" igxRipple igxRippleCentered="true"
+                                                                type="button"
+                                                                (click)="item.cancel()" [disabled]="!item.isUploading">
+                                                            <igx-icon fontSet="material">block</igx-icon>
+                                                        </button>
+                                                        <button igxButton="icon" igxRipple igxRippleCentered="true"
+                                                                type="button"
+                                                                (click)="removeItem(item)">
+                                                            <igx-icon fontSet="material">remove</igx-icon>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr *ngIf="item.isSuccess && item.formData.accordionOpened">
+                                                    <td colspan="5">
+                                                        <div class="col-md-12">
+                                                            <app-doc-upload-form [item]="item"
+                                                                                 (formSubmitted)="item.remove()">
+
+                                                            </app-doc-upload-form>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </ng-container>
+                                            </tbody>
+                                        </table>
+
+                                        <div>
+                                            <div>
+                                                Queue progress:
+                                                <igx-linear-bar *ngIf="uploader.queue.length" [animate]="false"
+                                                                [max]="100"
+                                                                [value]="uploader.progress"></igx-linear-bar>
+                                                <!--<div class="progress" style="">
+                                                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+                                                </div>-->
+                                            </div>
+
+                                            <div class="x-small-space"></div>
+
+                                            <button igxButton="flat"
+                                                    class="btn-success" type="button" igxRipple="#FBB13C"
+                                                    (click)="uploader.uploadAll()"
+                                                    [disabled]="!uploader.getNotUploadedItems().length">
+                                                <igx-icon fontSet="material">cloud_upload</igx-icon> &nbsp;Upload all
+                                            </button>&nbsp;
+
+                                            <button igxButton="raised" igxRipple="white"
+                                                    class=" btn-warning" type="button"
+                                                    (click)="uploader.cancelAll()"
+                                                    [disabled]="!uploader.isUploading">
+                                                <igx-icon fontSet="material">block</igx-icon> &nbsp;Cancel all
+                                            </button>&nbsp;
+
+                                            <button igxButton="flat" class=" btn-danger" type="button"
+                                                    igxRipple="#FBB13C"
+                                                    (click)="clearQueue()"
+                                                    [disabled]="!uploader.queue.length">
+                                                <igx-icon fontSet="material">remove</igx-icon> &nbsp;Remove all
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </igx-card-content>
+                        </igx-card>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </article>
+    </section>
+</div>

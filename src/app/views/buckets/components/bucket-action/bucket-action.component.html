@@ -1,0 +1,9 @@
+<ng-container *ngIf="addActionTemplate; else defaultButton">
+    <ng-container *ngTemplateOutlet="addActionTemplate"></ng-container>
+</ng-container>
+
+<ng-template #defaultButton>
+    <button igxButton="flat" igxRipple (click)="openDialog()">
+        Add Bucket
+    </button>
+</ng-template>

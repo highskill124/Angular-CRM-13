@@ -1,0 +1,78 @@
+.action__grid-select, .action__grid, .action__grid igx-icon {
+    display: inline-block;
+}
+
+.action__grid, .action__grid igx-icon {
+    vertical-align: middle;
+}
+
+.custom-tooltip {
+    position: absolute;
+    width: 150px;
+    height: 70px;
+    border: 1px solid #6495ed;
+    overflow: hidden;
+    pointer-events: none;
+    transition: opacity 1s;
+}
+
+.custom-tooltip.ag-tooltip-hiding {
+    opacity: 0;
+}
+
+.custom-tooltip p {
+    margin: 5px;
+    white-space: nowrap;
+}
+
+.custom-tooltip p:first-of-type {
+    font-weight: bold;
+}
+
+.filters-bar igx-chip {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 2px;
+}
+.ui-grid-vcenter {
+    background-color: #00ffff;
+}
+
+.ag-grid-container {
+    width: 100%;
+    height: 100%;
+}
+
+.ag-grid-sub-container {
+    width: 100%;
+    height: 100%;
+}
+
+ag-grid-angular {
+    height: 600px;
+}
+
+::ng-deep .table-row-icon {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    
+}
+
+::ng-deep .ag-theme-material .ag-cell-wrapper > *:not(.ag-cell-value):not(.ag-group-value) {
+    display: none;
+}
+
+::ng-deep .ag-theme-material .ag-cell-wrapper > *:not(.ag-cell-value):not(.ag-group-value):not(.ag-invisible) {
+    display: flex;
+} 
+
+::ng-deep .ag-theme-material .ag-cell{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+::ng-deep .ag-theme-material:first-child .ag-cell:first-child {
+    padding-left: 25px;
+    padding-right: 25px;
+}

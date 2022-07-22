@@ -1,0 +1,5 @@
+<app-header-container title="New Mail" mode="material" [allowDismiss]="mailForm.isDirty">
+    <div class="sample-column card-wrapper">
+        <app-quick-mail-form #mailForm (edit)="edit($event)"></app-quick-mail-form>
+    </div>
+</app-header-container>

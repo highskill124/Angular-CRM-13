@@ -1,0 +1,11 @@
+<form novalidate [formGroup]="form">
+    <igx-input-group>
+        <input igxInput autocorrect="off"
+               [disabled]="disabled"
+               formControlName="search"
+               autocapitalize="off" spellcheck="off" type="text"
+               id="places_search"
+               class="search-location" #search />
+        <label igxLabel for="places_search">{{ inputLabel }}</label>
+    </igx-input-group>
+</form>

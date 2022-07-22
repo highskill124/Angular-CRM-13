@@ -1,0 +1,117 @@
+<div class="modal-content ds-modal">
+    <div class="modal-header ds-primary-bg">
+        <h5 class="modal-title text-white">{{saveBttn}} Interaction</h5>
+        <button type="button" class="close text-white" (click)="closeDialog()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="emailForm-wrapper">
+            <form novalidate [formGroup]="form">
+
+                <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted" class="alert alert-danger"
+                    role="alert">
+                    <div><strong i18n="@@ohSnapFailure">Oops!</strong></div>
+                    <div *ngFor="let error of errors">{{ error }}</div>
+                </div>
+                <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted" class="alert alert-success"
+                    role="alert">
+                    <div><strong i18n="@@hooraySuccess">Success!</strong></div>
+                    <div *ngFor="let message of messages">{{ message }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mb-2">
+                        <div class="emailForm-input-wrapper dropdwn">
+                            <input class="do-validate form-control sm-pad" id="subject" name="subject" formControlName="subject" type="text" />
+                            <label for="">Subject</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-2">
+                        <div class="emailForm-input-wrapper dropdwn">
+                            <app-guid-dropdown class="do-validate form-control sm-pad" placeholder=" " formControlName="method"
+                            [options]="interactionMethods$ | async"></app-guid-dropdown>
+                            <label for="">Method</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-2">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="emailForm-input-wrapper dropdwn no-igx-label">
+                                    <igx-date-picker class="form-control xs-pad" [showWeekNumbers]="true" label=" " formControlName="date"> </igx-date-picker>
+                                    <label for="">Date</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="emailForm-input-wrapper dropdwn no-igx-label">
+                                    <igx-time-picker  class="form-control xs-pad" inputFormat="HH:mm tt" [headerOrientation]="false" formControlName="time">
+                                    </igx-time-picker>
+                                    <label for="">Time</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-2">
+                        <div class="emailForm-input-wrapper dropdwn">
+                            <label for="body">Notes</label>
+                            <textarea class="form-control sm-pad" id="notes" name="notes"  formControlName="notes"></textarea>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="row">
+                    <div class="col-md-12">
+                        <button igxButton="raised" class="ml-0 button" [igxToggleAction]="dropdown1"
+                            [igxDropDownItemNavigation]="dropdown1">
+                            {{reminderTitle}}
+                        </button>
+                        <igx-drop-down #dropdown1 (selectionChanging)="onSelect($event)">
+                            <div class="drop-down__scroll-container">
+                                <igx-drop-down-item *ngFor="let option of reminderOptions$ | async" [value]="option">
+                                    {{ option.name }}
+                                </igx-drop-down-item>
+                            </div>
+                        </igx-drop-down>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div *ngIf="customReminder" class="row">
+                        <div class="col-md-4">
+                            <igx-date-picker [showWeekNumbers]="true" label="Reminder Date" formControlName="reminder_date">
+            
+                            </igx-date-picker>
+                        </div>
+                        <div class="col-md-4">
+                            <igx-time-picker [itemsDelta]="{hours:1, minutes:15}" inputFormat="HH:mm tt" [headerOrientation]="false"
+                                formControlName="reminder_time">
+                                <label igxLabel>Reminder Time</label>
+                            </igx-time-picker>
+                        </div>
+                        <div class="col-md-4">
+                            <app-guid-dropdown placeholder="Flag to" formControlName="flag_to" 
+                            [options]="flagToOptions$ | async">
+            
+                        </app-guid-dropdown>
+                         
+                        </div>
+                    </div>
+                </div>
+            
+                
+                <div class="row mt-3">
+                    <div class="col-md-4 d-flex pb-2" style="padding-top: 10px;">
+                        
+                    </div>
+                    <div class="col-md-8 text-right">
+                        <div class="igx-dialog__window-actions">
+                            <button type="button" igxButton igxRipple (click)="closeDialog()">
+                                Close
+                            </button>
+                            <button type="submit" [disabled]="!(form.valid && form.dirty)"
+                                igxButton="raised" igxRipple="white" (click)="create(form)">
+                                {{saveBttn}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

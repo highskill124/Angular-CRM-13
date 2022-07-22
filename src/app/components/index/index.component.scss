@@ -1,0 +1,115 @@
+.wrapper {
+    height: 100%;
+}
+
+.main {
+    width: calc(100% - 300px);
+}
+
+.content {
+    width: 100%;
+    height: 100%;
+    min-width: 300px;
+    min-height: 300px;
+    justify-content: center;
+    align-items: stretch;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+a.innerItem {
+    text-decoration: none;
+}
+.innerItem {
+    margin-left: 36px;
+}
+
+.nav-header {
+    display: flex;
+    align-items: center;
+    padding: 24px 16px;
+    background: #eee;
+    height: 142px;
+}
+
+.logo {
+    width: 172px;
+    height: 56.666px;
+}
+
+.searchGroup {
+    margin: 10px;
+    max-width: 260px;
+}
+
+// Make toggle dropdown menus appear just below the navbar
+::ng-deep .navbar-con .igx-overlay__content {
+    top: 56px !important;
+}
+
+@media only screen and (max-width: 1024px) {
+    .content {
+        padding: 0 15px;
+        justify-content: flex-start;
+    }
+}
+
+.main-menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    &.child {
+        padding-left: 20px!important;
+        &.collapse{
+            padding-left: 27px!important;
+        }
+    }
+    &.grand-child {
+        padding-left: 40px!important;
+    }
+    .menu-btn-icon{
+        min-width: 40px!important;
+        justify-content: left;
+    }
+    .menu-label {
+        text-align: left;
+        width: 100%!important;
+    }
+    .menu-collap-btn {
+        min-width: 40px!important;
+        justify-content: right;
+    }
+}
+
+.reloadme {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+}
+
+.name-flex{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.small-menu-item igx-icon {
+    font-size: 18px;
+    line-height: 18px;
+    position: relative;
+    top: 3px;
+    margin: 0 5px 0 0px;
+}
+
+
+::ng-deep .igx-navbar__title  {
+    color: #ffffff !important;
+
+    font-size: 25px;
+}
+
+::ng-deep .igx-navbar__left igx-icon {
+    color: white;
+}

@@ -1,0 +1,185 @@
+<div [formGroup]="massEmailForm"  class="mainFrom">
+<mat-card class="top">
+    <mat-card-content>
+        <h4>Basic Mailing Setup</h4>
+<mat-form-field  class="col-md-6">
+    <mat-select
+        [(ngModel)]="massEmailTypeValue"
+        placeholder="Mass Email Type"
+        formControlName ="massEmailType"
+        >
+<mat-option *ngFor="let List of massEmailTypeList" [value]="List.value">{{ List.name}}</mat-option>
+</mat-select>
+</mat-form-field>
+
+<mat-form-field  class="col-md-6">
+    <mat-select
+        placeholder="Mailing Sender"
+        formControlName ="massEmailSender"
+        >
+<mat-option *ngFor="let List of massEmailTypeList" [value]="List.value">{{ List.name}}</mat-option>
+</mat-select>
+</mat-form-field>
+<mat-form-field  class="col-md-6">
+    <mat-select
+        placeholder="Email Campaign"
+        formControlName ="emailCampaign"
+        >
+<mat-option *ngFor="let List of  campaignList" [value]="List.id">{{ List.summary}}</mat-option>
+</mat-select>
+</mat-form-field>
+
+<mat-form-field *ngIf="massEmailTypeValue!=='Contacts'" class="col-md-6 parent-class">
+        <app-mat-select-all class="custom-component"
+            [data]="tractList"
+            formControlName="tractList"
+            fieldName="name"
+            [multiselect]=true
+            labelText="Tract List"
+            idField="guid"
+            >
+        </app-mat-select-all>
+</mat-form-field>
+</mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="massEmailTypeValue==='Contacts'" class="customerFilter">
+    <mat-card-content>
+        <h4 class="h4">Contact's Filter</h4>
+        <div class="row">
+            <div class="col-md-6">
+        <!-- BUCKETS -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="small-space"></div>
+                <h4 class="form-section__title">
+                    <igx-icon>attachment</igx-icon>
+                    Buckets
+                </h4>
+            </div>
+            <div class="col-md-12">
+                <div class="x-small-space"></div>
+                <ng-container *ngIf="bucketOptions$ | async; let bucketOptions">
+                    <app-chips-select [selectOptions]="bucketOptions"
+                    [classNames] = "'square-chips'"
+                                      formControlName="bucketfilter">
+                    </app-chips-select>
+                </ng-container>
+            </div>
+        </div>
+        </div>
+        <!-- TAGS -->
+        <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="small-space"></div>
+                <h4 class="form-section__title">
+                    <igx-icon>category</igx-icon>
+                    Tags
+                </h4>
+            </div>
+            <div class="col-md-12">
+                <div class="x-small-space"></div>
+                <ng-container *ngIf="tagOptions$ | async; let tagOptions">
+                    <app-chips-select [selectOptions]="tagOptions"
+                    [classNames] = "'square-chips'"
+                                      formControlName="tagfilter">
+
+                    </app-chips-select>
+                </ng-container>
+            </div>
+        </div>
+        </div>
+
+        </div>
+    </mat-card-content>
+</mat-card>
+
+
+
+<mat-card class="options">
+    <mat-card-content>
+      <h4>Message Delivery Options</h4>
+
+      <section>
+        <mat-checkbox
+            class="col-md-4"
+            id="trackMessage"
+            type="checkbox"
+            formControlName="trackMessage">
+        Track Message
+        </mat-checkbox>
+
+        <mat-checkbox
+            class="col-md-4"
+            id="trackLinks"
+            type="checkbox"
+            formControlName="trackLinks">
+        Track Link Clicks
+    </mat-checkbox>
+
+    <mat-checkbox
+            class="col-md-4"
+            id="trackResponse"
+            type="checkbox"
+            formControlName="trackResponse">
+        Track Responses
+    </mat-checkbox>
+
+    <mat-checkbox
+            class="col-md-4"
+            id="notifySender"
+            type="checkbox"
+            formControlName="notifySender">
+        Notify Sender
+    </mat-checkbox>
+
+    <mat-checkbox
+            class="col-md-4"
+            id="deliveryReceipt"
+            type="checkbox"
+            formControlName="deliveryReceipt">
+        Delivery Receipt
+    </mat-checkbox>
+
+    <mat-checkbox
+    class="col-md-4"
+    id="mailUnsubscribe"
+    type="checkbox"
+    formControlName="mailUnsubscribe">
+Include Unsubscribe
+</mat-checkbox>
+</section>
+
+    </mat-card-content>
+  </mat-card>
+
+
+
+
+
+<div mat-dialog-actions class="action_bttn" align="end">
+    <!-- <button class="bttn" (click)="processMailing()"  [disabled]="" mat-raised-button color="primary">Process Mailing</button>  -->
+    <button class="bttn" (click)="processMailing()"  [disabled]="!massEmailForm.valid " mat-raised-button color="primary">Process Mailing</button>
+    <button class="bttn" mat-raised-button color="warn">Exit</button>
+</div>
+
+<mat-card class="progress">
+    <mat-card-content>
+        <h4>Mailing Progress</h4>
+
+        <igx-linear-bar [striped]="false" [max]="recordCount" [value]="progress"></igx-linear-bar>
+    
+
+    <div class="message">{{mailmessage}}</div>
+
+
+    <div mat-dialog-actions class="action_bttn" align="end">
+        <button class="bttn" (click)="stopMailing()"   mat-raised-button color="primary">Cancel Mailing</button>
+    </div>
+
+</mat-card-content>
+</mat-card>
+</div>
+
+

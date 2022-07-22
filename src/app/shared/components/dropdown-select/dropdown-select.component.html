@@ -1,0 +1,32 @@
+<div class="inputs">
+    <button igxButton (click)="toggleDropDown($event)"
+            type="button"
+            [class]="buttonClass"
+            [igxDropDownItemNavigation]="dropdown1">
+        {{title}}
+        <igx-icon class="material-icons igx-icon" aria-hidden="true">arrow_drop_down</igx-icon>
+    </button>
+
+    <igx-drop-down #dropdown1 (onSelection)="onSelect($event)" #toggleDropdownMenu>
+        <div class="drop-down__scroll-container filter-input">
+            <igx-input-group  [ngStyle]="{'display': showSearch ? 'block' : 'none' }">
+                <input igxInput #optionsearch
+                       class="search-input"
+                       type="text"
+                       id="search"
+                >
+                <igx-suffix>
+                    <igx-icon (click)="clearSearch()">clear</igx-icon>
+                </igx-suffix>
+                <label igxLabel for="search">Search</label>
+            </igx-input-group>
+
+
+            <igx-drop-down-item *ngFor="let option of options |  optionFilter : optionsearch?.value : 'name'"
+                                [value]="option">
+                {{ option.name }}
+            </igx-drop-down-item>
+        </div>
+    </igx-drop-down>
+</div>
+

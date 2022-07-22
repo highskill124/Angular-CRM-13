@@ -1,0 +1,39 @@
+<app-dismissible-container [title]="'Save Email ' + email" (onDismiss)="dismiss()">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="items-wrapper__item items-wrapper__item-small items-wrapper__item--blue">
+                    <igx-tabs>
+                    
+                        <igx-tab-item>
+                            <igx-tab-header>
+                                <span igxTabHeaderLabel>New contact</span>
+                            </igx-tab-header>
+                            <igx-tab-content>
+                                <app-form-add-email-new-contact [email]="email"
+                                leftButtonText="Cancel"
+                                (onLeftButtonSelect)="dismiss()"
+                                (onSubmitSuccess)="dismiss()">
+
+                                </app-form-add-email-new-contact>
+                            </igx-tab-content>
+                        </igx-tab-item>
+                        <igx-tab-item>
+                            <igx-tab-header>
+                                <span igxTabHeaderLabel>Assign to existing</span>
+                            </igx-tab-header>
+                            <igx-tab-content>
+                                <app-form-add-email-existing-contact [email]="email"
+                                                                 leftButtonText="Cancel"
+                                                                 (onLeftButtonSelect)="dismiss()"
+                                                                 (onSubmitSuccess)="dismiss()">
+
+                                </app-form-add-email-existing-contact>
+                            </igx-tab-content>
+                        </igx-tab-item>
+                    </igx-tabs>
+                </div>
+            </div>
+        </div>
+    </div>
+</app-dismissible-container>

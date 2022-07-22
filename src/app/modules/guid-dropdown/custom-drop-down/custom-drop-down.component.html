@@ -1,0 +1,34 @@
+
+<form novalidate [formGroup]="form">
+
+  <igx-input-group>
+    <select igxInput
+            [disabled]="disabled"
+            (change)="onInputChange($event.target.value)"
+            name="selectField"
+            formControlName="selectField"
+            id="input-selectField">
+
+        <ng-container *ngIf="guid; else optionsArray">
+            <option *ngFor="let selectOption of options$ | async"
+                    [selected]="selectOption.value === form.get('selectField').value"
+                    [value]="selectOption.value">
+                {{ selectOption.name }}
+            </option>
+        </ng-container>
+    </select>
+    <label igxLabel for="input-selectField">{{placeholder}}</label>
+  </igx-input-group>
+
+</form>
+
+<ng-template #optionsArray>
+    <ng-container *ngIf="options">
+        <option value="" disabled hidden selected="selected"></option><!-- Prevent from auto selecting first option in array -->
+        <option *ngFor="let selectOption of options"
+                [selected]="selectOption.value === form.get('selectField').value"
+                [value]="selectOption.value">
+            {{ selectOption.name }}
+        </option>
+    </ng-container>
+</ng-template>

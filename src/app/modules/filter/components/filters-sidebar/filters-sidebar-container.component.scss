@@ -1,0 +1,18 @@
+:host {
+    width: 100%;
+    position: relative; // this enables us position the sidebar toggle button as absolute within the sidebar container
+}
+
+.sidebar-toggle {
+    position: absolute;
+    margin-top: 15px;
+    margin-left: 5px;
+    z-index: 1;
+    //width: 100%;
+}
+
+
+::ng-deep .igx-list__header {
+    font-weight: 600;
+    font-size: 18px;
+}

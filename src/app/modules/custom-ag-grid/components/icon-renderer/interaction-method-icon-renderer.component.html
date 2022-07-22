@@ -1,0 +1,12 @@
+<ng-container *ngIf="params && params.value">
+    <ng-container [ngSwitch]="params.value.toLowerCase()">
+        <div class="method-action">
+            <igx-icon *ngSwitchCase="'phone'">phone</igx-icon>
+            <igx-icon *ngSwitchCase="'email'">email</igx-icon>
+            <igx-icon *ngSwitchCase="'mail'">mail_outline</igx-icon>
+            <igx-icon *ngSwitchCase="'sms'">sms</igx-icon>
+            <igx-icon *ngSwitchCase="'inperson'">people</igx-icon>
+            <igx-icon *ngSwitchCase="'other'">help</igx-icon>
+        </div>
+    </ng-container>
+</ng-container>

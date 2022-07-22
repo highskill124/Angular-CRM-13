@@ -1,0 +1,6 @@
+<div class="values-cell" #target="tooltipTarget" [igxTooltipTarget]="tooltipRef">
+    {{params && params.value}}
+</div>
+
+<div #tooltipRef="tooltip" igxTooltip [innerHTML]="tooltipContent" style="min-width: 250px;"
+     class="tooltip-content"></div>

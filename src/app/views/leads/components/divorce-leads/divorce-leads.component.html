@@ -1,0 +1,152 @@
+<div class="row">
+    <!-- SIDEBAR -->
+    <div class="col-md-2 pr-md-0">
+        <app-divorce-lead-filters-sidebar #filterSidebar
+                                          (filtersChanged)="onSideBarFilter($event)">
+
+        </app-divorce-lead-filters-sidebar>
+    </div>
+
+    <!-- GRID -->
+    <div class="col-md-10 pl-md-0 pr-md-0">
+
+        <div class="row">
+            <div class="container-fluid">
+
+                <div class="col-md-12">
+                    <div class="x-small-space"></div>
+                </div>
+
+                <div class="col-md-12" *ngIf="activeFilters && activeFilters.city && activeFilters.city.length">
+                    <!-- ACTIVE FILTERS BAR -->
+                    <div class="row filters-bar">
+                        <div class="x-small-space"></div>
+
+                        <div class="col-md-12">
+
+                            <igx-chips-area #chipsArea>
+
+                                <ng-container *ngIf="activeFilters[filters.CITY]">
+                                    <igx-chip *ngFor="let filter of activeFilters[filters.CITY]"
+                                              [id]="filter.value"
+                                              [removable]="true"
+                                              (remove)="activeFilterRemoved(filters.CITY, filter)">
+                                        <span igxPrefix>{{filters.CITY | titlecase}}:</span>
+                                        <span>{{filter.name}}</span>
+                                    </igx-chip>
+                                </ng-container>
+
+                            </igx-chips-area>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GRID -->
+                <div class="col-md-12" *ngIf="agGridBase">
+
+                    <div class="row">
+                        <div class="col-md-2 pb-1">
+                            <app-ag-grid-page-size [parentGridApi]="agGridBase.api"></app-ag-grid-page-size>
+                        </div>
+                        <div class="col-md-6 pl-md-0">
+                            <ng-container *ngIf="agGridBase && agGridBase.api">
+
+                                <!-- Export -->
+                                <app-data-export-action
+                                    (exportTypeSelected)="agGridBase && agGridBase.onExport($event)">
+
+                                </app-data-export-action>
+
+                                <!-- Reload grid data -->
+                                <button (click)="agGridBase.reloadData()"
+                                        igxButton="icon" igxRipple>
+                                    <igx-icon [style.color]="'green'">autorenew</igx-icon>
+                                </button>
+
+                                <!-- Hidden count -->
+                                <button type="button"
+                                        [disabled]="true"
+                                        igxButton
+                                        igxRipple="white">
+                                    <igx-icon>visibility_off
+                                    </igx-icon>&nbsp;{{agGridBase && agGridBase.hiddenColumns && agGridBase.hiddenColumns.length}}
+                                    Hidden
+                                </button>
+
+                                <!-- Add actions -->
+                                <ng-container
+                                    *ngIf="agGridBase.selectedRowIds && agGridBase.selectedRowIds.length === 1">
+                                    <button [igxToggleAction]="menuAddActions"
+                                            type="button"
+                                            [igxToggleOutlet]="outletAddActions"
+                                            [igxDropDownItemNavigation]="menuAddActions"
+                                            igxButton="icon"
+                                            igxRipple>
+                                        <igx-icon [style.color]="'green'">add</igx-icon>
+                                    </button>
+                                    <igx-drop-down #menuAddActions>
+                                        <igx-drop-down-item>
+                                            <app-add-interaction-action
+                                                [parent_id]="agGridBase.selectedRowIds[0]"></app-add-interaction-action>
+                                        </igx-drop-down-item>
+                                        <igx-drop-down-item>
+                                            <app-action-add-note
+                                                [parentid]="agGridBase.selectedRowIds[0]"></app-action-add-note>
+                                        </igx-drop-down-item>
+                                        <igx-drop-down-item>
+                                            <app-action-add-task
+                                                [parentId]="agGridBase.selectedRowIds[0]"></app-action-add-task>
+                                        </igx-drop-down-item>
+                                        <igx-drop-down-item>
+                                            <app-action-add-followup
+                                                [parentid]="agGridBase.selectedRowIds[0]"></app-action-add-followup>
+                                        </igx-drop-down-item>
+                                        <igx-drop-down-item>
+                                            <app-action-add-phone-number
+                                                [parentId]="agGridBase.selectedRowIds[0]"></app-action-add-phone-number>
+                                        </igx-drop-down-item>
+                                        <igx-drop-down-item>
+                                            <app-action-add-email
+                                                [parentId]="agGridBase.selectedRowIds[0]"></app-action-add-email>
+                                        </igx-drop-down-item>
+                                    </igx-drop-down>
+
+                                    <div class="overlayOutlet" igxOverlayOutlet
+                                         #outletAddActions="overlay-outlet"></div>
+
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                        <div class="col-md-4">
+                            <app-ag-grid-search-filter [agGridBase]="agGridBase"></app-ag-grid-search-filter>
+                            <!--                            <div class="small-space"></div>-->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12" *ngIf="columnsList$ | async">
+                    <app-ag-grid-base [supplementaryColumnDefs]="columnDefs"
+                                      #agGridBase
+                                      [columnsList]="columnsList"
+                                      [theme]="theme"
+                                      (onGridReload)="this.fetchColumnsList()"
+                                      (onViewAction)="onView($event.DocId)"
+                                      (onEditAction)="onEdit($event.DocId)"
+                                      [dataFetcherFactory]="dataFetcherFactory"
+                                      [sideBar]="sideBar" [gridGuid]="gridGuid"
+                                      (onDeleteAction)="onDelete($event.DocId)">
+
+                    </app-ag-grid-base>
+                </div>
+
+                <div class="small-space"></div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+

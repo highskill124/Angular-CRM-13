@@ -1,0 +1,98 @@
+<div class="row">
+
+    <!-- GRID -->
+    <div class="col-md-12 pl-md-0">
+        <div class="container-fluid">
+            <div class="row" >
+
+                <div class="x-small-space"></div>
+                <div #agGridContainer class="ag-grid-container">
+                    <div class="ag-grid-sub-container col-md-12" *ngIf="columnsList">
+
+                        <ng-container *ngIf="isInfiniteScrollGrid; else paginatedGrid">
+                            <!-- Infinite scroll grid -->
+                            <ag-grid-angular
+                                #gridInstance
+                                [style.height]="gridHeight"
+                                [style.width]="gridWidth"
+                                [class]="theme"
+                                [columnDefs]="gridColumnDefs"
+                                [rowSelection]="rowSelection"
+                                [enableRangeSelection]="enableRangeSelection"
+                                [sideBar]="sideBar"
+                                [rowModelType]="rowModelType"
+                                [cacheBlockSize]="cacheBlockSizeInfiniteScroll"
+                                [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
+                                [infiniteInitialRowCount]="infiniteInitialRowCount"
+                                [serverSideStoreType]="serverSideStoreType"
+                                [getRowId]="getRowId"
+                                [rowData]="rowData"
+                                [gridOptions]="gridOptions"
+                                [serverSideStoreType]="serverSideStoreType"
+                                [isExternalFilterPresent]="isExternalFilterPresent"
+                                [doesExternalFilterPass]="doesExternalFilterPass"
+                                [suppressRowClickSelection]="suppressRowClickSelection"
+                                (modelUpdated)="onModelUpdated()"
+                                (columnVisible)="toggleColumnVisibility($event)"
+                                (gridReady)="onReady($event)"
+                                (columnMoved)="onColumnEvent($event)"
+                                (columnResized)="onColumnEvent($event)"
+                                (firstDataRendered)="onFirstDataRendered($event)"
+                             
+                                >
+
+                            </ag-grid-angular>
+                        </ng-container>
+
+                        <ng-template #paginatedGrid>
+                            <!-- Paginated grid -->
+                            <ag-grid-angular
+                                #gridInstance
+                                [style.height]="gridHeight"
+                                [style.width]="gridWidth"
+                                [class]="theme"
+                                [columnDefs]="gridColumnDefs"
+                                [rowSelection]="rowSelection"
+                                [enableRangeSelection]="enableRangeSelection"
+                                [sideBar]="sideBar"
+                                [rowModelType]="rowModelType"
+                                [cacheOverflowSize]="cacheOverflowSize"
+                                [cacheBlockSize]="cacheBlockSize"
+                                [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
+                                [infiniteInitialRowCount]="infiniteInitialRowCount"
+                                [serverSideStoreType]="serverSideStoreType"
+                                [pagination]="pagination"
+                                [paginationAutoPageSize]="paginationAutoPageSize"
+                                [paginationPageSize]="paginationPageSize"
+                                [getRowId]="getRowId"
+                                [rowData]="rowData"
+                                [gridOptions]="gridOptions"
+                                [serverSideStoreType]="serverSideStoreType"
+                                [isExternalFilterPresent]="isExternalFilterPresent"
+                                [doesExternalFilterPass]="doesExternalFilterPass"
+                                [rowClassRules]="BaseRowClassRules"
+                                [suppressRowClickSelection]="suppressRowClickSelection"
+
+                                (firstDataRendered)="onFirstDataRendered($event)"
+                                (modelUpdated)="onModelUpdated()"
+                                (columnVisible)="toggleColumnVisibility($event)"
+                                (gridReady)="onReady($event)"
+                                (columnMoved)="onColumnEvent($event)"
+                                (columnResized)="onColumnEvent($event)"
+                                (paginationChanged)="onPaginationChanged($event)"
+        
+                                >
+
+                            </ag-grid-angular>
+                        </ng-template>
+                    </div>
+                </div>
+
+                <div class="x-small-space"></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

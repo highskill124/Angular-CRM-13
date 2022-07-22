@@ -1,0 +1,15 @@
+.values-cell {
+    line-height: normal;
+    padding-top: 0.5em;
+    text-align: left;
+
+    .more {
+        font-size: 12px;
+    }
+
+    .more.igx-button--flat {
+        padding: 0;
+        height: auto;
+        justify-content: left;
+    }
+}

@@ -1,0 +1,10 @@
+
+<ng-container *ngIf="addNoteActionTemplate; else defaultButton">
+    <ng-container *ngTemplateOutlet="addNoteActionTemplate"></ng-container>
+</ng-container>
+
+<ng-template #defaultButton>
+    <button igxButton="flat" igxRipple (click)="openDialog()">
+        Add Note
+    </button>
+</ng-template>

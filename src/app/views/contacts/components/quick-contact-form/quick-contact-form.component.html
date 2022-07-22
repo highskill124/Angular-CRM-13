@@ -1,0 +1,317 @@
+<form novalidate [formGroup]="form" (submit)="create(form.value)">
+
+    <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
+         class="alert alert-danger" role="alert">
+        <div><strong i18n="@@ohSnapFailure">Oops!</strong></div>
+        <div *ngFor="let error of errors">{{ error }}</div>
+    </div>
+    <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
+         class="alert alert-success" role="alert">
+        <div><strong i18n="@@hooraySuccess">Success!</strong></div>
+        <div *ngFor="let message of messages">{{ message }}</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <igx-input-group>
+                <input igxInput name="first_name" formControlName="first_name" type="text" />
+                <label igxLabel for="first_name">First Name</label>
+            </igx-input-group>
+        </div>
+        <div class="col-md-4">
+            <igx-input-group>
+                <input igxInput name="middle_name" formControlName="middle_name" type="text" />
+                <label igxLabel for="middle_name">Middle Name</label>
+            </igx-input-group>
+        </div>
+        <div class="col-md-4">
+            <igx-input-group>
+                <input igxInput name="last_name" formControlName="last_name" type="text" />
+                <label igxLabel for="last_name">Last Name</label>
+            </igx-input-group>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <!--[value]="dob.value ? getDate(dob.value): null"-->
+            <div class="row">
+                <div class="col-9" style="padding-right: 0;">
+                    <igx-input-group>
+                        <input igxInput name="dob" formControlName="dob" type="text" placeholder="mm/dd/yyyy" />
+                        <label igxLabel for="dob">Date of Birth</label>
+                    </igx-input-group>
+                </div>
+                <div class="col-3" style="padding: 0;">
+                    <igx-date-picker [disabled]="showEditNewButton"
+                                     [value]="getDate(dob.value)"
+                                     (valueChange)="setDob($event)">
+                        <ng-template igxDatePickerTemplate let-openDialog="openDialog" let-value="value" let-displayData="displayData">
+                            <igx-input-group>
+                                <label igxLabel [hidden]="true">Date of Birth</label>
+                                <input igxInput [value]="displayData" [hidden]="true" formControlName="dob" />
+                                <igx-suffix (click)="openDialog()">
+                                    <igx-icon>today</igx-icon>
+                                </igx-suffix>
+                            </igx-input-group>
+                            <!--<igx-hint><small>mm/dd/yyyy</small></igx-hint>-->
+                        </ng-template>
+                    </igx-date-picker>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <igx-input-group>
+                <input igxInput name="initials" formControlName="initials" type="text" />
+                <label igxLabel for="initials">Initials</label>
+            </igx-input-group>
+        </div>
+        <div class="col-md-4">
+            <igx-input-group>
+                <input igxInput name="spouse_name" formControlName="spouse_name" type="text" />
+                <label igxLabel for="spouse_name">Spouse Name</label>
+            </igx-input-group>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <igx-input-group>
+                <input igxInput name="company_name" formControlName="company_name" type="text" />
+                <label igxLabel for="company_name">Company Name</label>
+            </igx-input-group>
+        </div>
+        <div class="col-md-6">
+            <igx-input-group>
+                <input igxInput name="job_title" formControlName="job_title" type="text" />
+                <label igxLabel for="job_title">Job Title</label>
+            </igx-input-group>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <app-dropdown label="File As"
+                          [options]="fileAsOptions$ | async"
+                          formControlName="file_as">
+
+            </app-dropdown>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <igx-input-group>
+                <input igxInput name="home_phone" formControlName="home_phone" type="text" />
+                <label igxLabel for="home_phone">Home Phone</label>
+            </igx-input-group>
+        </div>
+        <div class="col-md-6">
+            <igx-input-group>
+                <input igxInput name="cell_phone" formControlName="cell_phone" type="text" />
+                <label igxLabel for="cell_phone">Cell Phone</label>
+            </igx-input-group>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <igx-input-group>
+                <input igxInput name="office_phone" formControlName="office_phone" type="text" />
+                <label igxLabel for="office_phone">Office Phone</label>
+            </igx-input-group>
+        </div>
+        <div class="col-md-6">
+            <igx-input-group>
+                <input igxInput name="fax_number" formControlName="fax_number" type="text" />
+                <label igxLabel for="fax_number">fax_number</label>
+            </igx-input-group>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <igx-input-group>
+                <input igxInput name="email_address" formControlName="email_address" type="text" />
+                <label igxLabel for="email_address">Email Address</label>
+            </igx-input-group>
+        </div>
+        <div class="col-md-12">
+            <igx-input-group>
+                <input igxInput name="email_alternate" formControlName="email_alternate" type="text" />
+                <label igxLabel for="email_alternate">Email Alternate</label>
+            </igx-input-group>
+        </div>
+        <div class="col-md-12">
+            <app-places-search inputLabel="Street"
+                               [disabled]="showEditNewButton"
+                               formControlName="street"
+                               (addressObject)="onAddressGotten($event)"></app-places-search>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <igx-input-group>
+                <input igxInput name="city" formControlName="city" type="text" />
+                <label igxLabel for="city">City</label>
+            </igx-input-group>
+        </div>
+        <div class="col-md-4">
+            <app-guid-dropdown placeholder="State"
+                                 [disabled]="showEditNewButton"
+                                 [guid]="guids.STATES"
+                                 formControlName="state">
+
+            </app-guid-dropdown>
+        </div>
+        <div class="col-md-4">
+            <igx-input-group>
+                <input igxInput name="postal_code" formControlName="postal_code" type="text" />
+                <label igxLabel for="postal_code">Postal Code</label>
+            </igx-input-group>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <igx-input-group>
+                <textarea igxInput name="notes" formControlName="notes"></textarea>
+                <label igxLabel for="notes">notes</label>
+            </igx-input-group>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="small-space"></div>
+            <igx-checkbox [checked]="follow_up.value"
+                          [disabled]="showEditNewButton"
+                          formControlName="follow_up">
+                Follow Up
+            </igx-checkbox>
+        </div>
+        <div class="col-md-4">
+            <igx-date-picker [disabled]="(follow_up.value !== true) || showEditNewButton"
+                             label="Start Date" formControlName="start_date">
+
+            </igx-date-picker>
+        </div>
+        <div class="col-md-4">
+            <igx-date-picker [disabled]="(follow_up.value !== true) || showEditNewButton"
+                             label="End Date" formControlName="end_date">
+
+            </igx-date-picker>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="small-space"></div>
+            <igx-checkbox [checked]="add_to_outlook.value"
+                          [disabled]="showEditNewButton"
+                          formControlName="add_to_outlook">
+                Add To Outlook
+            </igx-checkbox>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="tagOptions$ | async; let tagOptions">
+        <div class="col-md-12">
+            <div class="small-space"></div>
+            <h5 class="text-uppercase">
+                <igx-icon class="align-to-middle">category</igx-icon>&nbsp;&nbsp;Tags
+            </h5>
+            <div class="x-small-space"></div>
+
+            <div class="chips">
+                <igx-chips-area #tagChipsArea class="chiparea">
+                    <ng-container formArrayName="tags"
+                                  *ngFor="let tag of tags.controls; let i = index;">
+
+                        <igx-chip [removable]="true"
+                                  [disabled]="showEditNewButton"
+                                  (remove)="removeFormArrayControl(tag.value, tags, tagChipsArea, tagOptions);">
+                            <span #label [class]="'igx-chip__text'">
+                                {{tagDetails(tag.value, tagOptions)?.name}}
+                            </span>
+                        </igx-chip>
+
+                    </ng-container>
+                </igx-chips-area>
+            </div>
+
+            <div class="x-small-space"></div>
+            <app-multi-select-box (onSave)="syncFormArray($event, tags)"
+                                  [disabled]="showEditNewButton"
+                                  [optionsList]="tagOptions">
+
+            </app-multi-select-box>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="bucketOptions$ | async; let bucketOptions">
+        <div class="col-md-12">
+            <div class="small-space"></div>
+            <h5 class="text-uppercase">
+                <igx-icon class="align-to-middle">attachment</igx-icon>&nbsp;&nbsp;Buckets
+            </h5>
+            <div class="x-small-space"></div>
+
+            <div class="chips">
+                <igx-chips-area #bucketChipsArea class="chiparea">
+                    <ng-container formArrayName="buckets"
+                                  *ngFor="let bucket of buckets.controls; let i = index;">
+
+                        <igx-chip [removable]="true"
+                                  [disabled]="showEditNewButton"
+                                  (remove)="removeFormArrayControl(bucket.value, buckets, bucketChipsArea, bucketOptions)">
+                            <span #label [class]="'igx-chip__text'">
+                                {{tagDetails(bucket.value, bucketOptions)?.name}}
+                            </span>
+                        </igx-chip>
+
+                    </ng-container>
+                </igx-chips-area>
+            </div>
+
+            <div class="x-small-space"></div>
+            <app-multi-select-box (onSave)="syncFormArray($event, buckets)"
+                                  [disabled]="showEditNewButton"
+                                  [optionsList]="bucketOptions">
+
+            </app-multi-select-box>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <div class="small-space"></div>
+            <button *ngIf="!showEditNewButton; else editNewButtons"
+                type="submit"
+                [disabled]="!form.valid || submitted"
+                igxButton="raised"
+                igxRipple="white">
+                Save
+            </button>
+        </div>
+    </div>
+
+</form>
+
+<ng-template #editNewButtons>
+    <button type="button"
+            (click)="onEdit()"
+            igxButton="raised"
+            igxRipple="white">
+        Edit
+    </button>&nbsp;&nbsp;
+    <button type="button"
+            (click)="onNew()"
+            igxButton="raised"
+            igxRipple="white">
+        New
+    </button>
+</ng-template>

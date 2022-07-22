@@ -1,0 +1,100 @@
+<div class="modal-header ds-primary-bg">
+    <h5 class="modal-title text-white">User Quick Edit</h5>
+    <button type="button" class="close text-white" (click)="close()">&times;</button>
+</div>
+<div [formGroup]="userForm" class="form">
+<div class="row" class="col-md-12">
+        
+            
+        
+
+              
+                <mat-form-field class="col-md-4" appearance="fill">
+                    <mat-label>First Name</mat-label>
+                    <input matInput formControlName="fname" value="" (input)="setInitials($event.target.value)">
+                  </mat-form-field>
+           
+           
+              <mat-form-field class="col-md-3" appearance="fill">
+                <mat-label>Middle Name</mat-label>
+                <input matInput formControlName="mname" value="">
+              </mat-form-field>
+           <mat-form-field class="col-md-5" appearance="fill">
+                <mat-label>Last Name</mat-label>
+                <input matInput formControlName="lname" value="" (input)="setInitials($event.target.value)">
+              </mat-form-field>
+
+
+</div>
+<div class="row" class="col-md-12">
+             
+    <mat-form-field class="col-md-12" appearance="fill">
+        <mat-label>User Name</mat-label>
+        <input matInput formControlName="username" value="">
+      </mat-form-field>
+
+</div>
+
+<div class="row" class="col-md-12">
+             
+    <mat-form-field class="col-md-12" appearance="fill">
+        <mat-label>E-Mail</mat-label>
+        <input matInput formControlName="email" value="">
+      </mat-form-field>
+
+</div>
+
+<div class="row" class="col-md-12">
+             
+    <mat-form-field class="col-md-12" appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" value="">
+      </mat-form-field>
+
+</div>
+
+<div class="row" class="col-md-12">
+             
+    <mat-form-field class="col-md-4" appearance="fill">
+        <mat-label>Failed Login Count</mat-label>
+        <input matInput formControlName="failed_login_count" value="">
+      </mat-form-field>
+
+      <mat-checkbox class="col-md-4" formControlName="locked">Account Locked</mat-checkbox>
+
+</div>
+
+<div class="row" class="col-md-12">
+    <mat-checkbox class="col-md-4" formControlName="developer">Developer</mat-checkbox>
+    <mat-checkbox class="col-md-4" formControlName="admin">Admin</mat-checkbox>
+    <mat-checkbox class="col-md-4" formControlName="rsa">RSA - Fob</mat-checkbox>
+
+
+
+</div>
+<div class="row form">
+    <mat-card class="col-md-12 matCard">
+        <mat-card-action>
+            <button  class="button" (click)="deleteToken()" mat-raised-button color="warn">Delete Token</button>
+            <button  class="button" (click)="deleteMenu()" mat-raised-button color="warn">Delete Menu</button>
+            <button  class="button" (click)="deleteGrid()" mat-raised-button color="warn">Delete Grid</button>
+            <button  class="button" (click)="deleteAccount()" mat-raised-button color="warn">Delete Account</button>
+        </mat-card-action>
+    </mat-card>
+
+
+</div>
+<div class="row">
+
+    
+     
+        <div class="col-md-12 text-right">
+        <button  class="button" (click)="close()" mat-raised-button color="warn">Close</button>
+        <button  class="button" (click)="saveUser()" [disabled]="!userForm.valid || userForm.pristine" mat-raised-button color="warn">{{saveBttn}}</button>
+        </div>
+   
+
+</div>
+</div>
+
+

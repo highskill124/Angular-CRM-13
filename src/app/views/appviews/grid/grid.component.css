@@ -1,0 +1,7 @@
+.no-data-available {
+  text-align: center;
+}
+app-columns-toggle {
+  position: absolute;
+  right: 5.5vh;
+}

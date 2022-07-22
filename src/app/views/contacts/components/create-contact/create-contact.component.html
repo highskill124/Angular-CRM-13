@@ -1,0 +1,660 @@
+<div class="small-space"></div>
+
+<div class="row">
+    <div class="col-md-10 offset-md-1">
+
+        <igx-card>
+            <igx-card-header>
+                <h3 class="igx-card-header__title">{{heading}}</h3>
+            </igx-card-header>
+
+            <igx-card-content *ngIf="form">
+
+                <form novalidate [formGroup]="form" (keydown.enter)="confirmSubmit($event)"
+                    (submit)="create(form.value)">
+
+                    <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
+                        class="alert alert-danger" role="alert">
+                        <div><strong i18n="@@ohSnapFailure">Oops!</strong></div>
+                        <div *ngFor="let error of errors">{{ error }}</div>
+                    </div>
+                    <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
+                        class="alert alert-success" role="alert">
+                        <div><strong i18n="@@hooraySuccess">Success!</strong></div>
+                        <div *ngFor="let message of messages">{{ message }}</div>
+                    </div>
+
+                    <div class="row">
+                        <!-- LEFT FORM AREA -->
+                        <div class="col-md-6">
+
+                            <!-- Personal -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4 class="form-section__title">
+                                        <igx-icon class="form-section__icon">person</igx-icon>
+                                        Personal
+                                    </h4>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <!--<igx-avatar [src]="form.get('image').value"
+                                                        roundShape="true"
+                                                        size="large">
+                                            </igx-avatar>-->
+                                            <div class="small-space"></div>
+                                            <igx-avatar initials="{{form.get('initials').value}}" size="large">
+                                            </igx-avatar>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <igx-input-group>
+                                                <input igxInput name="first_name" formControlName="first_name"
+                                                    type="text" />
+                                                <label igxLabel for="first_name">First Name</label>
+                                            </igx-input-group>
+
+                                            <igx-input-group>
+                                                <input igxInput name="middle_name" formControlName="middle_name"
+                                                    type="text" />
+                                                <label igxLabel for="middle_name">Middle Name</label>
+                                            </igx-input-group>
+
+                                            <igx-input-group>
+                                                <input igxInput name="last_name" formControlName="last_name"
+                                                    type="text" />
+                                                <label igxLabel for="last_name">Last Name</label>
+                                            </igx-input-group>
+                                        </div>
+                                    </div>
+
+                                    <igx-input-group>
+                                        <input igxInput name="initials" formControlName="initials" type="text" />
+                                        <label igxLabel for="initials">Initials</label>
+                                    </igx-input-group>
+
+                                    <igx-input-group>
+                                        <input igxInput name="job_title" formControlName="job_title" type="text" />
+                                        <label igxLabel for="job_title">Job Title</label>
+                                    </igx-input-group>
+
+                                    <igx-input-group>
+                                        <input igxInput name="company_name" formControlName="company_name"
+                                            type="text" />
+                                        <label igxLabel for="company_name">Company Name</label>
+                                    </igx-input-group>
+
+                                    <app-guid-dropdown placeholder="File As" [disabled]="showEditNewButton"
+                                        [options]="fileAsOptions$ | async" formControlName="file_as">
+
+                                    </app-guid-dropdown>
+                                </div>
+                            </div>
+
+
+                            <!-- NOTES -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="small-space"></div>
+                                    <h4 class="form-section__title">
+                                        <igx-icon class="form-section__icon">pencil</igx-icon>
+                                        Notes
+                                    </h4>
+
+                                    <igx-input-group>
+                                        <textarea igxInput name="notes" formControlName="notes"></textarea>
+                                        <label igxLabel for="notes">Notes</label>
+                                    </igx-input-group>
+                                </div>
+                            </div>
+
+
+                            <!-- ADDRESS -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="small-space"></div>
+                                    <h4 class="form-section__title">
+                                        <igx-icon>map-pin</igx-icon>
+                                        Address
+                                    </h4>
+
+                                    <ng-container formArrayName="addresses"
+                                        *ngFor="let address of addresses.controls; let i = index;">
+                                        <div class="row">
+                                            <div class="col-11">
+                                                <ng-container [formGroupName]="i">
+                                                    <igx-input-group>
+                                                        <igx-prefix class="prefix__label-select">
+                                                            <app-dropdown formControlName="type"
+                                                                placeholder="Select label"
+                                                                (click)="$event.stopPropagation();"
+                                                                [options]="addressLabels$ | async">
+
+                                                            </app-dropdown>
+                                                        </igx-prefix>
+                                                        <input igxInput googlePlace
+                                                            (onSelect)="onAddressGotten($event, addresses.controls[i])"
+                                                            name="value" formControlName="street"
+                                                            placeholder="Street address" type="text" />
+                                                        <!--<label igxLabel for="value">Street address, P.O Box, etc</label>-->
+                                                    </igx-input-group>
+
+                                                    <igx-input-group>
+                                                        <input igxInput name="unit" formControlName=unit type="text" />
+                                                        <label igxLabel for="unit">Apartment, suite,
+                                                            building, etc</label>
+                                                    </igx-input-group>
+
+                                                    <igx-input-group>
+                                                        <input igxInput name="city" formControlName="city"
+                                                            type="text" />
+                                                        <label igxLabel for="city">City</label>
+                                                    </igx-input-group>
+
+                                                    <app-guid-dropdown placeholder="State / Province"
+                                                        [disabled]="showEditNewButton" [guid]="guids.STATES"
+                                                        formControlName="state">
+
+                                                    </app-guid-dropdown>
+
+                                                    <igx-input-group>
+                                                        <input igxInput name="postal_code" formControlName="postal_code"
+                                                            type="text" />
+                                                        <label igxLabel for="postal_code">Zip Code</label>
+                                                    </igx-input-group>
+
+                                                    <app-dropdown placeholder="Select a country"
+                                                        [disabled]="showEditNewButton"
+                                                        [options]="countryOptions$ | async" formControlName="country">
+
+                                                    </app-dropdown>
+                                                </ng-container>
+                                            </div>
+                                            <div class="col-1 button__side-remove">
+                                                <button igxButton="icon" igxRipple type="button"
+                                                    (click)="removeFormArrayItem(i, addresses)"
+                                                    igxRippleCentered="true">
+                                                    <igx-icon fontSet="material">close</igx-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="x-small-space"></div>
+                                    </ng-container>
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="x-small-space"></div>
+                                    <button type="button" (click)="addFormArrayGroup(createAddress(), addresses)"
+                                        igxButton="raised" igxButtonBackground="#f2f2f2" igxRipple class="btn-add">
+                                        Add Address
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- END ADDRESS -->
+
+                        </div>
+                        <!-- END LEFT FORM AREA -->
+
+
+                        <!-- RIGHT FORM AREA -->
+                        <div class="col-md-6">
+
+                            <!-- PHONE -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4 class="form-section__title">
+                                        <igx-icon class="form-section__icon">phone</igx-icon>
+                                        Phone
+                                    </h4>
+
+                                    <ng-container formArrayName="phones"
+                                        *ngFor="let phone of phones.controls; let i = index;">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <ng-container [formGroupName]="i">
+                                                    <igx-input-group>
+                                                        <igx-prefix class="prefix__label-select">
+                                                            <app-dropdown formControlName="type"
+                                                                placeholder="Select label"
+                                                                (click)="$event.stopPropagation();"
+                                                                [options]="phoneLabels$ | async">
+
+                                                            </app-dropdown>
+                                                        </igx-prefix>
+                                                        <input igxInput name="number" formControlName="number"
+                                                            type="text" placeholder="(123) 456-7890" />
+
+                                                        <igx-suffix class="button__remove"
+                                                            *ngIf="hasTwoOrMoreItems(phones)">
+                                                            <button igxButton="icon" igxRipple type="button"
+                                                                (click)="removeFormArrayItem(i, phones); $event.stopPropagation();"
+                                                                igxRippleCentered="true">
+                                                                <igx-icon fontSet="material">close</igx-icon>
+                                                            </button>
+                                                        </igx-suffix>
+                                                    </igx-input-group>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="x-small-space"></div>
+                                    <button type="button" (click)="addFormArrayGroup(createLabeledPhoneInput(), phones)"
+                                        igxButton="raised" igxButtonBackground="#f2f2f2" igxRipple class="btn-add">
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+
+
+                            <!-- EMAIL -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="small-space"></div>
+                                    <h4 class="form-section__title">
+                                        <igx-icon>email</igx-icon>
+                                        Email
+                                    </h4>
+
+                                    <ng-container formArrayName="emails"
+                                        *ngFor="let email of emails.controls; let i = index;">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <ng-container [formGroupName]="i">
+                                                    <igx-input-group>
+                                                        <igx-prefix class="prefix__label-select">
+                                                            <app-dropdown formControlName="type"
+                                                                placeholder="Select label"
+                                                                (click)="$event.stopPropagation();"
+                                                                [options]="emailLabels$ | async">
+
+                                                            </app-dropdown>
+                                                        </igx-prefix>
+                                                        <input igxInput name="value" formControlName="address"
+                                                            type="text" placeholder="email@email.com" />
+
+                                                        <igx-suffix class="button__remove">
+
+                                                            <igx-icon *ngIf="email.value.bounce" #target="tooltipTarget"
+                                                                [igxTooltipTarget]="tooltipRefC" [style.color]="'red'">cancel
+                                                            </igx-icon>
+                                                        
+                                                                <igx-icon *ngIf="email.value.bounce" #target="tooltipTarget"
+                                                                    [igxTooltipTarget]="tooltipRefB" [style.color]="'red'">report
+                                                                </igx-icon>
+                                                        
+
+
+                                                            <igx-icon *ngIf="email.value.dflt" #target="tooltipTarget"
+                                                                [igxTooltipTarget]="tooltipRefA" [style.color]="'green'">mail
+                                                            </igx-icon>
+
+                                                            <div #tooltipRefA="tooltip" igxTooltip>
+                                                                This is the default Email for this Contact
+                                                            </div>
+                                                            <div #tooltipRefC="tooltip" igxTooltip>
+                                                                This is the Email will not get Marketing Emails
+                                                            </div>
+                                                            <div #tooltipRefB="tooltip" igxTooltip>
+                                                                This is the Email Address bounced
+                                                            </div>
+
+                                                        </igx-suffix>
+
+                                                        <igx-suffix class="button__remove">
+                                                            <button igxButton="icon" igxRipple type="button"
+                                                                (click)="editEmail(i, emails);"
+                                                                igxRippleCentered="true">
+                                                                <igx-icon [style.color]="'green'" fontSet="material">edit
+                                                                </igx-icon>
+                                                            </button>
+
+                                                        </igx-suffix>
+
+
+                                                        <igx-suffix class="button__remove"
+                                                            *ngIf="hasTwoOrMoreItems(emails)">
+                                                            <button igxButton="icon" igxRipple type="button"
+                                                                (click)="removeFormArrayItem(i, emails); $event.stopPropagation();"
+                                                                igxRippleCentered="true">
+                                                                <igx-icon [style.color]="'red'" fontSet="material">delete
+                                                                </igx-icon>
+                                                            </button>
+
+                                                        </igx-suffix>
+
+                                                    </igx-input-group>
+                                                </ng-container>
+
+                                            </div>
+
+                                        </div>
+                                    </ng-container>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="x-small-space"></div>
+                                    <button type="button" (click)="addEmail()" igxButton="raised"
+                                        igxButtonBackground="#f2f2f2" igxRipple class="btn-add">
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+
+
+                            <!-- BUCKETS -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="small-space"></div>
+                                    <h4 class="form-section__title">
+                                        <igx-icon>attachment</igx-icon>
+                                        Buckets
+                                    </h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="x-small-space"></div>
+                                    <ng-container *ngIf="bucketOptions$ | async; let bucketOptions">
+                                        <app-chips-select [selectOptions]="bucketOptions" formControlName="buckets">
+                                        </app-chips-select>
+                                    </ng-container>
+                                </div>
+                            </div>
+
+
+                            <!-- TAGS -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="small-space"></div>
+                                    <h4 class="form-section__title">
+                                        <igx-icon>category</igx-icon>
+                                        Tags
+                                    </h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="x-small-space"></div>
+                                    <ng-container *ngIf="tagOptions$ | async; let tagOptions">
+                                        <app-chips-select [selectOptions]="tagOptions" formControlName="tags">
+
+                                        </app-chips-select>
+                                    </ng-container>
+                                </div>
+                            </div>
+
+
+                            <!-- PROGRAMS -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="small-space"></div>
+                                    <h4 class="form-section__title">
+                                        <igx-icon>list</igx-icon>
+                                        Programs
+                                    </h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <app-guid-dropdown placeholder="Programs" [disabled]="showEditNewButton"
+                                        [options]="programOptions$ | async" formControlName="programs">
+
+                                    </app-guid-dropdown>
+
+                                    <!--<app-dropdown formControlName="programs"
+                                                  [disabled]="showEditNewButton"
+                                                  placeholder="Programs"
+                                                  (click)="$event.stopPropagation();"
+                                                  [options]="programOptions$ | async">
+
+                                    </app-dropdown>-->
+                                </div>
+                            </div>
+
+
+                            <!-- WEBSITES -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="small-space"></div>
+                                    <h4 class="form-section__title">
+                                        <igx-icon>url</igx-icon>
+                                        Websites
+                                    </h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <ng-container formArrayName="websites"
+                                        *ngFor="let website of websites.controls; let i = index;">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <ng-container [formGroupName]="i">
+                                                    <igx-input-group>
+                                                        <igx-prefix class="prefix__label-select">
+                                                            <app-dropdown formControlName="type"
+                                                                placeholder="Select label"
+                                                                (click)="$event.stopPropagation();"
+                                                                [options]="websiteLabels$ | async">
+
+                                                            </app-dropdown>
+                                                        </igx-prefix>
+                                                        <input igxInput name="value" formControlName="address"
+                                                            type="text" />
+
+                                                        <igx-suffix class="button__remove"
+                                                            *ngIf="hasTwoOrMoreItems(websites)">
+                                                            <button igxButton="icon" igxRipple type="button"
+                                                                (click)="removeFormArrayItem(i, websites); $event.stopPropagation();"
+                                                                igxRippleCentered="true">
+                                                                <igx-icon fontSet="material">close</igx-icon>
+                                                            </button>
+                                                        </igx-suffix>
+                                                    </igx-input-group>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="x-small-space"></div>
+                                    <button type="button"
+                                        (click)="addFormArrayGroup(createLabeledAddressInput(), websites)"
+                                        igxButton="raised" igxButtonBackground="#f2f2f2" igxRipple class="btn-add">
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+
+
+                            <!-- SOCIAL -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="small-space"></div>
+                                    <h4 class="form-section__title">
+                                        <igx-icon>social</igx-icon>
+                                        Social
+                                    </h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <ng-container formArrayName="socials"
+                                        *ngFor="let social of socials.controls; let i = index;">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <ng-container [formGroupName]="i">
+                                                    <igx-input-group>
+                                                        <igx-prefix class="prefix__label-select">
+                                                            <app-dropdown formControlName="type"
+                                                                placeholder="Select label"
+                                                                (click)="$event.stopPropagation();"
+                                                                [options]="socialLabels$ | async">
+
+                                                            </app-dropdown>
+                                                        </igx-prefix>
+                                                        <input igxInput name="value" formControlName="address"
+                                                            type="text" />
+
+                                                        <igx-suffix class="button__remove"
+                                                            *ngIf="hasTwoOrMoreItems(socials)">
+                                                            <button igxButton="icon" igxRipple type="button"
+                                                                (click)="removeFormArrayItem(i, socials); $event.stopPropagation();"
+                                                                igxRippleCentered="true">
+                                                                <igx-icon fontSet="material">close</igx-icon>
+                                                            </button>
+                                                        </igx-suffix>
+                                                    </igx-input-group>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="x-small-space"></div>
+                                    <button type="button"
+                                        (click)="addFormArrayGroup(createLabeledAddressInput(), socials)"
+                                        igxButton="raised" igxButtonBackground="#f2f2f2" igxRipple class="btn-add">
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+
+
+                            <!-- RECURRING EVENTS -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="small-space"></div>
+                                    <h4 class="form-section__title">
+                                        <igx-icon class="form-section__icon">clock</igx-icon>
+                                        Recurring Events
+                                    </h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <ng-container formArrayName="recurring_events"
+                                        *ngFor="let event of recurring_events.controls; let i = index;">
+                                        <div class="row">
+                                            <div class="col-11">
+                                                <ng-container [formGroupName]="i">
+                                                    <div
+                                                        class="igx-input-group igx-input-group igx-input-group--comfortable">
+                                                        <div
+                                                            class="igx-input-group__bundle igx-input-group__bundle-date">
+                                                            <igx-prefix class="prefix__label-select">
+                                                                <app-dropdown formControlName="type"
+                                                                    placeholder="Select label"
+                                                                    (click)="$event.stopPropagation();"
+                                                                    [options]="recurringEventLabels$ | async">
+
+                                                                </app-dropdown>
+                                                            </igx-prefix>
+
+                                                            <app-date-input formControlName="date" label="Date"
+                                                                [disabled]="showEditNewButton">
+
+                                                            </app-date-input>
+                                                        </div>
+                                                    </div>
+
+                                                    <igx-input-group>
+                                                        <input igxInput name="description" formControlName="description"
+                                                            type="text" />
+                                                        <label igxLabel for="description">Add a description</label>
+                                                    </igx-input-group>
+                                                </ng-container>
+                                            </div>
+                                            <div class="col-1 button__side-remove">
+                                                <button igxButton="icon" igxRipple type="button"
+                                                    (click)="removeFormArrayItem(i, recurring_events)"
+                                                    igxRippleCentered="true">
+                                                    <igx-icon fontSet="material">close</igx-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="x-small-space"></div>
+                                    </ng-container>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="x-small-space"></div>
+                                    <button type="button"
+                                        (click)="addFormArrayGroup(createRecurringEvent(), recurring_events)"
+                                        igxButton="raised" igxButtonBackground="#f2f2f2" igxRipple class="btn-add">
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+
+
+                            <!-- FOLLOW UPS -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="small-space"></div>
+                                    <h4 class="form-section__title">
+                                        <igx-icon class="form-section__icon">clock</igx-icon>
+                                        Follow Ups
+                                    </h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <ng-container formArrayName="follow_ups"
+                                        *ngFor="let follow_up of follow_ups.controls; let i = index;">
+                                        <div class="row">
+                                            <div class="col-11">
+                                                <ng-container [formGroupName]="i">
+
+                                                    <app-date-input formControlName="start_date" label="Start date"
+                                                        [disabled]="showEditNewButton">
+
+                                                    </app-date-input>
+
+                                                    <app-date-input formControlName="end_date" label="End date"
+                                                        [disabled]="showEditNewButton">
+
+                                                    </app-date-input>
+
+                                                    <app-guid-dropdown placeholder="Select method"
+                                                        [disabled]="showEditNewButton"
+                                                        [options]="followUpOptions$ | async" formControlName="method">
+
+                                                    </app-guid-dropdown>
+
+                                                    <igx-input-group>
+                                                        <textarea igxInput name="notes"
+                                                            formControlName="notes"></textarea>
+                                                        <label igxLabel for="notes">Add notes</label>
+                                                    </igx-input-group>
+
+                                                </ng-container>
+                                            </div>
+                                            <div class="col-1 button__side-remove">
+                                                <button igxButton="icon" igxRipple type="button"
+                                                    (click)="removeFormArrayItem(i, follow_ups)"
+                                                    igxRippleCentered="true">
+                                                    <igx-icon fontSet="material">close</igx-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="x-small-space"></div>
+                                    </ng-container>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="x-small-space"></div>
+                                    <button type="button" (click)="addFormArrayGroup(createFollowUp(), follow_ups)"
+                                        igxButton="raised" igxButtonBackground="#f2f2f2" igxRipple class="btn-add">
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <div class="small-space"></div>
+                            <button type="submit" [disabled]="!form.valid || submitted" igxButton="raised"
+                                igxRipple="white">
+                                {{ currentOperation | titlecase }}
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </igx-card-content>
+        </igx-card>
+
+        <div class="small-space"></div>
+
+    </div>
+</div>

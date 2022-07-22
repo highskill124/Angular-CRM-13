@@ -1,0 +1,151 @@
+<div class="small-space"></div>
+
+<div class="row">
+    <div class="col-md-10 offset-md-1">
+
+        <igx-card>
+            <!-- <igx-card-header>
+                <h3 class="igx-card-header__title">{{heading}}</h3>
+            </igx-card-header> -->
+
+            <igx-card-content>
+                <form novalidate [formGroup]="form" (submit)="create(form.value)">
+
+                    <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
+                         class="alert alert-danger" role="alert">
+                        <div><strong i18n="@@ohSnapFailure">Oops!</strong></div>
+                        <div *ngFor="let error of errors">{{ error }}</div>
+                    </div>
+                    <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
+                         class="alert alert-success" role="alert">
+                        <div><strong i18n="@@hooraySuccess">Success!</strong></div>
+                        <div *ngFor="let message of messages">{{ message }}</div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <h4>Template Information</h4>
+                        </div>
+
+                        <div class="col-md-12">
+                            <igx-input-group>
+                                <input igxInput id="title" name="title" formControlName="title" type="text"/>
+                                <label igxLabel for="title">Title</label>
+                            </igx-input-group>
+                        </div>
+
+                        <div class="col-md-12">
+                            <igx-input-group>
+                                <input igxInput id="goal" name="goal" formControlName="goal" type="text"/>
+                                <label igxLabel for="goal">Goal</label>
+                            </igx-input-group>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="small-space"></div>
+                            <h4>Template Content</h4>
+                        </div>
+
+                        <div class="col-md-12">
+                            <igx-input-group>
+                                <input igxInput id="subject" name="subject" formControlName="subject" type="text"/>
+                                <label igxLabel for="subject">Subject</label>
+                            </igx-input-group>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="small-space"></div>
+                            <div class="row">
+                                <div class="col-md-2 m-auto">
+                                    <label class="color-label__focused" for="template-body">Body *</label>
+                                </div>
+                                <div class="col-md-10">
+                                    <!-- <div class="pull-right">
+                                        <app-dropdown-select title="Add contact fields"
+                                                             [options]="contactFields$ | async"
+                                                             (optionSelected)="addField($event)">
+
+                                        </app-dropdown-select>
+                                        <app-dropdown-select title="Add personal fields"
+                                                             [options]="personalFields$ | async"
+                                                             (optionSelected)="addField($event)">
+
+                                        </app-dropdown-select>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" *ngIf="froalaOptions">
+                            <div [froalaEditor]="froalaOptions" id="template-body"
+                                 formControlName="message_body">
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="small-space"></div>
+                            <igx-checkbox [checked]="signature.value === 'default'" formControlName="signature">
+                                Use default signature
+                            </igx-checkbox>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6" *ngIf="tagOptions$ | async; let tagOptions">
+                                    <app-chips-select title="Tags" titleIcon="category"
+                                                      [selectOptions]="tagOptions"
+                                                      formControlName="tags">
+
+                                    </app-chips-select>
+                                </div>
+
+                                <div class="col-md-6" *ngIf="libraryOptions$ | async; let libraryOptions">
+                                    <app-chips-select title="Library" titleIcon="attachment"
+                                                      [selectOptions]="libraryOptions"
+                                                      formControlName="librarys">
+
+                                    </app-chips-select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" align="end">
+
+                            <div class="small-space"></div>
+                            <button
+                                type="submit"
+                                (click)="close()"
+                                igxButton="raised"
+                                igxRipple="white">
+                                Close
+                            </button>
+                            <button
+                                type="button"
+                                [disabled]="submitText != 'Update'"
+                                (click)="deleteTemplate()"
+                                igxButton="raised"
+                                igxRipple="white">
+                                Delete
+                            </button>
+                            <button
+                                type="submit"
+                                [disabled]="!form.valid || form.pristine"
+                                igxButtonColor="black"
+                                igxButtonBackground="#33cc33"
+                                igxButton="raised"
+                                igxRipple="white">
+                                {{submitText}}
+                            </button>
+
+                        </div>
+                    </div>
+
+                </form>
+
+            </igx-card-content>
+        </igx-card>
+
+    </div>
+</div>
+<div class="small-space"></div>

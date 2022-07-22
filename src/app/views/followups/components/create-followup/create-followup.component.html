@@ -1,0 +1,105 @@
+<div class="modal-content ds-modal">
+    <div class="modal-header ds-primary-bg">
+        <h5 class="modal-title text-white">{{saveBttn}} Followup</h5>
+        <button type="button" class="close text-white" (click)="closeDialog()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="emailForm-wrapper">
+            <form novalidate [formGroup]="form" (submit)="create(form.value)">
+
+                <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
+                     class="alert alert-danger" role="alert">
+                    <div><strong i18n="@@ohSnapFailure">Oops!</strong></div>
+                    <div *ngFor="let error of errors">{{ error }}</div>
+                </div>
+                <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
+                     class="alert alert-success" role="alert">
+                    <div><strong i18n="@@hooraySuccess">Success!</strong></div>
+                    <div *ngFor="let message of messages">{{ message }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="emailForm-input-wrapper dropdwn">
+                            <app-dropdown class="do-validate form-control sm-pad" placeholder=" " [options]="flagToOptions$ | async" 
+                            formControlName="flag_to"></app-dropdown>
+                            <label for="">Flag to</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="align-to-middle">
+                        <igx-checkbox class="emailfm-check" [checked]="form.value.completed" formControlName="completed">Completed</igx-checkbox>
+                    </div>
+                    </div>
+                    <div class="col-md-12 mb-2">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="emailForm-input-wrapper dropdwn no-igx-label">
+                                    <igx-date-picker #statdat class="do-validate form-control md-pad"  label=" " formControlName="start_date"> </igx-date-picker>
+                                    <label for="">Start Date</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="emailForm-input-wrapper dropdwn no-igx-label">
+                                    <igx-date-picker class="do-validate form-control md-pad"  label=" " formControlName="end_date"> </igx-date-picker>
+                                    <label for="">Due Date</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>   
+                    
+                    <div class="col-md-12 mb-2">
+                        <div class="emailForm-input-wrapper dropdwn">
+                            <label for="body">Body</label>
+                            <textarea class="form-control sm-pad" id="notes" name="notes"  formControlName="notes"></textarea>
+                        </div>
+                    </div>
+
+                    <!--  -->
+                    <div class="col-md-12 mb-2">
+                        <div class="row">
+                            <div class="col-md-2 d-flex pb-2">
+                                <igx-checkbox class="emailfm-check" [checked]="form.value.reminder" formControlName="reminder">Reminder</igx-checkbox>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="emailForm-input-wrapper dropdwn">
+                                    <label>Reminder Date</label>
+                                    <igx-date-picker class="form-control mdx-pad" [showWeekNumbers]="true" [disabled]="(form.value.reminder !== true)" label=" " formControlName="reminder_date">
+                                    </igx-date-picker>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="emailForm-input-wrapper dropdwn no-igx-label">
+                                    <label>Reminder Time</label>
+                                    <igx-time-picker class="form-control mdx-pad" label=" " formControlName="reminder_time" id="time-picker" [disabled]="(form.value.reminder !== true)">
+                                    </igx-time-picker>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <div class="small-space"></div>
+            
+                        <div class="igx-dialog__window-actions">
+                            <button  type="button" igxButton igxRipple (click)="closeDialog()">
+                                Close
+                            </button>
+                            <button type="submit"
+                                    [disabled]= "!form.valid || form.pristine"
+                                    igxButton="raised"
+                                    igxRipple="white">
+                                    {{ saveBttn }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            
+            </form>
+        </div>
+    </div>
+</div>
+
+

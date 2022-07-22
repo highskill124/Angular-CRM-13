@@ -1,0 +1,15 @@
+<button class="button action__grid"
+        igxButton
+        [igxToggleAction]="dropdownExport"
+        [igxDropDownItemNavigation]="dropdownExport">
+    <igx-icon>import_export</igx-icon>
+    Export
+</button>
+<igx-drop-down #dropdownExport
+               width="100px"
+               (selectionChanging)="onExportTypeSelect($event.newSelection.value)">
+    <igx-drop-down-item *ngFor="let item of exportFormats"
+                        [value]="item.value">
+        {{ item.name }}
+    </igx-drop-down-item>
+</igx-drop-down>

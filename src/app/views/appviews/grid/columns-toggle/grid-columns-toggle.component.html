@@ -1,0 +1,19 @@
+<!--
+<div class="btn-group" dropdown [autoClose]="false">
+  <button id="button-basic" dropdownToggle type="button" class="btn btn-default dropdown-toggle"
+          aria-controls="dropdown-basic">
+    <i class="fa fa-list"></i>
+  </button>
+  <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-right"
+      role="menu" aria-labelledby="button-basic">
+    <li *ngFor="let column of columns" role="menuitem">
+      <ng-container *ngIf="column.column_name !== 'uid'">
+        <input
+          (change)="onUpdate(column.column_heading, column.guid, $event.target.checked)"
+          name="{{column.column_name}}"
+          type="checkbox" [checked]="column.display"> {{column.column_heading}}
+      </ng-container>
+    </li>
+  </ul>
+</div>
+-->

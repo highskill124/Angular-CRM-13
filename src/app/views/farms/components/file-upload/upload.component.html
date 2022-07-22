@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="medium-space"></div>
+    <div class="medium-space"></div>
+    <div class="medium-space"></div>
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6 text-center">
+
+            <igx-select [(ngModel)]="importTypeId">
+                <igx-prefix>Import Type</igx-prefix>
+                <igx-select-item *ngFor="let option of importTypeOptions$ | async"
+                                 [value]="option.value">
+                    {{ option.name }}
+                </igx-select-item>
+            </igx-select>
+            <br>
+
+            <input type="file" style="display: none;" name="file" id="file" [(ngModel)]="fileInput" accept=".csv" (change)="upload($event)"/>
+            <label for="file" igxButton="raised" igxRipple="white">Upload CSV File</label>
+
+            
+                <button *ngIf="uploadedPercentage == 100" igxButton="raised" (click) = cleanUploadedFile()>Reset Upload</button>
+           
+
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <br>
+                    <p class="text-center">{{ message }}</p>
+                    <div class="text-center" *ngIf="uploadedPercentage">
+                        <igx-linear-bar [striped]="false" [max]="100" [value]="uploadedPercentage"></igx-linear-bar>
+                      
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+
+  </div>
+</div>-->
+
+

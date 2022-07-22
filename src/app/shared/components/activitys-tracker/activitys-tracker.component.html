@@ -1,0 +1,75 @@
+<div class="activity-tracker-card">
+
+    <div class="activity-tracker-card-header">
+
+        <div class="tracker-title">
+            {{gridtitle}}
+        </div>
+
+        <div class="tracker-action">
+            Goal
+        </div>
+    </div>
+
+
+    <div class="tracker-card-body">
+        <ng-container *ngFor="let counter of data$ | async; let i = index;">
+
+            <div class="tracker-body-section">
+                <div class="bar-detail-section">
+                    <span class="progress-bar-heading">{{counter.name}} ({{counter.value}}) </span>
+                    <mat-progress-bar mode="determinate" [value]="(counter.value / counter.target) * 100"
+                        [ngClass]="{'stage-red': counter.target < 25,'stage-orange': counter.target >= 25 && counter.target < 50,'stage-yellow': counter.target >= 50 && counter.target < 75 }">
+                    </mat-progress-bar>
+                </div>
+
+                <div class="goal-detail-section">
+                    {{counter.target}}
+                </div>
+            </div>
+
+        </ng-container>
+
+    </div>
+
+</div>
+
+
+
+
+<!-- 
+
+<div class="row">
+
+
+    <div class=""
+
+    <div class="column">
+
+        <div class="activity-header">
+            <h5>{{gridtitle}}</h5>
+
+            <span [matMenuTriggerFor]="menu">
+                <igx-icon  class="material-icons igx-icon" >more_vert</igx-icon>
+
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="reloadData()">
+                      <mat-icon>autorenew</mat-icon>
+                      <span>Refresh</span>
+                    </button>
+                  </mat-menu>
+            </span>            
+        </div> 
+       
+     
+        <div #clearAllRef="tooltip" igxTooltip>Refresh Data </div>
+
+        <ng-container *ngFor="let counter of data$ | async; let i = index;">
+
+            <p>{{counter.name}} ({{counter.value}}) {{counter.target}}</p>
+            <mat-progress-bar mode="determinate" [value]="(counter.value / counter.target) * 100" [ngClass]="{'stage-red': counter.target < 25,'stage-orange': counter.target >= 25 && counter.target < 50,'stage-yellow': counter.target >= 50 && counter.target < 75 }"></mat-progress-bar>
+
+        </ng-container>
+    </div>
+
+</div> -->

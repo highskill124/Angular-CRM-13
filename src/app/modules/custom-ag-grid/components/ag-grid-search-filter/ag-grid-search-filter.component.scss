@@ -1,0 +1,9 @@
+.prefix__qstype-select {
+    max-width: 10em;
+}
+
+:host ::ng-deep igx-prefix app-dropdown igx-input-group {
+    .igx-input-group__bundle {
+        padding-top: 0;
+    }
+}

@@ -1,0 +1,76 @@
+.top {
+    margin-bottom: 20px;
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 35px;
+}
+
+.basic {
+    margin-bottom: 50px;
+    margin-left: 2%;
+    margin-right: 2%;
+  
+}
+.progress {
+    margin-top: 25px;
+    margin-left: 2%;
+    margin-right: 2%;
+    min-height: 200px;
+}
+
+.options {
+
+    margin-left: 2%;
+    margin-right: 2%;
+}
+.customerFilter {
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-bottom: 10px;
+}
+.action_bttn {
+    margin-top: 15px;
+    margin-right: 4%;
+}
+.bttn {
+    margin-right: 3px;
+}
+
+::ng-deep .parent-class .mat-form-field-underline {
+    display: none;
+  }
+
+  ::ng-deep .parent-class .custom-component .mat-form-field-underline {
+    display: block;
+  }
+
+::ng-deep .select-all .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color: rgb(230, 226, 19) !important;
+  }
+  
+::ng-deep .select-all .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: rgb(96, 230, 240) !important;
+}
+  
+
+  ::ng-deep {
+    igx-chip{
+        &.square-chips{
+            .igx-chip__item{
+                border-radius: 4px;
+                margin: 0 2px;
+            }
+        }
+    }
+    
+}
+
+::ng-deep  .igx-linear-bar__value{
+    margin-top: 25px;
+    margin-left: 10px;
+    
+}
+.message{
+    margin-top: 20px;
+    margin-left: 50px;
+}

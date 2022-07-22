@@ -1,0 +1,72 @@
+<div class="grid__wrapper">
+
+    <!--<ng-container *ngIf="(gridColumns$ | async).length > 0">-->
+    <div class="x-small-space"></div>
+    <igx-grid #grid
+              [data]="remoteData | async"
+              [height]="'500px'"
+              [width]="'100%'"
+              [autoGenerate]='false'
+             
+              (onColumnVisibilityChanged)="toggleColumn($event)"
+              (onDataPreLoad)="processData($event, false)"
+              (onSortingDone)="processData($event, true)"
+              (onFilteringDone)="processData($event, true)">
+        <igx-grid-toolbar>
+            <igx-grid-toolbar-title>{{ gridInput.title ? gridInput.title : '' }}</igx-grid-toolbar-title>
+            <igx-grid-toolbar-actions>
+                <igx-grid-toolbar-hiding title="Column Hiding" prompt="Hidden"></igx-grid-toolbar-hiding>
+                <igx-grid-toolbar-pinning></igx-grid-toolbar-pinning>
+                <igx-grid-toolbar-exporter [exportExcel]="true" [exportCSV]="true" exportText="Export" ></igx-grid-toolbar-exporter>
+            </igx-grid-toolbar-actions>
+        </igx-grid-toolbar>
+
+        <ng-container *ngIf="gridInput.actions && gridInput.actions.length > 0">
+            <igx-column [disableHiding]="true" [resizable]="true">
+                <ng-template igxCell let-cell="cell">
+                    <button igxButton="icon" (click)="editRow(cell.cellID.rowIndex)">
+                        <igx-icon>edit</igx-icon>
+                    </button>
+                </ng-template>
+            </igx-column>
+        </ng-container>
+
+        <igx-column [disableHiding]="true" [resizable]="true" header="ID" field="">
+            <ng-template igxCell let-cell="cell" let-val>
+                <span>{{cell.rowIndex}}</span>
+            </ng-template>
+        </igx-column>
+
+        <ng-container *ngFor="let column of tableHeaders">
+
+            <igx-column *ngIf="column.type === columnTypes.DATE; else default"
+                        field="{{column.column_name}}"
+                        [resizable]="true"
+                        [hidden]="!column.display"
+                        header="{{column.column_heading}}"
+                        [dataType]="'date'"
+                        [filterable]="column.filter">
+                <ng-template igxCell let-cell="cell" let-val>
+                    {{val | date:'mm/dd/yyyy'}}
+                </ng-template>
+            </igx-column>
+
+            <ng-template #default>
+                <igx-column field="{{column.column_name}}"
+                            [resizable]="true"
+                            [hidden]="!column.display"
+                            header="{{column.column_heading}}"
+                            [filterable]="column.filter">
+
+                </igx-column>
+            </ng-template>
+
+        </ng-container>
+
+    </igx-grid>
+
+    <!--</ng-container>-->
+
+    <igx-toast #toast></igx-toast>
+
+</div>

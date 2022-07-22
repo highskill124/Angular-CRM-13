@@ -1,0 +1,63 @@
+:host ::ng-deep igx-list {
+    igx-list-item {
+        .igx-list__item-content {
+            min-height: auto;
+        }
+
+        igx-expansion-panel {
+            igx-expansion-panel-header {
+                .igx-expansion-panel__header-inner {
+                    padding: inherit;
+                    //padding: 0.5rem 0.5rem;
+
+                    .igx-expansion-panel__header-icon--start {
+                        margin-right: 0.5rem;
+                    }
+                }
+            }
+
+            igx-expansion-panel-body {
+                app-multi-select-box-card {
+                    igx-card {
+                        .igx-card {
+                            display: inherit;
+                            box-shadow: none;
+                            overflow: inherit;
+                        }
+
+                        igx-card-header {
+                            display: inherit;
+                            padding: inherit;
+                        }
+
+                        igx-card-content {
+                            padding-bottom: 0;
+                        }
+
+                        igx-card-actions {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Remove the padding completely from list item parents that contain expansion panels
+ * The padding will be set on the expansion panel header so it appropriately occupies the full area
+ */
+/*
+:host ::ng-deep .list-item__expandable {
+  .igx-list__item-content {
+    padding-top: 0;
+  }
+}*/
+
+:host ::ng-deep .type__active {
+    .igx-list__item-content {
+        color: rgba(0, 0, 0, 0.74);
+        background-color: #f4f4f4;
+    }
+}

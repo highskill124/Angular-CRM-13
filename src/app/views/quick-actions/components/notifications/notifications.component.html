@@ -1,0 +1,47 @@
+<span [igxToggleAction]="notificationsDropdown"
+      [igxToggleOutlet]="outletNotificationsDropdown"
+      [igxDropDownItemNavigation]="notificationsDropdown"
+      [overlaySettings]="overlaySettings"
+      (click)="fetchNotifications()">
+
+    <button type="button"
+            igxButton="icon"
+            igxRipple>
+        <igx-icon [style.color]="'white'">notifications</igx-icon>
+    </button>
+
+    <igx-badge *ngIf="notificationsCount"
+               type="success"
+               [value]="notificationsCount"
+               class="badge-style">
+
+    </igx-badge>
+
+</span>
+
+<igx-drop-down #notificationsDropdown (selectionChanging)="onSelection($event)">
+
+    <ng-container *ngIf="notifications$ | async;">
+        <igx-drop-down-item *ngFor="let item of notifications" [value]="item">
+            <div class="item-container">
+                <div class="notification">
+                    <div class="notification__info">
+                        <span class="subject">{{item.subject}}</span>
+                        <span class="message">{{item.message}}</span>
+                    </div>
+                </div>
+                <!--<span igxButton="icon" igxRipple igxRippleCentered="true" (click)="markAsRead(item)">
+                    <igx-icon color="#ff5252">eye</igx-icon>
+                </span>-->
+                <span igxButton="icon" igxRipple igxRippleCentered="true" (click)="deleteNotification(item)">
+                <igx-icon [style.color]="'#ff5252'">delete</igx-icon>
+            </span>
+            </div>
+        </igx-drop-down-item>
+    </ng-container>
+
+</igx-drop-down>
+
+
+<div class="overlayOutlet" igxOverlayOutlet #outletNotificationsDropdown="overlay-outlet"></div>
+

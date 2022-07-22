@@ -1,0 +1,26 @@
+<ng-container *ngIf="formData">
+
+    <div class="small-space"></div>
+
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+
+            <button (click)="goBack()" class="text-left" igxButton="icon" igxRipple igxRippleCentered="true">
+                <igx-icon fontSet="material">arrow_back_ios</igx-icon>
+            </button>
+
+            <button (click)="deleteContact(formData.DocId)" class="float-right" igxButton="icon" igxRipple
+                    igxRippleCentered="true">
+                <igx-icon [style.color]="'red'" fontSet="material">delete</igx-icon>
+            </button>
+
+        </div>
+    </div>
+
+    <app-create-contact
+        [formData]="formData"
+        [heading]="heading">
+
+    </app-create-contact>
+
+</ng-container>

@@ -1,0 +1,110 @@
+<!-- <form novalidate [formGroup]="form" (submit)="create(form.value)">
+    <h1>Email Message</h1>
+    From : <input id="from" name="from" formControlName="from" type="text" /><br>
+    TO : <input id="to" name="to" formControlName="to" type="text" /><br>
+    <div *ngIf="showcc">CC : <input id="cc" name="cc" formControlName="cc" type="text" /><br></div>
+    <div *ngIf="showbcc">BCC : <input id="bcc" name="bcc" formControlName="bcc" type="text" /><br></div>
+    Tracking Nbr : <input id="tracking_nbr" name="tracking_nbr" formControlName="tracking_nbr" type="text" /> 
+    <input id="send_datetime" name="send_datetime" formControlName="send_datetime" type="text" /> <br>
+    Subject <input id="subject" name="subject" formControlName="subject" type="text" />
+    <BR><BR>
+    <div class="col-md-12" *ngIf="froalaOptions">
+                              <div [froalaEditor]="froalaOptions" id="template-body"
+                                   formControlName="message_body">
+  
+                              </div>
+                          </div>
+  </form> -->
+  <div class="modal-content ds-modal">
+        
+    <!-- Modal Header -->
+    <div class="modal-header ds-primary-bg">
+    <h5 class="modal-title text-white">Email Message</h5>
+    <button type="button" class="close text-white" (click)="close()">&times;</button>
+    </div>
+
+    <!-- Modal body -->
+
+    <div class="modal-body">
+        <div class="emailForm-wrapper">
+            <form novalidate [formGroup]="form" (submit)="create(form.value)">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="currentTime">
+                            <span class="badge badge-secondary"> <i class="far fa-calendar"></i> &nbsp;{{send_datetime}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="emailForm-input-wrapper">
+                            <label for="">From </label>
+                            <p class="form-control">
+                                <span>{{formf.from.value}}</span>
+                            </p>
+                            <!-- <input id="from" name="from" formControlName="from" type="text" class="form-control" /> -->
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="emailForm-input-wrapper">
+                            <label for="">To </label>
+                            <p class="form-control with-chip">
+                                <span class="badge badge-secondary cust-chip">{{formf.to.value}}</span>
+                            </p>
+                            <!-- <input id="to" name="to" formControlName="to" data-role="tagsinput" type="text" class="form-control" />                                         -->
+                           
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="emailForm-input-wrapper" id="CC_outer" *ngIf="(formf.cc.value && formf.cc.value.length)">
+                            <label for="">Cc </label>
+                            <p class="form-control with-chip">
+                                <span class="badge badge-secondary cust-chip" *ngFor="let ccE of formf.cc.value">{{ccE}}</span>
+                            </p>
+                            <!-- <input id="cc" name="cc"  data-role="tagsinput" formControlName="cc" type="text" class="form-control"/> -->
+                        </div>
+                        <div class="emailForm-input-wrapper" id="BCC_outer" *ngIf="(formf.bcc.value && formf.bcc.value.length)">
+                            <label for="">Bcc </label>
+                            <p class="form-control with-chip">
+                                <span class="badge badge-secondary cust-chip" *ngFor="let bccE of formf.bcc.value">{{bccE}}</span>
+                            </p>
+                            <!-- <input id="bcc" name="bcc"  data-role="tagsinput" formControlName="bcc" type="text" class="form-control"/> -->
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="emailForm-input-wrapper">
+                            <label for="">Tracking Number <button type="button" class="btn btn-sm ml-2 btn-outline-dark"> <i class="fas fa-map-marked-alt"></i> </button> </label>
+                            <p class="form-control x-pad with-chip">
+                                <span class="badge badge-secondary cust-chip">{{formf.tracking_nbr.value}}</span>
+                            </p>
+                        </div>
+                    </div>
+                   
+                    <div class="col-md-12">
+                        <div class="emailForm-input-wrapper">
+                            <label for="">Subject </label>
+                            <p class="form-control sm-pad">
+                                <span>{{formf.subject.value}}</span>
+                            </p>
+                            <!-- <input id="subject" name="subject" formControlName="subject" type="text" class="form-control subject-pd" /> -->
+                        </div>
+                    </div>
+                    <!-- Messgae body starts -->
+                    <div class="col-md-12" *ngIf="froalaOptions">
+                        <div [froalaEditor]="froalaOptions" id="template-body"
+                        formControlName="message_body" class="emailForm-input-wrapper">
+                        </div>
+                    </div>
+                    <!-- Messgae body ends -->
+                    <!-- Submit button -->
+              
+                    <!-- Submit button -->
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal footer -->
+    <!-- <div class="modal-footer">
+    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+    </div> -->
+
+</div>

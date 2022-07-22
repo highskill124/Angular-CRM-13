@@ -1,0 +1,192 @@
+<div class="sample-wrapper">
+    <section class="sample-content">
+        <article class="sample-column">
+
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-md-10 offset-md-1">
+
+                        <igx-card>
+                            <igx-card-header>
+                                <h3 class="igx-card-header__title">{{heading}}</h3>
+                                <!--<h5 class="igx-card-header__subtitle">Audi AG</h5>-->
+                            </igx-card-header>
+                            <igx-card-content>
+
+                                <form novalidate [formGroup]="form" (submit)="create(form.value)">
+
+                                    <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
+                                         class="alert alert-danger" role="alert">
+                                        <div><strong i18n="@@ohSnapFailure">Oops!</strong></div>
+                                        <div *ngFor="let error of errors">{{ error }}</div>
+                                    </div>
+                                    <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
+                                         class="alert alert-success" role="alert">
+                                        <div><strong i18n="@@hooraySuccess">Success!</strong></div>
+                                        <div *ngFor="let message of messages">{{ message }}</div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <app-guid-dropdown placeholder="Status"
+                                                                 [guid]="guids.FARM_CAMPAIGN_STATUS"
+                                                                 [isRequired]="true"
+                                                                 formControlName="status"></app-guid-dropdown>
+                                            <!--<igx-hint
+                                              *ngIf="status.touched && status.invalid"
+                                              position="start"
+                                              class="error-hint">
+                                              Status is required.
+                                            </igx-hint>-->
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <igx-input-group>
+                                                <input igxInput name="event_name" formControlName="event_name" type="text" />
+                                                <label igxLabel for="event_name">Event Name</label>
+                                            </igx-input-group>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <igx-input-group>
+                                                <textarea igxInput id="event_description" name="event_description" formControlName="event_description"></textarea>
+                                                <label igxLabel for="event_description">Event Description</label>
+                                            </igx-input-group>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <app-dropdown label="Farm"
+                                                          [options]="farmIdOptions$ | async"
+                                                          formControlName="farm_id">
+
+                                            </app-dropdown>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <igx-date-picker label="Event Date *" formControlName="event_date"></igx-date-picker>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <igx-date-picker label="Start Date" formControlName="start_date"></igx-date-picker>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <igx-time-picker formControlName="start_time" id="time-picker">
+                                                <ng-template igxTimePickerTemplate let-displayTime="displayTime" let-openDialog="openDialog">
+                                                    <igx-input-group (click)="openDialog()">
+                                                        <!--<igx-prefix>
+                                                          <igx-icon>access_time</igx-icon>
+                                                        </igx-prefix>-->
+                                                        <label igxLabel>Start Time</label>
+                                                        <input igxInput [value]="displayTime"/>
+                                                    </igx-input-group>
+                                                </ng-template>
+                                            </igx-time-picker>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <igx-date-picker label="End Date" formControlName="end_date"></igx-date-picker>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <igx-time-picker formControlName="end_time" id="time-picker2">
+                                                <ng-template igxTimePickerTemplate let-displayTime="displayTime" let-openDialog="openDialog">
+                                                    <igx-input-group (click)="openDialog()">
+                                                        <!--<igx-prefix>
+                                                          <igx-icon>access_time</igx-icon>
+                                                        </igx-prefix>-->
+                                                        <label igxLabel>End Time</label>
+                                                        <input igxInput [value]="displayTime"/>
+                                                    </igx-input-group>
+                                                </ng-template>
+                                            </igx-time-picker>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <app-guid-dropdown placeholder="Distribution Method"
+                                                                 [isRequired]="true"
+                                                                 [guid]="guids.FARM_CAMPAIGN_DISTRIBUTION_METHOD"
+                                                                 formControlName="distribution_method"></app-guid-dropdown>
+                                            <!--<igx-input-group>
+                                              <input igxInput name="distribution_method" formControlName="distribution_method" type="text" />
+                                              <label igxLabel for="distribution_method">Distribution Method</label>
+                                            </igx-input-group>-->
+                                        </div>
+                                        <div class="col-md-6">
+                                            <igx-input-group>
+                                                <input igxInput name="distribution_cost" formControlName="distribution_cost" min="0" type="number" />
+                                                <label igxLabel for="distribution_cost">Distribution Cost</label>
+                                            </igx-input-group>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <igx-input-group>
+                                                <input igxInput name="doc1_url" formControlName="doc1_url" type="text" />
+                                                <label igxLabel for="doc1_url">Doc1 Url</label>
+                                            </igx-input-group>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <igx-input-group>
+                                                <input igxInput name="doc2_url" formControlName="doc2_url" type="text" />
+                                                <label igxLabel for="doc2_url">Doc2 Url</label>
+                                            </igx-input-group>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <igx-input-group>
+                                                <input igxInput name="created_on" formControlName="created_on" type="text" />
+                                                <label igxLabel for="created_on">Created On</label>
+                                            </igx-input-group>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <igx-input-group>
+                                                <input igxInput name="created_by" formControlName="created_by" type="text" />
+                                                <label igxLabel for="created_by">Created By</label>
+                                            </igx-input-group>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <igx-input-group>
+                                                <input igxInput name="updated_on" formControlName="updated_on" type="text" />
+                                                <label igxLabel for="updated_on">Updated On</label>
+                                            </igx-input-group>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <igx-input-group>
+                                                <input igxInput name="updated_by" formControlName="updated_by" type="text" />
+                                                <label igxLabel for="updated_by">Updated By</label>
+                                            </igx-input-group>
+                                        </div>
+
+                                        <div class="col-md-12">
+
+                                            <div class="small-space"></div>
+                                            <button
+                                                type="submit"
+                                                [disabled]="!form.valid || submitted"
+                                                igxButton="raised"
+                                                igxRipple="white">
+                                                {{submitText}}
+                                            </button>
+
+                                            <!--<div class="form-group">
+                                              <button
+                                                type="submit"
+                                                [disabled]="!form.valid || submitted"
+                                                [class.btn-pulse]="submitted"
+                                                class="btn btn-primary">
+                                                {{submitText}}
+                                              </button>
+                                            </div>-->
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </igx-card-content>
+                        </igx-card>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </article>
+    </section>
+</div>

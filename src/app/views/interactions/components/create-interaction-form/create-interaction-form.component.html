@@ -1,0 +1,78 @@
+<form novalidate [formGroup]="form" (submit)="create(form.value)">
+
+    <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
+         class="alert alert-danger" role="alert">
+        <div><strong i18n="@@ohSnapFailure">Oops!</strong></div>
+        <div *ngFor="let error of errors">{{ error }}</div>
+    </div>
+    <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
+         class="alert alert-success" role="alert">
+        <div><strong i18n="@@hooraySuccess">Success!</strong></div>
+        <div *ngFor="let message of messages">{{ message }}</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <igx-input-group>
+                <input igxInput
+                       name="subject"
+                       formControlName="subject"
+                       type="text"
+                       [readonly]="formIsReadOnly" />
+                <label igxLabel for="subject">Subject</label>
+            </igx-input-group>
+
+            <app-guid-dropdown placeholder="Method"
+                                 formControlName="method"
+                                 [disabled]="formIsReadOnly"
+                                 [options]="interactionMethods$ | async">
+
+            </app-guid-dropdown>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <app-date-input label="Date" name="date" formControlName="date" [disabled]="formIsReadOnly"></app-date-input>
+                </div>
+                <div class="col-md-4">
+                    <igx-time-picker formControlName="time" id="time-picker" [disabled]="formIsReadOnly">
+                        <ng-template igxTimePickerTemplate let-displayTime="displayTime" let-openDialog="openDialog">
+                            <igx-input-group (click)="openDialog()">
+                                <!--<igx-prefix>
+                                  <igx-icon>access_time</igx-icon>
+                                </igx-prefix>-->
+                                <label igxLabel>Time</label>
+                                <input igxInput [value]="displayTime" [disabled]="formIsReadOnly"/>
+                            </igx-input-group>
+                        </ng-template>
+                    </igx-time-picker>
+                </div>
+            </div>
+
+            <igx-input-group>
+                <textarea igxInput name="notes" formControlName="notes" [readonly]="formIsReadOnly"></textarea>
+                <label igxLabel for="notes">Notes</label>
+            </igx-input-group>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <div class="small-space"></div>
+
+            <div class="igx-dialog__window-actions">
+                <button *ngIf="leftButtonText" type="button"
+                        igxButton igxRipple (click)="leftButtonSelected()">
+                    {{ leftButtonText }}
+                </button>
+                <button type="submit"
+                        *ngIf="formOperation !== 'view'"
+                        [disabled]="!form.valid || submitted"
+                        igxButton="raised"
+                        igxRipple="white">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+
+</form>

@@ -1,0 +1,31 @@
+<ng-container *ngFor="let filter of filters; trackBy:trackBy">
+    <div>
+        <ng-container *ngIf="isSingle">
+            <igx-radio [value]="filter.value"
+                       [checked]="filter.selected"
+                       (change)="filterChanged(filter, $event, 'single')">
+
+                {{filter.name}}
+            </igx-radio>
+
+            <!-- <mat-radio-button [value]="filter.value"
+                       [checked]="filter.selected"
+                       (change)="filterChanged(filter, $event.radio.checked)">
+
+                {{filter.name}}
+            </mat-radio-button> -->
+        </ng-container>
+
+        <ng-container *ngIf="isMulti">
+            <igx-checkbox [checked]="filter.selected"
+                          (change)="filterChanged(filter,  $event, 'multi')">
+                {{filter.name}}
+            </igx-checkbox>
+            <!-- <mat-checkbox [checked]="filter.selected"
+            (change)="filterChanged(filter,  $event.checked )">
+            {{filter.name}}
+            </mat-checkbox> -->
+        </ng-container>
+    </div>
+</ng-container>
+

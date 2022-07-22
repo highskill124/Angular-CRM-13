@@ -1,0 +1,157 @@
+<form novalidate [formGroup]="form" >
+
+    <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
+         class="alert alert-danger" role="alert">
+        <div><strong i18n="@@ohSnapFailure">Oops!</strong></div>
+        <div *ngFor="let error of errors">{{ error }}</div>
+    </div>
+    <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
+         class="alert alert-success" role="alert">
+        <div><strong i18n="@@hooraySuccess">Success!</strong></div>
+        <div *ngFor="let message of messages">{{ message }}</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <app-dropdown placeholder=""
+                          prefix="From: *"
+                          [options]="emailFromOptions$ | async"
+                          formControlName="from">
+
+            </app-dropdown>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <app-chips-autocomplete-select (queryValue)="setEmailOptions($event)"
+                                           (noMatchValue)="dialogSaveEmail($event)"
+                                           label="To"
+                                           [classNames] = "'square-chips'"
+                                           [isRequired]="true"
+                                           formControlName="to"
+                                           [selectOptions]="emailOptions$ | async">
+            </app-chips-autocomplete-select>
+
+            <div class="cc-btns">
+                <a (click)="toggleControlDisplay(cc);"  [ngClass]="{'active':cc.enabled}" >Cc</a>
+                <a (click)="toggleControlDisplay(bcc);" [ngClass]="{'active':bcc.enabled}">Bcc</a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="row" *ngIf="cc.enabled">
+        <div class="col-md-12">
+            <app-chips-autocomplete-select (queryValue)="setEmailOptions($event)"
+                                           label="CC"
+                                           title="CC Message Receipent"
+                                           formControlName="cc"
+                                           [selectOptions]="emailOptions$ | async">
+
+            </app-chips-autocomplete-select>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="bcc.enabled">
+        <div class="col-md-12">
+            <app-chips-autocomplete-select (queryValue)="setEmailOptions($event)"
+                                           label="BCC"
+                                           formControlName="bcc"
+                                           [selectOptions]="emailOptions$ | async">
+
+            </app-chips-autocomplete-select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <igx-input-group>
+                <igx-prefix>Subject: *</igx-prefix>
+                <input title="Message Subject" igxInput id="subject" name="subject" formControlName="subject" type="text"/>
+                <!--<label igxLabel for="subject">Subject</label>-->
+            </igx-input-group>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 m-left">
+            <div class="small-space"></div>
+            <ng-container *ngIf="trackOptions && trackOptions.length">
+                <app-button-toggle
+                #buttonToggle
+                [multiSelect]="true"
+                [trackOptions]="trackOptions"
+                formControlName="toggle"
+                ></app-button-toggle>
+            </ng-container>
+            <div class="small-space"></div>
+        </div>
+        <div class="col-md-4">
+            <div class="small-space"></div>
+            <div class="pull-right">
+                <app-dropdown-select title="Email Template"
+                                    [buttonClass]="'template-dropdown'"
+                                     [options]="templateOptions$ | async"
+                                     [showSearch]="true"
+                                     (optionSelected)="addField($event)">
+
+                </app-dropdown-select>
+            </div>
+            <div class="small-space"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12" *ngIf="froalaOptions">
+            <div [froalaEditor]="froalaOptions" id="template-body"
+                 formControlName="message_body">
+
+            </div>
+        </div>
+
+        <!-- <div class="col-md-12">
+            <div class="small-space"></div>
+            <igx-checkbox [checked]="signature.value === 'default'" formControlName="signature">
+                Use default signature
+            </igx-checkbox>
+        </div> -->
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="small-space"></div>
+            <!-- <ng-container *ngIf="trackOptions && trackOptions.length">
+                <app-button-toggle
+                #buttonToggle
+                [multiSelect]="true"
+                [trackOptions]="trackOptions"
+                formControlName="toggle"
+                ></app-button-toggle>
+            </ng-container> -->
+        </div>
+        <div class="col-md-6 text-right">
+            <div class="small-space"></div>
+     
+            <button 
+                    (click)="resetForm()"
+                    igxButton="raised"
+                    igxRipple="white">
+                Reset
+            </button>&nbsp;&nbsp;
+            <button 
+            (click)="create(form.value)"
+                    [disabled]="!form.valid || submitted"
+                    igxButton="raised"
+                    igxButtonBackground="#72da67">
+                    <span>Send&nbsp;&nbsp;</span>
+                    <igx-icon fontSet="material">mail</igx-icon>
+            </button>&nbsp;&nbsp;
+ 
+        </div>
+    </div>
+
+</form>

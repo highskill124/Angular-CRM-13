@@ -1,0 +1,291 @@
+<div class="small-space"></div>
+
+
+<div class="row">
+
+    <div class="col-md-12" *ngIf="contact">
+
+        <h3 class="igx-card-header__title">{{contact.first_name || ''}} {{contact.middle_name || ''}} {{contact.last_name || ''}}</h3>
+        <div class="x-small-space"></div>
+
+        <igx-card>
+            <igx-card-header>
+
+                <div class="row m-0" style="width: inherit; border-bottom: 1px solid #f1f1f1;">
+                    <div class="col-md-12">
+                        <igx-avatar initials="{{contact.initials}}"
+                                    size="medium">
+                        </igx-avatar> &nbsp;
+                        <app-action-add-followup *ngIf="contact && contact.DocId" [parentid]="contact.DocId">
+                            <button *addFollowupAction type="button" (click)="actionAddFollowupComponent.openDialog()"
+                                    igxButton igxRipple>
+                                <igx-icon>undo</igx-icon> Follow Up
+                            </button>
+                        </app-action-add-followup>
+                    </div>
+                    <div class="col-md-12 x-small-space"></div>
+                </div>
+
+            </igx-card-header>
+
+            <igx-card-content>
+
+                <!-- CONTACT DETAILS -->
+                <div class="row contact-details">
+                    <div class="col-md-6">
+
+                        <!-- COMPANY -->
+                        <div class="row">
+                            <div class="col-3 bold-text">Company</div>
+                            <div class="col-9">{{contact.company_name}}</div>
+                        </div>
+                        <div class="x-small-space"></div>
+
+                        <!-- TITLE -->
+                        <div class="row">
+                            <div class="col-3 bold-text">Title</div>
+                            <div class="col-9">{{contact.job_title}}</div>
+                        </div>
+                        <div class="x-small-space"></div>
+
+                        <!-- EMAILS -->
+                        <div class="row">
+                            <div class="col-3 bold-text">Email</div>
+                            <div class="col-9">
+                                <span *ngIf="!contact.emails">n/a</span>
+                                <p *ngFor="let email of contact.emails" class="m-0">
+                                    <a href="mailto:{{email.address}}">{{email.address}}</a> {{email.type ? '(' + email.type + ')' : ''}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="x-small-space"></div>
+
+                        <!-- PHONES -->
+                        <div class="row">
+                            <div class="col-3 bold-text">Phone</div>
+                            <div class="col-9">
+                                <span *ngIf="!contact.phones">n/a</span>
+                                <p *ngFor="let phone of contact.phones" class="m-0">
+                                    <a href="sms:{{phone.number}}"><igx-icon *ngIf="phone.SMS">message</igx-icon></a>
+                                    <a href="tel:{{phone.number}}"><igx-icon>call</igx-icon></a>
+                                    {{phone.number}} {{phone.type ? '(' + phone.type + ')' : ''}}
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+
+                        <!-- ADDRESSES -->
+                        <div class="row">
+                            <div class="col-3 bold-text">Address</div>
+                            <div class="col-9">
+                                <span *ngIf="!contact.addresses">n/a</span>
+                                <div *ngFor="let address of contact.addresses">
+                                    <p class="m-0" *ngIf="address.type">{{address.type ? '(' + address.type + ')' : ''}}</p>
+                                    <p class="m-0" *ngIf="address.street">{{address.street}} <span *ngIf="address.unit">{{'(' + address.unit + ')'}}</span></p>
+                                    <p class="m-0">{{address.city}}{{address.city && address.state ? ', ' : ''}}{{address.state}}
+                                        <span *ngIf="address.postal_code">{{address.postal_code}}</span> -
+                                        <span>{{address.country}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="x-small-space"></div>
+
+                        <!-- WEBSITES -->
+                        <div class="row">
+                            <div class="col-3 bold-text">Website</div>
+                            <div class="col-9">
+                                <span *ngIf="!contact.websites">n/a</span>
+                                <p *ngFor="let website of contact.websites" class="m-0">
+                                    <a [href]="autoAddProtocol(website.address)" target="_blank">{{website.address}}</a>
+                                    {{website.type ? '(' + website.type + ')' : ''}}
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="medium-space"></div>
+                    </div>
+                    <div class="col-md-9">
+
+
+
+                            <igx-tabs (selectedItemChange)="itemSelected($event)" >
+                                <igx-tab-item>
+                                    <igx-tab-header>
+                                        <span igxTabHeaderLabel>Interaction</span>
+                                    </igx-tab-header>
+                                    <igx-tab-content>
+                                        <div class="row">
+                                                 
+                                            <div class="col-md-12">
+    
+                                            <app-shared-interactions *ngIf="showInteraction" 
+                                            #interactionsList
+                                            [hideSelectOption]="true"
+                                            [hideHiddenDisplay]="true"
+                                            [parent_id]="contact.DocId"
+                                            gridtitle=""
+                                            ></app-shared-interactions>
+                                            </div>
+                                        </div>
+                                    </igx-tab-content>
+                                </igx-tab-item>
+                                
+    
+                                <!-- NOTE -->
+                                <igx-tab-item>
+                                    <igx-tab-header>
+                                      <span igxTabHeaderLabel>Note</span>
+                                    </igx-tab-header>
+                                    <igx-tab-content>
+                                        <div class="row">
+    
+                                            <div class="col-md-12">
+                                                <app-shared-notes *ngIf="showNote"
+                                                #notesList
+                                                [hideSelectOption]="true"
+                                                [hideHiddenDisplay]="true"
+                                                [parent_id]="contact.DocId"
+                                                gridtitle=""
+                                                ></app-shared-notes>
+                                                </div>
+                                               
+                                        </div>
+                                    </igx-tab-content>
+                                  </igx-tab-item>
+
+                                <!-- EMAIL -->
+                                <igx-tab-item>
+                                    <igx-tab-header>
+                                      <span igxTabHeaderLabel>Email</span>
+                                    </igx-tab-header>
+                                    <igx-tab-content>
+                                        <div class="row">
+
+                                            <div class="col-md-12">
+        
+                                                <app-shared-emails *ngIf="showEmail"
+                                                #mailsList
+                                                [hideSelectOption]="true"
+                                                [hideHiddenDisplay]="true"
+                                                [parent_id]="contact.DocId"
+                                                gridtitle=""
+                                                [showloading]="true"
+                                                [hardReload]="true"
+                                                ></app-shared-emails>
+                                                </div>
+        
+                                        </div>
+                                    </igx-tab-content>
+                                </igx-tab-item>
+                                
+
+                
+                                <!-- TASK -->
+                                <igx-tab-item>
+                                    <igx-tab-header>
+                                      <span igxTabHeaderLabel>Task</span>
+                                    </igx-tab-header>
+                                    <igx-tab-content>
+                                        <div class="row">
+    
+                                            <div class="col-md-12">
+        
+                                                <app-shared-tasks *ngIf="showTask"
+                                                #tasksList
+                                                [hideSelectOption]="true"
+                                                [hideHiddenDisplay]="true"
+                                                [parent_id]="contact.DocId"
+                                                gridtitle=""
+                                                ></app-shared-tasks>
+                                                </div>
+        
+                                        </div>
+                                    </igx-tab-content>
+                                </igx-tab-item>
+                                
+    
+                                      <!-- FOLLOWUP -->
+                                    <igx-tab-item>
+                                        <igx-tab-header>
+                                          <span igxTabHeaderLabel>Followup</span>
+                                        </igx-tab-header>
+                                        <igx-tab-content>
+                                            <div class="row">                                
+                                       
+                                                <div class="col-md-12">
+                                                    <app-shared-follow-up *ngIf="showFollowup" 
+                                                    #followupsList 
+                                                    [parent_id]="contact.DocId"
+                                                    [hideSelectOption]="true"
+                                                    [hideHiddenDisplay]="true"
+                                                    gridtitle=""
+                                                    ></app-shared-follow-up>
+                                                </div>
+                                            </div>
+                                        </igx-tab-content>
+                                    </igx-tab-item>
+
+                        </igx-tabs>
+
+                    </div>
+
+                    <div class="col-md-3">
+                        <!-- BUCKETS -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="small-space"></div>
+                                <h4 class="form-section__title">
+                                    <igx-icon>attachment</igx-icon> Buckets
+                                </h4>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="x-small-space"></div>
+                                <ng-container *ngIf="bucketOptions$ | async; let bucketOptions">
+                                    <app-contact-buckets-editor [contactId]="contact.DocId"
+                                                                [allBuckets]="bucketOptions"
+                                                                [selectedBuckets]="contact.buckets">
+
+                                    </app-contact-buckets-editor>
+                                </ng-container>
+                            </div>
+                        </div>
+
+
+                        <!-- TAGS -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="small-space"></div>
+                                <h4 class="form-section__title">
+                                    <igx-icon>category</igx-icon> Tags
+                                </h4>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="x-small-space"></div>
+                                <ng-container *ngIf="tagOptions$ | async; let tagOptions">
+                                    <app-contact-tags-editor [contactId]="contact.DocId"
+                                                             [allTags]="tagOptions"
+                                                             [selectedTags]="contact.tags">
+
+                                    </app-contact-tags-editor>
+                                </ng-container>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </igx-card-content>
+        </igx-card>
+
+        <div class="small-space"></div>
+
+    </div>
+</div>

@@ -1,0 +1,55 @@
+<!--
+
+
+<div class="container-fluid">
+  <element appEditHost></element>
+  <accordion style="word-break:break-all !important;" *ngIf="paramsForm">
+    <accordion-group (isOpenChange)="toggleFormsAccordion($event)" [isOpen]="formsAccordionOpened">
+      <button class="btn btn-link btn-block clearfix" accordion-heading style="-ms-text-overflow: ellipsis;text-overflow: ellipsis;">
+        <div class="pull-left float-left">{{accordionHeading()}}</div>
+      </button>
+
+      <form novalidate [formGroup]="paramsForm" (submit)="updateTable()">
+        <div class="row">
+          <div class="col-md-2">
+            <div class="form-group">
+              <input formControlName="rowcount" min="1" class="form-control" type="number" placeholder="Per page"/>
+            </div>
+          </div>
+          <ng-container *ngIf="this.searchFields.length > 0">
+            <div class="col-md-2" *ngFor="let field of this.searchFields">
+              <div class="form-group">
+                <input
+                  formControlName="{{field.name}}"
+                  class="form-control"
+                  type="{{field.type || 'text'}}"
+                  placeholder="{{field.placeholderText}}"/>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary col-md-12">Update Table</button>
+            </div>
+          </div>
+        </div>
+        <br>
+      </form>
+
+
+    </accordion-group>
+  </accordion>
+
+</div>
+
+<div class="table-responsive">
+
+  <app-columns-toggle [columns]="allHeaders" (columnUpdated)="toggleColumn($event)"></app-columns-toggle>
+
+  <table datatable [dtOptions]="dtOptions" class="table table-striped table-bordered table-hover"></table>
+
+</div>
+
+-->

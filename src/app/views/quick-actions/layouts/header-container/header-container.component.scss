@@ -1,0 +1,22 @@
+
+.container__element {
+    height: 100vh;
+    width: 60vw;
+    background: white;
+    overflow-y: scroll;
+}
+
+@media only screen and (max-width: 480px) {
+    .container__element {
+        height: 100vh;
+        width: inherit;
+        background: white;
+        overflow-y: scroll;
+    }
+}
+
+
+
+
+
+

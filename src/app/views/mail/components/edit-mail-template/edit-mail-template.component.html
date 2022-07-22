@@ -1,0 +1,8 @@
+<ng-container *ngIf="formData$ | async; let formData">
+    <app-create-mail-template [formData]="formData"
+                              [operation]="operation"
+                              [submitText]="submitText"
+                              [heading]="heading">
+
+    </app-create-mail-template>
+</ng-container>

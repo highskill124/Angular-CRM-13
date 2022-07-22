@@ -1,0 +1,25 @@
+<div>
+
+    <div class="row">
+        <div class="col-10 container__title">
+            <ng-container *ngIf="title">{{ title }}</ng-container>
+        </div>
+        <div class="col-2">
+            <igx-icon class="pull-right" (click)="dismiss()">close</igx-icon>
+        </div>
+    </div>
+
+
+    <ng-content></ng-content>
+
+    <div *ngIf="leftButtonText || rightButtonText" class="igx-dialog__window-actions">
+        <button *ngIf="leftButtonText" type="button"
+                igxButton igxRipple (click)="leftButtonSelected()">
+            {{ leftButtonText }}
+        </button>
+        <button *ngIf="rightButtonText" type="button"
+                igxButton igxRipple (click)="rightButtonSelected()">
+            {{ rightButtonText }}
+        </button>
+    </div>
+</div>

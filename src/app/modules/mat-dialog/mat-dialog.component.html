@@ -1,0 +1,26 @@
+<div class="modal-content ds-modal">
+    <div class="modal-header ds-primary-bg">
+    <h5 class="modal-title text-white">{{data.title}}</h5>
+    <!-- <button id="cancelButton" class="cancelButton close text-white" mat-dialog-close >&times;</button> -->
+    </div>
+    <div class="modal-body">
+        <div class="emailForm-wrapper">
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="dailog-body-c">
+                        <i class=" fa fa-{{getIcon(data.msgType)}}" [style.color]="iconColor"></i>&nbsp;{{data.message}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <div class="small-space"></div>
+                    <div class="d-flex justify-content-end">
+                        <button class="no-focus btn mr-3 btn-danger" mat-raised-button [mat-dialog-close]="true">
+                            {{data.leftButtonText ? data.leftButtonText : 'Yes'}} </button>
+                        <button class="no-focus btn btn-success" mat-raised-button [mat-dialog-close]="false">{{data.rightButtonText ? data.rightButtonText : 'No'}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

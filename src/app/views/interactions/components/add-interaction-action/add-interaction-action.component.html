@@ -1,0 +1,9 @@
+<ng-container *ngIf="addInteractionActionTemplate; else defaultButton">
+    <ng-container *ngTemplateOutlet="addInteractionActionTemplate"></ng-container>
+</ng-container>
+
+<ng-template #defaultButton>
+    <button igxButton="flat" igxRipple (click)="openDialog()">
+        Add Interaction
+    </button>
+</ng-template>

@@ -1,0 +1,634 @@
+<div class="sample-wrapper">
+    <section class="sample-content">
+        <article class="sample-column">
+
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-md-10 offset-md-1">
+
+                        <h3 class="igx-card-header__title">{{heading}}</h3>
+                        <div class="x-small-space"></div>
+
+                        <form novalidate [formGroup]="form" (submit)="create(form.value)">
+
+                            <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
+                                 class="alert alert-danger" role="alert">
+                                <div><strong i18n="@@ohSnapFailure">Oops!</strong></div>
+                                <div *ngFor="let error of errors">{{ error }}</div>
+                            </div>
+                            <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
+                                 class="alert alert-success" role="alert">
+                                <div><strong i18n="@@hooraySuccess">Success!</strong></div>
+                                <div *ngFor="let message of messages">{{ message }}</div>
+                            </div>
+
+                            <mat-accordion>
+
+                                <mat-expansion-panel [expanded]="true"
+                                                     (expandedChange)="updateHeadingPrimaryContact($event)">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            {{ primaryContactAccordionHeading() }}
+                                        </mat-panel-title>
+                                        <!--<mat-panel-description>
+                                            Type your name and age
+                                        </mat-panel-description>-->
+                                    </mat-expansion-panel-header>
+
+                                    <div class="row" formGroupName="primaryContact">
+
+                                        <div class="col-md-12">
+                                            <igx-input-group>
+                                                <label igxLabel for="p_contact_name">Name</label>
+                                                <input igxInput
+                                                       name="p_contact_name"
+                                                       formControlName="p_contact_name"
+                                                       [readonly]="true"
+                                                       type="text"/>
+                                            </igx-input-group>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <igx-input-group>
+                                                <label igxLabel for="p_contact_first_name">First name</label>
+                                                <input igxInput
+                                                       formControlName="p_contact_first_name"
+                                                       [class.form-control-danger]="p_contact_first_name.invalid && p_contact_first_name.touched"
+                                                       type="text"/>
+                                            </igx-input-group>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <igx-input-group>
+                                                <input igxInput
+                                                       formControlName="p_contact_middle_name"
+                                                       [class.form-control-danger]="p_contact_middle_name.invalid && p_contact_middle_name.touched"
+                                                       type="text"/>
+                                                <label igxLabel for="p_contact_middle_name">Middle name</label>
+                                            </igx-input-group>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <igx-input-group>
+                                                <input igxInput
+                                                       formControlName="p_contact_last_name"
+                                                       [class.form-control-danger]="p_contact_last_name.invalid && p_contact_last_name.touched"
+                                                       type="text"/>
+                                                <label igxLabel for="p_contact_last_name">Last name</label>
+                                            </igx-input-group>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <igx-select formControlName="p_contact_title">
+                                                <label igxLabel>Title</label>
+                                                <igx-select-item *ngFor="let title of titles" [value]="title.value">
+                                                    {{ title.name }}
+                                                </igx-select-item>
+                                            </igx-select>
+                                        </div>
+                                        <div class="col-md-4">
+
+                                            <igx-select formControlName="p_contact_suffix">
+                                                <label igxLabel>Suffix</label>
+                                                <igx-select-item *ngFor="let suffix of suffixes" [value]="suffix.value">
+                                                    {{ suffix.name }}
+                                                </igx-select-item>
+                                            </igx-select>
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <app-guid-dropdown
+                                                    formControlName="p_contact_gender"
+                                                    [guid]="guids.GENDER"
+                                                    placeholder="Gender">
+
+                                                </app-guid-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h4>Info:</h4>
+                                    <div class="row" formGroupName="primaryContactInfo">
+                                        <div class="col-md-12">
+                                            <igx-date-picker label="Date of birth"
+                                                             formControlName="p_contact_bday"></igx-date-picker>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <igx-input-group>
+                                                <input igxInput
+                                                       appFormatPhoneNumber
+                                                       (formattedNumber)="updateControl($event, {parentName: 'primaryContactInfo', controlName: 'p_contact_mobile'})"
+                                                       formControlName="p_contact_mobile"
+                                                       [class.form-control-danger]="(p_contact_mobile.invalid || p_contact_mobile.errors?.notValid) && p_contact_mobile.touched"
+
+                                                       type="text"/>
+                                                <label igxLabel for="p_contact_mobile">Mobile phone</label>
+                                            </igx-input-group>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <igx-input-group>
+                                                <input igxInput
+                                                       appFormatPhoneNumber
+                                                       (formattedNumber)="updateControl($event, {parentName: 'primaryContactInfo', controlName: 'p_contact_home'})"
+                                                       formControlName="p_contact_home"
+                                                       [class.form-control-danger]="p_contact_home.invalid && p_contact_home.touched"
+                                                       id="p_contact_home"
+
+                                                       type="text"/>
+                                                <label igxLabel for="p_contact_home">Home phone</label>
+                                            </igx-input-group>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <igx-input-group>
+                                                <input igxInput
+                                                       appFormatPhoneNumber
+                                                       (formattedNumber)="updateControl($event, {parentName: 'primaryContactInfo', controlName: 'p_contact_office'})"
+                                                       formControlName="p_contact_office"
+                                                       [class.form-control-danger]="p_contact_office.invalid && p_contact_office.touched"
+                                                       id="p_contact_office"
+
+                                                       type="text"/>
+                                                <label igxLabel for="p_contact_office">Office phone</label>
+                                            </igx-input-group>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <igx-input-group>
+                                                <input igxInput
+                                                       id="p_contact_email"
+                                                       formControlName="p_contact_email"
+                                                       [class.form-control-danger]="p_contact_email.invalid && p_contact_email.touched"
+
+                                                       type="email"/>
+                                                <label igxLabel for="p_contact_email">Email</label>
+                                            </igx-input-group>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <igx-input-group>
+                                                <input igxInput
+                                                       id="p_contact_email_alternate"
+                                                       formControlName="p_contact_email_alternate"
+                                                       [class.form-control-danger]="p_contact_email_alternate.invalid && p_contact_email_alternate.touched"
+                                                       type="text"
+                                                />
+                                                <label igxLabel for="p_contact_email_alternate">Email alternate</label>
+                                            </igx-input-group>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <igx-input-group>
+                                                <input igxInput
+                                                       id="p_contact_job_title"
+                                                       formControlName="p_contact_job_title"
+                                                       [class.form-control-danger]="p_contact_job_title.invalid && p_contact_job_title.touched"
+                                                       type="text"
+                                                />
+                                                <label igxLabel for="p_contact_job_title">Job title</label>
+                                            </igx-input-group>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <igx-input-group>
+                                                <input igxInput
+                                                       id="p_contact_occupation"
+                                                       formControlName="p_contact_occupation"
+                                                       [class.form-control-danger]="p_contact_occupation.invalid && p_contact_occupation.touched"
+                                                       type="text"
+                                                />
+                                                <label igxLabel for="p_contact_occupation">Occupation</label>
+                                            </igx-input-group>
+                                        </div>
+                                    </div>
+
+                                </mat-expansion-panel>
+
+                                <mat-expansion-panel (expandedChange)="updateHeadingSecondaryContact($event)">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            {{ secondaryContactAccordionHeading() }}
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+
+                                    <ng-container>
+                                        <div class="row" formGroupName="secondaryContact">
+                                            <div class="col-md-12">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           [readonly]="true"
+                                                           id="s_contact_name"
+                                                           formControlName="s_contact_name"
+                                                           [class.form-control-danger]="s_contact_name.invalid && s_contact_name.touched"
+                                                           type="text"
+                                                    />
+                                                    <label igxLabel for="s_contact_name">Name</label>
+                                                </igx-input-group>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           id="s_contact_first_name"
+                                                           formControlName="s_contact_first_name"
+                                                           [class.form-control-danger]="s_contact_first_name.invalid && s_contact_first_name.touched"
+                                                           type="text"
+                                                    />
+                                                    <label igxLabel for="s_contact_first_name">First name</label>
+                                                </igx-input-group>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           id="s_contact_middle_name"
+                                                           formControlName="s_contact_middle_name"
+                                                           [class.form-control-danger]="s_contact_middle_name.invalid && s_contact_middle_name.touched"
+                                                           type="text"
+                                                    />
+                                                    <label igxLabel for="s_contact_middle_name">Middle name</label>
+                                                </igx-input-group>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           id="s_contact_last_name"
+                                                           formControlName="s_contact_last_name"
+                                                           [class.form-control-danger]="s_contact_last_name.invalid && s_contact_last_name.touched"
+                                                           type="text"
+                                                    />
+                                                    <label igxLabel for="s_contact_last_name">Last name</label>
+                                                </igx-input-group>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <igx-select formControlName="s_contact_title">
+                                                    <label igxLabel>Title</label>
+                                                    <igx-select-item *ngFor="let item of titles" [value]="item.value">
+                                                        {{ item.name }}
+                                                    </igx-select-item>
+                                                </igx-select>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <igx-select formControlName="s_contact_suffix">
+                                                    <label igxLabel>Suffix</label>
+                                                    <igx-select-item *ngFor="let suffix of suffixes"
+                                                                     [value]="suffix.value">
+                                                        {{ suffix.name }}
+                                                    </igx-select-item>
+                                                </igx-select>
+                                            </div>
+
+                                            <div class="col-md-4">
+
+                                                <app-guid-dropdown
+                                                    formControlName="s_contact_gender"
+                                                    [guid]="guids.GENDER"
+                                                    placeholder="Gender">
+
+                                                </app-guid-dropdown>
+
+                                            </div>
+                                        </div>
+                                    </ng-container>
+
+                                    <ng-container>
+                                        <h4>Info:</h4>
+                                        <div class="row" formGroupName="secondaryContactInfo">
+                                            <div class="col-md-12"></div>
+                                            <div class="col-md-12">
+                                                <igx-date-picker label="Date of birth"
+                                                                 formControlName="s_contact_bday"></igx-date-picker>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           appFormatPhoneNumber
+                                                           (formattedNumber)="updateControl($event, {parentName: 'secondaryContactInfo', controlName: 's_contact_mobile'})"
+                                                           formControlName="s_contact_mobile"
+                                                           [class.form-control-danger]="s_contact_mobile.invalid && s_contact_mobile.touched"
+                                                           id="s_contact_mobile"
+
+                                                           type="text"/>
+                                                    <label igxLabel for="s_contact_mobile">Mobile phone</label>
+                                                </igx-input-group>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           appFormatPhoneNumber
+                                                           (formattedNumber)="updateControl($event, {parentName: 'primaryContactInfo', controlName: 's_contact_home'})"
+                                                           formControlName="s_contact_home"
+                                                           [class.form-control-danger]="s_contact_home.invalid && s_contact_home.touched"
+                                                           id="s_contact_home"
+
+                                                           type="text"/>
+                                                    <label igxLabel for="s_contact_home">Home phone</label>
+                                                </igx-input-group>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           appFormatPhoneNumber
+                                                           (formattedNumber)="updateControl($event, {parentName: 'primaryContactInfo', controlName: 's_contact_office'})"
+                                                           formControlName="s_contact_office"
+                                                           [class.form-control-danger]="s_contact_office.invalid && s_contact_office.touched"
+                                                           id="s_contact_office"
+
+                                                           type="text"/>
+                                                    <label igxLabel for="s_contact_office">Office phone</label>
+                                                </igx-input-group>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           id="s_contact_email"
+                                                           formControlName="s_contact_email"
+                                                           [class.form-control-danger]="s_contact_email.invalid && s_contact_email.touched"
+
+                                                           type="email"/>
+                                                    <label igxLabel for="s_contact_email">Email</label>
+                                                </igx-input-group>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           id="s_contact_email_alternate"
+                                                           formControlName="s_contact_email_alternate"
+                                                           [class.form-control-danger]="s_contact_email_alternate.invalid && s_contact_email_alternate.touched"
+                                                           type="text"
+                                                    />
+                                                    <label igxLabel for="s_contact_email_alternate">Email
+                                                        alternate</label>
+                                                </igx-input-group>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           id="s_contact_job_title"
+                                                           formControlName="s_contact_job_title"
+                                                           [class.form-control-danger]="s_contact_job_title.invalid && s_contact_job_title.touched"
+                                                           type="text"
+                                                    />
+                                                    <label igxLabel for="s_contact_job_title">Job title</label>
+                                                </igx-input-group>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           id="s_contact_occupation"
+                                                           formControlName="s_contact_occupation"
+                                                           [class.form-control-danger]="s_contact_occupation.invalid && s_contact_occupation.touched"
+                                                           type="text"
+                                                    />
+                                                    <label igxLabel for="s_contact_occupation">Occupation</label>
+                                                </igx-input-group>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+
+                                </mat-expansion-panel>
+
+                                <mat-expansion-panel>
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>Address</mat-panel-title>
+                                    </mat-expansion-panel-header>
+
+                                    <ng-container>
+                                        <div class="row" formGroupName="address">
+                                            <div class="col-md-4">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           id="home_street_address"
+                                                           formControlName="home_street_address"
+                                                           [class.form-control-danger]="home_street_address.invalid && home_street_address.touched"
+                                                           type="text"
+                                                    />
+                                                    <label igxLabel for="home_street_address">Street address</label>
+                                                </igx-input-group>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           id="home_city"
+                                                           formControlName="home_city"
+                                                           [class.form-control-danger]="home_city.invalid && home_city.touched"
+                                                           type="text"
+                                                    />
+                                                    <label igxLabel for="home_city">City</label>
+                                                </igx-input-group>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           id="home_state"
+                                                           formControlName="home_state"
+                                                           [class.form-control-danger]="home_state.invalid && home_state.touched"
+                                                           type="text"
+                                                    />
+                                                    <label igxLabel for="home_state">State</label>
+                                                </igx-input-group>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           id="home_zip"
+                                                           formControlName="home_zip"
+                                                           [class.form-control-danger]="home_zip.invalid && home_zip.touched"
+                                                           type="text"
+                                                    />
+                                                    <label igxLabel for="home_zip">Zip</label>
+                                                </igx-input-group>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           id="home_country"
+                                                           formControlName="home_country"
+                                                           [class.form-control-danger]="home_country.invalid && home_country.touched"
+                                                           type="text"
+                                                    />
+                                                    <label igxLabel for="home_country">Country</label>
+                                                </igx-input-group>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+
+                                </mat-expansion-panel>
+
+                                <mat-expansion-panel>
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>Search Info</mat-panel-title>
+                                    </mat-expansion-panel-header>
+
+                                    <ng-container>
+                                        <div class="row" formGroupName="searchInfo">
+                                            <div class="col-md-4">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           id="search_min_beds"
+                                                           formControlName="search_min_beds"
+                                                           [class.form-control-danger]="search_min_beds.invalid && search_min_beds.touched"
+                                                           type="text"
+                                                    />
+                                                    <label igxLabel for="search_min_beds">Min beds</label>
+                                                </igx-input-group>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           id="search_min_baths"
+                                                           formControlName="search_min_baths"
+                                                           [class.form-control-danger]="search_min_baths.invalid && search_min_baths.touched"
+                                                           type="text"
+                                                    />
+                                                    <label igxLabel for="search_min_baths">Min baths</label>
+                                                </igx-input-group>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           id="search_min_garage"
+                                                           formControlName="search_min_garage"
+                                                           [class.form-control-danger]="search_min_garage.invalid && search_min_garage.touched"
+                                                           type="text"
+                                                    />
+                                                    <label igxLabel for="search_min_garage">Min garage</label>
+                                                </igx-input-group>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           id="search_pool"
+                                                           formControlName="search_pool"
+                                                           [class.form-control-danger]="search_pool.invalid && search_pool.touched"
+                                                           type="text"
+                                                    />
+                                                    <label igxLabel for="search_pool">Pool</label>
+                                                </igx-input-group>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           id="search_min_sq_ft"
+                                                           formControlName="search_min_sq_ft"
+                                                           [class.form-control-danger]="search_min_sq_ft.invalid && search_min_sq_ft.touched"
+                                                           type="text"
+                                                    />
+                                                    <label igxLabel for="search_min_sq_ft">Min sq ft</label>
+                                                </igx-input-group>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           id="search_max_sqft"
+                                                           formControlName="search_max_sqft"
+                                                           [class.form-control-danger]="search_max_sqft.invalid && search_max_sqft.touched"
+                                                           type="text"
+                                                    />
+                                                    <label igxLabel for="search_max_sqft">Max sqft</label>
+                                                </igx-input-group>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           id="search_storey"
+                                                           formControlName="search_storey"
+                                                           [class.form-control-danger]="search_storey.invalid && search_storey.touched"
+                                                           type="text"
+                                                    />
+                                                    <label igxLabel for="search_storey">Storey</label>
+                                                </igx-input-group>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           id="search_min_lot_sqft"
+                                                           formControlName="search_min_lot_sqft"
+                                                           [class.form-control-danger]="search_min_lot_sqft.invalid && search_min_lot_sqft.touched"
+                                                           type="text"
+                                                    />
+                                                    <label igxLabel for="search_min_lot_sqft">Min lot sqft</label>
+                                                </igx-input-group>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           id="search_max_lot_sqft"
+                                                           formControlName="search_max_lot_sqft"
+                                                           [class.form-control-danger]="search_max_lot_sqft.invalid && search_max_lot_sqft.touched"
+                                                           type="text"
+                                                    />
+                                                    <label igxLabel for="search_max_lot_sqft">Max lot sqft</label>
+                                                </igx-input-group>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           id="search_min_year_build"
+                                                           formControlName="search_min_year_build"
+                                                           [class.form-control-danger]="search_min_year_build.invalid && search_min_year_build.touched"
+                                                           type="text"
+                                                    />
+                                                    <label igxLabel for="search_min_year_build">Min year build</label>
+                                                </igx-input-group>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <igx-input-group>
+                                                    <input igxInput
+                                                           id="search_max_year_build"
+                                                           formControlName="search_max_year_build"
+                                                           [class.form-control-danger]="search_max_year_build.invalid && search_max_year_build.touched"
+                                                           type="text"
+                                                    />
+                                                    <label igxLabel for="search_max_year_build">Max year build</label>
+                                                </igx-input-group>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+
+                                </mat-expansion-panel>
+
+                            </mat-accordion>
+
+
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="small-space"></div>
+                                    <button
+                                        type="submit"
+                                        [disabled]="!form.valid || submitted"
+                                        [class.btn-pulse]="submitted"
+                                        igxButton="raised"
+                                        igxRipple="white">
+                                        {{submitText}}
+                                    </button>
+
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </article>
+    </section>
+</div>

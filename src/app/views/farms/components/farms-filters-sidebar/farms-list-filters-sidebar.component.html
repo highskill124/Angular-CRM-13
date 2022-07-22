@@ -1,0 +1,77 @@
+<app-filters-sidebar-container>
+
+    <igx-list>
+
+        <igx-list-item isHeader="true">Filters</igx-list-item>
+
+        <igx-list-item class="list-item__expandable">
+            <igx-expansion-panel>
+                <igx-expansion-panel-header>
+                    <igx-expansion-panel-title>PHONE</igx-expansion-panel-title>
+                </igx-expansion-panel-header>
+                <igx-expansion-panel-body *ngIf="phoneOptions$ | async; let hasPhoneOptions">
+                    <div class="xx-small-space"></div>
+                    <div *ngFor="let option of hasPhoneOptions">
+                        <igx-radio [value]="option.value"
+                                   [checked]="option.selected"
+                                   (change)="updateOptionSelection({filter: farmFilters.PHONE, observableName: farmFilters.PHONE+'Options$', optionsList: hasPhoneOptions, changed: option})">
+                            {{option.name}}
+                        </igx-radio>
+                    </div>
+                </igx-expansion-panel-body>
+            </igx-expansion-panel>
+        </igx-list-item>
+
+        <igx-list-item class="list-item__expandable">
+            <igx-expansion-panel>
+                <igx-expansion-panel-header>
+                    <igx-expansion-panel-title>EMAIL</igx-expansion-panel-title>
+                </igx-expansion-panel-header>
+                <igx-expansion-panel-body *ngIf="emailOptions$ | async; let hasEmailOptions">
+                    <div class="xx-small-space"></div>
+                    <div *ngFor="let option of hasEmailOptions">
+                        <igx-radio [value]="option.value"
+                                   [checked]="option.selected"
+                                   (change)="updateOptionSelection({filter: farmFilters.EMAIL, observableName: farmFilters.EMAIL+'Options$', optionsList: hasEmailOptions, changed: option})">
+                            {{option.name}}
+                        </igx-radio>
+                    </div>
+                </igx-expansion-panel-body>
+            </igx-expansion-panel>
+        </igx-list-item>
+
+        <igx-list-item class="list-item__expandable">
+            <igx-expansion-panel>
+                <igx-expansion-panel-header>
+                    <igx-expansion-panel-title>OWNER OCCUPIED</igx-expansion-panel-title>
+                </igx-expansion-panel-header>
+                <igx-expansion-panel-body *ngIf="ownerOptions$ | async; let ownerOccupiedOptions">
+                    <div class="xx-small-space"></div>
+                    <div *ngFor="let option of ownerOccupiedOptions">
+                        <igx-radio [value]="option.value"
+                                   [checked]="option.selected"
+                                   (click)="updateOptionSelection({filter: farmFilters.OWNER_OCCUPIED, observableName: farmFilters.OWNER_OCCUPIED+'Options$', optionsList: ownerOccupiedOptions, changed: option})">
+                            {{option.name}}
+                        </igx-radio>
+                    </div>
+                </igx-expansion-panel-body>
+            </igx-expansion-panel>
+        </igx-list-item>
+
+        <igx-list-item class="list-item__expandable">
+            <igx-expansion-panel [collapsed]="false">
+                <igx-expansion-panel-header>
+                    <igx-expansion-panel-title>TRACTS</igx-expansion-panel-title>
+                </igx-expansion-panel-header>
+                <igx-expansion-panel-body *ngIf="tractsOptions$ | async; let tractOptions">
+                    <app-multi-select-box-card [optionsList]="tractOptions"
+                                               (optionSelectionChanged)="updateOptionSelection({filter: farmFilters.TRACTS, observableName: farmFilters.TRACTS+'Options$', optionsList: tractOptions, changed: $event})">
+
+                    </app-multi-select-box-card>
+                </igx-expansion-panel-body>
+            </igx-expansion-panel>
+        </igx-list-item>
+
+    </igx-list>
+
+</app-filters-sidebar-container>

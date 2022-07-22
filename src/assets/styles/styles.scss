@@ -1,0 +1,24 @@
+@import '~bootstrap/scss/bootstrap-reboot';
+@import '~bootstrap/scss/bootstrap-grid';
+@import '~bootstrap/scss/tables';
+@import '~bootstrap/scss/utilities';
+@import '../../../node_modules/angular2-toaster/toaster';
+
+// Custom spaces classes
+@import "imports/space";
+
+@import "imports/label";
+@import "imports/button";
+
+/**
+ * Remove this later and find better location for styles
+ * This makes sure dropdowns don't extent beyond specified height
+ * Gives them scrollbar
+ */
+.igx-drop-down__list {
+    max-height: 256px !important;
+
+    /*igx-drop-down-item {
+        height: 2.3rem !important;
+    }*/
+}

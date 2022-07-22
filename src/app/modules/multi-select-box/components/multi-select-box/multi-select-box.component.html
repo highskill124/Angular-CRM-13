@@ -1,0 +1,13 @@
+<button (click)="toggleAddArea($event)" [disabled]="disabled"
+        type="button" igxButton="raised" igxButtonBackground="{{buttonBackground}}"
+        igxRipple="white" class="btn-add">
+    <ng-content select="igx-icon"></ng-content>{{addText}}
+</button>
+
+<div #addArea class="add-area" igxToggle>
+    <app-multi-select-box-card [optionsList]="optionsList"
+                               (onSave)="save($event)"
+                               (onCancel)="cancel()">
+
+    </app-multi-select-box-card>
+</div>

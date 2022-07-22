@@ -1,0 +1,46 @@
+::ng-deep .igx-overlay__content {
+    width: auto !important;
+}
+
+igx-drop-down-item {
+    height: auto;
+}
+
+igx-drop-down-item:first-child {
+    padding-top: 4px;
+}
+
+.badge-style {
+    position: absolute;
+    bottom: 7px;
+    right: 65px;
+    cursor: pointer;
+}
+
+.item-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notification {
+    display: flex;
+    align-items: center;
+
+    &__info {
+        display: flex;
+        flex-flow: column nowrap;
+        // margin-left: 24px;
+    }
+}
+
+.subject {
+    font-weight: 500;
+}
+
+.message {
+    font-size: 0.875em;
+    line-height: 1;
+    padding-left: inherit;
+    padding-top: 0.6rem;
+}

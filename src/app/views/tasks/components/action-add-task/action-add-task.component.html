@@ -1,0 +1,9 @@
+<ng-container *ngIf="addTaskActionTemplate; else defaultButton">
+    <ng-container *ngTemplateOutlet="addTaskActionTemplate"></ng-container>
+</ng-container>
+
+<ng-template #defaultButton>
+    <button igxButton="flat" igxRipple (click)="openDialog()">
+        Add Task
+    </button>
+</ng-template>

@@ -1,0 +1,36 @@
+<ng-container *ngIf="formData">
+
+    <section class="sample-content">
+        <article class="sample-column">
+
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-md-10 offset-md-1">
+
+                        <button (click)="goBack()" class="text-left" igxButton="icon" igxRipple
+                                igxRippleCentered="true">
+                            <igx-icon fontSet="material">arrow_back_ios</igx-icon>
+                        </button>
+
+                        <button (click)="deleteCampaign(formData.CampaignID)" class="float-right" igxButton="icon"
+                                igxRipple igxRippleCentered="true">
+                            <igx-icon fontSet="material">delete</igx-icon>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <app-create-farm-campaign
+        [formData]="formData"
+        [requestMethod]="requestMethod"
+        [submitEndpoint]="submitEndpoint"
+        [submitText]="submitText"
+        [heading]="heading">
+
+    </app-create-farm-campaign>
+
+</ng-container>

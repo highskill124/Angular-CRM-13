@@ -1,0 +1,31 @@
+.grid__wrapper {
+  margin: 0 auto;
+  padding: 5px;
+}
+
+/* For Firefox */
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+/* Webkit browsers like Safari and Chrome */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.cell__inner,
+.cell__inner_2 {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.cell__inner {
+    position: relative;
+    justify-content: space-between;
+}
+
+.igx-paginator > * {
+    margin: 0 .3125rem;
+}

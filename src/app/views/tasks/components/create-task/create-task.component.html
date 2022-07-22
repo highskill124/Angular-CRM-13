@@ -1,0 +1,146 @@
+<div class="modal-content ds-modal">
+    <div class="modal-header ds-primary-bg">
+        <h5 class="modal-title text-white">{{formOperation | titlecase}}</h5>
+        <button type="button" class="close text-white" (click)="closeDialog()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="emailForm-wrapper">
+            <form novalidate [formGroup]="form" (submit)="create(form.value)">
+
+                <div *ngIf="showMessages.error && errors && errors.length > 0 && !submitted"
+                     class="alert alert-danger" role="alert">
+                    <div><strong i18n="@@ohSnapFailure">Oops!</strong></div>
+                    <div *ngFor="let error of errors">{{ error }}</div>
+                </div>
+                <div *ngIf="showMessages.success && messages && messages.length > 0 && !submitted"
+                     class="alert alert-success" role="alert">
+                    <div><strong i18n="@@hooraySuccess">Success!</strong></div>
+                    <div *ngFor="let message of messages">{{ message }}</div>
+                </div>
+               
+                <div class="row">
+                    <div class="col-md-12 mb-2">
+                        <div class="emailForm-input-wrapper dropdwn">
+                            <input class="do-validate form-control sm-pad" id="subject" name="subject" formControlName="subject" type="text" />
+                            <label for="">Subject</label>
+                        </div>
+                    </div>
+            
+                    <div class="col-md-12 mb-2">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="emailForm-input-wrapper dropdwn">
+                                    <label for="">Start Date</label>
+                                    <igx-date-picker class="form-control md-pad" label=" " formControlName="startDateTime"> </igx-date-picker>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="emailForm-input-wrapper dropdwn">
+                                    <label for="">Status</label>
+                                    <app-dropdown class="form-control sm-pad" placeholder="" [options]="statusOptions$ | async" formControlName="status">
+                                    </app-dropdown>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="emailForm-input-wrapper dropdwn">
+                                    <label>Due Date</label>
+                                    <igx-date-picker  class="form-control md-pad" label=" " formControlName="dueDateTime"></igx-date-picker>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="emailForm-input-wrapper dropdwn">
+                                    <label for="">Priority</label>
+                                    <app-dropdown class="form-control sm-pad" placeholder="" [options]="priorityOptions$ | async" formControlName="priority">
+                                    </app-dropdown>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="col-md-12 mb-2">
+                        <div class="row">
+                            <div class="col-md-2 d-flex pb-2">
+                                <igx-checkbox class="emailfm-check" [checked]="form.value.sensitivity" formControlName="sensitivity">Private</igx-checkbox>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="emailForm-input-wrapper dropdwn">
+                                    <label for="">Importance </label>
+                                    <app-dropdown class="form-control md-pad" placeholder="Importance" [options]="importanceOptions$ | async" formControlName="importance">
+                                    </app-dropdown>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="emailForm-input-wrapper dropdwn">
+                                    <label for="">% Complete </label>
+                                    <input class="form-control md-pad" id="percentComplete" name="percentComplete" formControlName="percentComplete"  type="number" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="col-md-12 mb-2">
+                        <div class="row">
+                            <div class="col-md-2 d-flex pb-2">
+                                <igx-checkbox class="emailfm-check" [checked]="form.value.reminder" formControlName="reminder">Reminder</igx-checkbox>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="emailForm-input-wrapper dropdwn">
+                                    <label>Reminder Date</label>
+                                    <igx-date-picker class="form-control mdx-pad" [disabled]="(form.value.reminder !== true)" label=" " formControlName="reminderDate">
+                                    </igx-date-picker>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="emailForm-input-wrapper dropdwn no-igx-label">
+                                    <label>Reminder Time</label>
+                                    <igx-time-picker class="form-control mdx-pad" label=" " formControlName="reminderTime" id="time-picker" [disabled]="(form.value.reminder !== true)">
+                                    </igx-time-picker>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="col-md-12 mb-2">
+                        <div class="emailForm-input-wrapper dropdwn">
+                            <label for="body">Body</label>
+                            <textarea class="form-control sm-pad" id="body" name="body"  formControlName="body"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 mb-2 d-flex">
+                        <label class="pt-2 pr-2">Assigned to</label>
+                        <button type="button" igxButton="raised" igxRipple="white">Assign</button>
+                    </div>
+                </div>
+            
+                <div class="row mt-3">
+                    <div class="col-md-4 d-flex pb-2" style="padding-top: 10px;">
+                        <igx-checkbox class="mt-2 emailfm-check" [checked]="form.value.outlook" formControlName="outlook">Add to Outlook</igx-checkbox>
+                    </div>
+                    <div class="col-md-8 text-right">
+                        <div class="igx-dialog__window-actions">
+                            <button  type="button" igxButton igxRipple (click)="closeDialog()">
+                            Close</button>
+                            <button type="submit" [disabled]= "!form.valid || form.pristine"
+                            igxButton="raised" igxRipple="white">{{ saveBttn }}</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="data.mode != 'new'">
+                    <div class="col-md-12 crdt-updt">
+                        <p class="crtd-by" *ngIf="formData?.createdByName">
+                            <span class="label">Created by: </span>
+                            <span class="value">{{formData.createdByName }} <span *ngIf="formData?.createdOn">on: {{formData.createdOn | date : 'EEE, MMM dd, yyyy hh:mm:ss'}}</span></span>
+                        </p>
+                        <p class="crtd-by" [class.text-right]="created_by_name" *ngIf="formData?.history?.updated_by_name">
+                            <span class="label">Updated by </span>
+                            <span class="value">{{formData.history.updated_by_name }} <span *ngIf="formData.history?.updated_on">on: {{formData.history.updated_on | date : 'EEE, MMM dd, yyyy hh:mm:ss'}}</span></span>
+                        </p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

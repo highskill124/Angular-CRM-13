@@ -1,0 +1,49 @@
+<h2>{{ mode }} Phone</h2>
+{{ data | json }}
+<div [formGroup]="phoneEditForm"  class="mainFrom">
+    <div class="row" class="mainFrom">
+
+        <mat-form-field class="col-md-12">
+
+                <input
+                    matInput
+                    placeholder="Phone Number"
+                    formControlName ="number"
+                    type ="text"
+                >
+        </mat-form-field>
+    </div>
+    <div class="row" class="mainFrom">
+
+        <mat-form-field class="col-md-12">
+
+                <input
+                    matInput
+                    placeholder="Name"
+                    formControlName ="name"
+                    type ="text"
+                >
+        </mat-form-field>
+    </div>
+
+    <div class="row" >
+        <mat-form-field  class="col-md-12">
+                <mat-select
+                    placeholder="Phone Type"
+                    formControlName ="type"
+                    >
+
+                <mat-option *ngFor="let type of  typeList" [value]="type.value">{{ type.name }}</mat-option>
+
+          </mat-select>
+
+        </mat-form-field>
+        <mat-slide-toggle class="showDetail" formControlName ="sms">SMS</mat-slide-toggle>
+        <mat-slide-toggle class="showDetail" formControlName ="dflt">Default Phone</mat-slide-toggle>
+        </div>
+    <div mat-dialog-actions align="end">
+
+        <button  (click)="savePhone()"  [disabled]="phoneEditForm.invalid" mat-raised-button color="primary">{{ modes[mode] }}</button>
+        <button  (click)="close()" mat-raised-button color="warn">Exit</button>
+    </div>
+    </div>

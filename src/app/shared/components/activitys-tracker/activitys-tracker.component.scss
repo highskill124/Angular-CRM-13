@@ -1,0 +1,115 @@
+.mat-progress-bar{
+    height: 12px;
+    border-radius:4px;
+}
+::ng-deep{
+    .stage-red {
+        .mat-progress-bar-fill {
+    
+            &::after{
+                background: red !important;
+            }
+           
+        }
+        
+    }
+
+    .stage-orange {
+        .mat-progress-bar-fill {
+    
+            &::after{
+                background: orange !important;
+            }
+           
+        }
+        
+    }
+
+    .stage-yellow {
+        .mat-progress-bar-fill {
+    
+            &::after{
+                background: yellow !important;
+            }
+           
+        }
+        
+    }
+}
+
+.activity-header {
+    display: flex;
+    align-items: center;
+    min-width: 205px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    .igx-icon{
+        cursor: pointer;
+    }
+}
+
+button.mat-menu-item {
+    width: 100%;
+    border: 0;
+    outline: none;
+}
+
+.activity-tracker-card {
+    background: #fff;
+    margin-bottom: 20px;
+
+    .activity-tracker-card-header {
+        background: #f8f9fa;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 2px solid #e9ecef;
+        padding: 10px 15px;
+
+        .tracker-title {
+            font-weight: 700;
+        }
+
+        .tracker-action {
+            color: #076294;
+            font-weight: 700;
+        }
+    }
+  
+    .tracker-card-body {
+        padding: 15px;
+
+        .tracker-body-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+
+            .bar-detail-section {
+                flex: 0.7;
+
+                .progress-bar-heading {
+                    color: #076294;
+                    font-size: 14px;
+                    font-weight: 600;
+                }
+            }
+
+            .goal-detail-section {
+                display: inline-flex;
+                align-items: end;
+                position: relative;
+                top: 7px;
+            }
+
+
+            &:nth-child(5),&:nth-child(6) {
+                color: #333 !important;
+
+                .progress-bar-heading {
+                    color: #333 !important;
+                }
+            }
+        }
+    }
+}
+
+
